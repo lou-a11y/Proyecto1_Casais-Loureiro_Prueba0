@@ -1,1 +1,162 @@
+CREATE DATABASE IF NOT EXIST db_dndespañol;
+USE db_dndespañol;
 
+CREATE TABLE clase (
+    id_clase int(11) NOT NULL AUTO_INCREMENT,
+    nombre varchar(45) DEFAULT NULL,
+    pv_por_nivel varchar(45) DEFAULT NULL,
+	tiradas_de_salvacion varchar(45) DEFAULT NULL,
+    talentos varchar(45) DEFAULT NULL,
+    PRIMARY KEY(id_clase)
+)
+
+CREATE TABLE subclase (
+    id_subclase int(11) NOT NULL AUTO_INCREMENT,
+    id_clase int(11) DEFAULT NULL,
+    nombre varchar(45) DEFAULT NULL,
+    sintesis varchar(1000) DEFAULT NULL,
+    PRIMARY KEY(id_subclase),
+    FOREIGN KEY(id_clase) REFERENCES clase(id_clase)
+)
+
+CREATE TABLE habilidades (
+    id_habilidad int(11) NOT NULL AUTO_INCREMENT,
+    nombre varchar(45) DEFAULT NULL,
+    sintesis varchar(1000) DEFAULT NULL,
+    PRIMARY KEY(id_habilidad)
+)
+
+CREATE TABLE razas (
+    id_raza int(11) NOT NULL AUTO_INCREMENT,
+    nombre varchar(45) DEFAULT NULL,	
+    sintesis varchar(1000) DEFAULT NULL,
+    estadisticas_amplificadas varchar(70) DEFAULT NULL,
+    edad int(11) DEFAULT NULL,
+    orientacion varchar(60) DEFAULT NULL,
+    tamaño varchar(45) DEFAULT NULL,
+    velocidad int(11)DEFAULT NULL,
+    lenguajes varchar(45)DEFAULT NULL,
+    PRIMARY KEY(id_raza)
+)
+
+CREATE TABLE hechizos (
+    id_hechizo int(11) NOT NULL AUTO_INCREMENT,
+    nombre varchar(45) DEFAULT NULL,	
+    sintesis varchar(1000) DEFAULT NULL,
+    nivel int(11) DEFAULT NULL,
+    #observacion: en DEFAULT queda como cantrip, por ahora es un problema.
+    escuela varchar(60) DEFAULT NULL, 
+    tiempo_de_conjuracion int(11) DEFAULT NULL,
+    rango int(11) DEFAULT NULL,
+    duracion varchar(45)DEFAULT NULL,
+    PRIMARY KEY(id_hechizo)
+)
+
+CREATE TABLE armas (
+    id_arma int(11) NOT NULL AUTO_INCREMENT,
+    nombre varchar(45) DEFAULT NULL,	
+    sintesis varchar(200) DEFAULT NULL,
+    daño varchar(45) DEFAULT NULL,
+    tipo_de_daño varchar(45) DEFAULT NULL, 
+    peso int(11) DEFAULT NULL,
+    propiedades varchar(45) DEFAULT NULL,
+    tipo_de_arma varchar(45)DEFAULT NULL,
+    PRIMARY KEY(id_arma)
+)
+
+CREATE TABLE armaduras (
+    id_armadura int(11) NOT NULL AUTO_INCREMENT,
+    nombre varchar(45) DEFAULT NULL,	
+    sintesis varchar(200) DEFAULT NULL,
+    proteccion varchar(45) DEFAULT NULL,
+    fuerza_necesaria varchar(45) DEFAULT NULL, 
+    desventaja_en_sigilo varchar(3) DEFAULT NULL,
+    peso int(11)DEFAULT NULL,
+    PRIMARY KEY(id_armadura)
+)
+
+CREATE TABLE equipamientos_iniciales (
+    id_equipamiento int(11) NOT NULL AUTO_INCREMENT,
+    arma_principal varchar(60) DEFAULT NULL,	
+    arma_secundaria varchar(60) DEFAULT NULL,
+    arma_terciaria varchar(60) DEFAULT NULL,
+    consumible varchar(45) DEFAULT NULL, 
+    mochila varchar(45) DEFAULT NULL,
+    armadura varchar(45)DEFAULT NULL,
+    PRIMARY KEY(id_equipamiento)
+)
+
+________________________________________________________________________________________________________________________ RELACIONES
+
+
+CREATE TABLE habilidades_conocidas_clase (
+    id_habilidades_conocidas_clase int(11) NOT NULL AUTO_INCREMENT,
+    id_habilidad int(11) DEFAULT NULL,	
+    id_clase int(11) DEFAULT NULL,
+    PRIMARY KEY(id_habilidades_conocidas_clase),
+    FOREIGN KEY(id_habilidad) REFERENCES habilidades(id_habilidad),
+    FOREIGN KEY(id_clase) REFERENCES clase(id_clase)
+)
+
+CREATE TABLE habilidades_conocidas_sub (
+    id_habilidades_conocidas_sub int(11) NOT NULL AUTO_INCREMENT,
+    id_habilidad int(11) DEFAULT NULL,	
+    id_subclase int(11) DEFAULT NULL,
+    PRIMARY KEY(id_habilidades_conocidas_sub),
+    FOREIGN KEY(id_habilidad) REFERENCES habilidades(id_habilidad),
+    FOREIGN KEY(id_subclase) REFERENCES subclase(id_subclase)
+)
+
+CREATE TABLE habilidades_conocidas_raza (
+    id_habilidades_conocidas_raza int(11) NOT NULL AUTO_INCREMENT,
+    id_habilidad int(11) DEFAULT NULL,	
+    id_raza int(11) DEFAULT NULL,
+    PRIMARY KEY(id_habilidades_conocidas_raza),
+    FOREIGN KEY(id_habilidad) REFERENCES habilidades(id_habilidad),
+    FOREIGN KEY(id_raza) REFERENCES razas(id_raza)
+)
+
+CREATE TABLE hechizos_conocidos_clase (
+    id_hechizos_conocidos_clase int(11) NOT NULL AUTO_INCREMENT,
+    id_hechizo int(11) DEFAULT NULL,	
+    id_clase int(11) DEFAULT NULL,
+    PRIMARY KEY(id_hechizos_conocidos_clase),
+    FOREIGN KEY(id_hechizo) REFERENCES hechizos(id_hechizo),
+    FOREIGN KEY(id_clase) REFERENCES clase(id_clase)
+)
+
+CREATE TABLE hechizos_conocidos_sub (
+    id_hechizos_conocidos_sub int(11) NOT NULL AUTO_INCREMENT,
+    id_hechizo int(11) DEFAULT NULL,	
+    id_subclase int(11) DEFAULT NULL,
+    PRIMARY KEY(id_hechizos_conocidos_sub),
+    FOREIGN KEY(id_hechizo) REFERENCES hechizos(id_hechizo),
+    FOREIGN KEY(id_subclase) REFERENCES subclase(id_subclase)
+)
+
+CREATE TABLE equipar (
+    id_equipar int(11) NOT NULL AUTO_INCREMENT,
+    id_equipamiento int(11) DEFAULT NULL,	
+    id_clase int(11) DEFAULT NULL,
+    PRIMARY KEY(id_equipar),
+    FOREIGN KEY(id_equipamiento) REFERENCES equipamientos_iniciales(id_equipamiento),
+    FOREIGN KEY(id_clase) REFERENCES clase(id_clase)
+)
+
+CREATE TABLE proficiencia_de_arma (
+    id_proficiencia_de_arma int(11) NOT NULL AUTO_INCREMENT,
+    id_arma int(11) DEFAULT NULL,	
+    id_clase int(11) DEFAULT NULL,
+    PRIMARY KEY(id_proficiencia_de_arma),
+    FOREIGN KEY(id_arma) REFERENCES armas (id_arma),
+    FOREIGN KEY(id_clase) REFERENCES clase(id_clase)
+)
+
+CREATE TABLE proficiencia_de_armadura (
+    id_proficiencia_de_armadura int(11) NOT NULL AUTO_INCREMENT,
+    id_armadura int(11) DEFAULT NULL,	
+    id_clase int(11) DEFAULT NULL,
+    PRIMARY KEY(id_proficiencia_de_armadura),
+    FOREIGN KEY(id_armadura) REFERENCES armaduras(id_armadura),
+    FOREIGN KEY(id_clase) REFERENCES clase(id_clase)
+)
