@@ -6,7 +6,7 @@ CREATE TABLE clase (
     nombre varchar(45) DEFAULT NULL,
     pv_por_nivel varchar(45) DEFAULT NULL,
 	tiradas_de_salvacion varchar(45) DEFAULT NULL,
-    talentos varchar(45) DEFAULT NULL,
+    talentos varchar(200) DEFAULT NULL,
     PRIMARY KEY(id_clase)
 )
 
