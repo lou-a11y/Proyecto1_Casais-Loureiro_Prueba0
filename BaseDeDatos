@@ -219,3 +219,20 @@ INSERT INTO armaduras VALUES
 (12, 'Placas', 'Armadura pesada completa de placas metálicas.', '18', 'Fuerza 15', 'Sí', '65 lb'),
 (13, 'Escudo', 'Escudo defensivo portátil.', '+2 CA', 'Ninguna', 'No', '6 lb'),
 (14, 'Armadura Natural', 'Protección natural de criaturas.', 'Variable', 'N/A', 'No', '0 lb');
+
+_____________________________________________________________________________________________________________________________________________CLASES
+
+INSERT INTO clase (nombre, pv_por_nivel, tiradas_de_salvacion, talentos) VALUES
+('Bárbaro', '1d12 por nivel', 'Fue, Con', 'Elige 2: Manejo de animales, Atletismo, Intimidación, Naturaleza, Percepción, Supervivencia'),
+('Bardo', '1d8 por nivel', 'Des, Car', 'Elige 3: Cualquier habilidad'),
+('Clérigo', '1d8 por nivel', 'Sab, Car', 'Elige 2: Historia, Perspicacia, Medicina, Persuasión, Religión'),
+('Druida', '1d8 por nivel', 'Int, Sab', 'Elige 2: Arcana, Manejo de animales, Naturaleza, Percepción, Medicina, Perspicacia, Religión, Supervivencia'),
+('Guerrero', '1d10 por nivel', 'Fue, Con', 'Elige 2: Acrobacias, Manejo de animales, Atletismo, Historia, Perspicacia, Intimidación, Percepción, Supervivencia'),
+('Monje', '1d8 por nivel', 'Fue, Des', 'Elige 2: Acrobacias, Atletismo, Historia, Percepción, Religión, Sigilo'),
+('Paladín', '1d10 por nivel', 'Sab, Car', 'Elige 2: Atletismo, Perspicacia, Intimidación, Medicina, Persuasión, Religión'),
+('Explorador', '1d10 por nivel', 'Fue, Des', 'Elige 3: Atletismo, Manejo de animales, Perspicacia, Investigación, Naturaleza, Percepción, Sigilo, Supervivencia'),
+('Pícaro', '1d8 por nivel', 'Des, Int', 'Elige 4: Acrobacias, Atletismo, Interpretación, Investigación, Percepción, Persuasión, Sigilo, Juego de manos, Engaño, Intimidación'),
+('Hechicero', '1d6 por nivel', 'Con, Car', 'Elige 2: Arcana, Engaño, Intimidación, Perspicacia, Religión, Persuasión'),
+('Brujo', '1d8 por nivel', 'Sab, Car', 'Elige 2: Arcana, Engaño, Historia, Intimidación, Investigación, Naturaleza, Religión'),
+('Mago', '1d6 por nivel', 'Int, Sab', 'Elige 2: Arcana, Historia, Perspicacia, Investigación, Medicina, Religión'),
+('Artificiero', '1d8 por nivel', 'Con, Int', 'Elige 2: Arcana, Historia, Investigación, Medicina, Naturaleza, Percepción');
