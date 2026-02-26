@@ -72,7 +72,7 @@ CREATE TABLE armaduras (
     fuerza_necesaria varchar(45) DEFAULT NULL, 
     desventaja_en_sigilo varchar(3) DEFAULT NULL,
     peso int(11)DEFAULT NULL,
-	tipo varchar(45)DEFAULT NULL,
+	tipo_de_armadura varchar(45)DEFAULT NULL,
     PRIMARY KEY(id_armadura)
 )
 
