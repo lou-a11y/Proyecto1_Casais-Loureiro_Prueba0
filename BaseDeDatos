@@ -161,6 +161,8 @@ CREATE TABLE proficiencia_de_armadura (
     FOREIGN KEY(id_clase) REFERENCES clase(id_clase)
 )
 
+__________________________________________________________________________________________________________________________________________ARMAS
+
 INSERT INTO armas VALUES
 (1,'Garrote','Un palo corto y pesado usado como arma contundente.','1d4','Contundente',1,'Ligera','Simple cuerpo a cuerpo'),
 (2,'Daga','Una hoja corta y equilibrada, útil tanto en combate como para lanzar.','1d4','Perforante',1,'Ligera, arrojadiza (20/60), sutil','Simple cuerpo a cuerpo'),
@@ -199,3 +201,21 @@ INSERT INTO armas VALUES
 (35,'Ballesta pesada','Una ballesta grande y poderosa.','1d10','Perforante',18,'Munición (100/400), recarga, a dos manos','Marcial a distancia'),
 (36,'Arco largo','Un arco alto con gran potencia.','1d8','Perforante',2,'Munición (150/600), a dos manos','Marcial a distancia'),
 (37,'Red','Una red para inmovilizar enemigos.','—','—',3,'Especial, arrojadiza (5/15)','Marcial a distancia');
+
+__________________________________________________________________________________________________________________________________________ARMADURAS
+
+INSERT INTO armaduras VALUES
+(1, 'Acolchada', 'Armadura blanda de capas acolchadas.', '11 + DEX', 'Ninguna', 'Sí', '4 lb'),
+(2, 'Cuero', 'Armadura ligera hecha de cuero endurecido.', '11 + DEX', 'Ninguna', 'No', '10 lb'),
+(3, 'Cuero Tachonado', 'Cuero con remaches metálicos para mayor defensa.', '12 + DEX', 'Ninguna', 'No', '13 lb'),
+(4, 'Pieles', 'Pieles y cueros toscos usados como armadura.', '12 + DEX (máx +2)', 'Ninguna', 'No', '12 lb'),
+(5, 'Cota de Escamas', 'Armadura de placas superpuestas unidas con cuero.', '14 + DEX (máx +2)', 'Ninguna', 'Sí', '45 lb'),
+(6, 'Cota de Mallas', 'Cota tejida de anillos metálicos.', '14 + DEX (máx +2)', 'Fuerza 13', 'Sí', '55 lb'),
+(7, 'Coraza', 'Placas de metal que protegen el torso.', '14 + DEX (máx +2)', 'Ninguna', 'No', '20 lb'),
+(8, 'Semiplacas', 'Placas sólidas que cubren zonas vitales.', '15 + DEX (máx +2)', 'Ninguna', 'Sí', '40 lb'),
+(9, 'Anillas', 'Aros metálicos usados como protección básica.', '14', 'Fuerza 13', 'Sí', '40 lb'),
+(10, 'Cota de Malla (pesada)', 'Cota de anillos muy cerrados y reforzados.', '16', 'Fuerza 13', 'Sí', '60 lb'),
+(11, 'Armadura de Bandas', 'Placas largas de metal unidas con cuero.', '17', 'Fuerza 15', 'Sí', '65 lb'),
+(12, 'Placas', 'Armadura pesada completa de placas metálicas.', '18', 'Fuerza 15', 'Sí', '65 lb'),
+(13, 'Escudo', 'Escudo defensivo portátil.', '+2 CA', 'Ninguna', 'No', '6 lb'),
+(14, 'Armadura Natural', 'Protección natural de criaturas.', 'Variable', 'N/A', 'No', '0 lb');
