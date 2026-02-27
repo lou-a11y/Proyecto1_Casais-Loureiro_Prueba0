@@ -238,6 +238,150 @@ INSERT INTO `clase` (`id_clase`, `nombre`, `pv_por_nivel`, `tiradas_de_salvacion
 (12, 'Mago', '1d6 + CON mod por nivel', 'Int, Sab', 'Elige 2: Arcana, Historia, Perspicacia, Investigación, Medicina, Religión'),
 (13, 'Artificiero', '1d8 + CON mod por nivel', 'Con, Int', 'Elige 2: Arcana, Historia, Investigación, Medicina, Naturaleza, Percepción, Juego de manos');
 
+_____________________________________________________________________________________________________________________________________________RAZAS
+
+INSERT INTO razas (nombre, sintesis, estadisticas_amplificadas, edad, orientacion, tamaño, velocidad, lenguajes)
+VALUES
+-- 1. Humano
+('Humano',
+ 'Los humanos son la raza más adaptable y ambiciosa. Su diversidad cultural y su capacidad de aprendizaje rápido les permite prosperar en casi cualquier entorno.',
+ 'Todas las características +1',
+ 80,
+ 'Cualquiera',
+ 'Mediano',
+ 30,
+ 'Común'),
+
+-- 2. Elfo
+('Elfo',
+ 'Seres gráciles y longevos con gran conexión con la magia y la naturaleza. Son perceptivos y poseen sentidos afinados.',
+ 'Des +2',
+ 750,
+ 'Caótico Bueno',
+ 'Mediano',
+ 30,
+ 'Común, Élfico'),
+
+-- 3. Enano
+('Enano',
+ 'Robustos y resistentes, conocidos por su maestría en la forja y su fuerte tradición cultural.',
+ 'Con +2',
+ 350,
+ 'Legal Bueno',
+ 'Mediano',
+ 25,
+ 'Común, Enano'),
+
+-- 4. Mediano (Hafling)
+('Mediano',
+ 'Alegres, ágiles y afortunados. Suelen vivir en comunidades tranquilas y evitar conflictos.',
+ 'Des +2',
+ 150,
+ 'Neutral Bueno',
+ 'Pequeño',
+ 25,
+ 'Común, Mediano'),
+
+-- 5. Dracónido
+('Dracónido',
+ 'Descendientes de dragones, orgullosos y poderosos, capaces de exhalar energía elemental.',
+ 'Fue +2, Car +1',
+ 80,
+ 'Legal Bueno',
+ 'Mediano',
+ 30,
+ 'Común, Dracónico'),
+
+-- 6. Gnomo
+('Gnomo',
+ 'Curiosos e ingeniosos, con un amor profundo por la invención y la ilusión.',
+ 'Int +2',
+ 500,
+ 'Caótico Bueno',
+ 'Pequeño',
+ 25,
+ 'Común, Gnómico'),
+
+-- 7. Semielfo
+('Semielfo',
+ 'Mezcla de humano y elfo, combinan versatilidad humana con la gracia élfica.',
+ 'Car +2, Dos habilidades +1',
+ 180,
+ 'Cualquier alineamiento',
+ 'Mediano',
+ 30,
+ 'Común, Élfico'),
+
+-- 8. Semiorco
+('Semiorco',
+ 'Físicamente imponentes, heredan la fuerza orca y la determinación humana.',
+ 'Fue +2, Con +1',
+ 75,
+ 'Caótico Neutral',
+ 'Mediano',
+ 30,
+ 'Común, Orco'),
+
+-- 9. Tiefling
+('Tiefling',
+ 'Marcados por linajes infernales, poseen habilidades mágicas innatas y una apariencia demoníaca.',
+ 'Car +2, Int +1',
+ 90,
+ 'Cualquier alineamiento',
+ 'Mediano',
+ 30,
+ 'Común, Infernal'),
+
+-- 10. Aarakocra
+('Aarakocra',
+ 'Humanoides alados de las montañas y planos elementales del aire. Expertos en exploración aérea.',
+ 'Des +2, Sab +1',
+ 30,
+ 'Neutral',
+ 'Mediano',
+ 25,
+ 'Común, Auran'),
+
+-- 11. Genasi
+('Genasi',
+ 'Descendientes de genios elementales, su cuerpo refleja el poder elemental de su ascendencia.',
+ 'Varía según subraza (Con +2 siempre)',
+ 120,
+ 'Cualquier alineamiento',
+ 'Mediano',
+ 30,
+ 'Común, Primordial'),
+
+-- 12. Goliat
+('Goliat',
+ 'Gigantescos y competitivos, habitantes de las montañas altas. Su fuerza física es notable.',
+ 'Fue +2, Con +1',
+ 80,
+ 'Neutral',
+ 'Mediano',
+ 30,
+ 'Común, Gigante'),
+
+-- 13. Aasimar
+('Aasimar',
+ 'Seres con herencia celestial. Son guiados por un propósito divino y poseen habilidades curativas y luminosas.',
+ 'Car +2, Varía +1',
+ 160,
+ 'Generalmente Bueno',
+ 'Mediano',
+ 30,
+ 'Común, Celestial'),
+
+-- 14. Tabaxi
+('Tabaxi',
+ 'Felinos humanoides curiosos y ágiles provenientes de tierras exóticas. Excelentes exploradores y buscadores de conocimiento.',
+ 'Des +2, Car +1',
+ 80,
+ 'Caótico Bueno',
+ 'Mediano',
+ 30,
+ 'Común, Tabaxi');
+
 ______________________________________________________________________________________________________________________________________________PROFICIENCIA_DE_ARMAS
 
 INSERT INTO proficiencia_de_arma (id_arma, id_clase) VALUES
