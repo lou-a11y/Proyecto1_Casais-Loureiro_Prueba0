@@ -345,3 +345,13 @@ INSERT INTO proficiencia_de_armadura (id_armadura, id_clase) VALUES
 
 -- ARTIFICIERO (13): ligeras, medianas y escudos (1–9,14)
 (1,13),(2,13),(3,13),(4,13),(5,13),(6,13),(7,13),(8,13),(9,13),(14,13);
+
+______________________________________________________________________________________________________VISTAS
+
+CREATE VIEW proficiencias_de_clase AS 
+SELECT c.nombre AS clase , a.nombre AS arma, a.sintesis AS descripcion, a.tipo_de_arma AS tipo
+FROM clase c
+JOIN proficiencia_de_arma pda
+ON pda.id_clase = c.id_clase
+JOIN armas a
+ON a.id_arma = pda.id_arma;
