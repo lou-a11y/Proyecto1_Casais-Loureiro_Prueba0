@@ -314,8 +314,8 @@ INSERT INTO proficiencia_de_armadura (id_armadura, id_clase) VALUES
 -- CLERIGO (3): ligeras, medianas y escudos (1–9,14)
 (1,3),(2,3),(3,3),(4,3),(5,3),(6,3),(7,3),(8,3),(9,3),(14,3),
 
--- DRUIDA (4): ligeras, medianas y escudos (1–9,14)
-(1,4),(2,4),(3,4),(4,4),(5,4),(6,4),(7,4),(8,4),(9,4),(14,4),
+-- DRUIDA (4): ligeras, medianas y escudos (sin metal) {1,2,3,4,6,14}
+(1,4),(2,4),(3,4),(4,4),(6,4),(14,4),
 
 -- GUERRERO (5): TODAS (1–14)
 (1,5),(2,5),(3,5),(4,5),(5,5),(6,5),(7,5),(8,5),(9,5),
@@ -337,8 +337,8 @@ INSERT INTO proficiencia_de_armadura (id_armadura, id_clase) VALUES
 -- HECHICERO (10): ninguna
 -- (sin filas)
 
--- BRUJO (11): ninguna
--- (sin filas)
+-- BRUJO (11): ligeras(1-3)
+-- (1,11),(2,11),(3,11),
 
 -- MAGO (12): ninguna
 -- (sin filas)
