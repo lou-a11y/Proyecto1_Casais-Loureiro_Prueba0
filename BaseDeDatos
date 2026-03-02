@@ -498,21 +498,21 @@ ________________________________________________________________________________
 
 INSERT INTO hechizos (nombre, sintesis, nivel, escuela, tiempo_de_conjuracion, rango, duracion) VALUES
 -- TRUCOS (NIVEL 0) - TODOS
-('Acid Splash', 'Lanzas una burbuja de ácido. El objetivo debe superar Destreza o recibir 1d6 de daño de ácido. A niveles 5, 11 y 17 el daño aumenta en 1d6.', 0, 'Conjuración', '1 acción', 18, 'Instantánea'),
-('Blade Ward', 'Te proteges contra ataques de arma. Obtienes resistencia al daño contundente, perforante y cortante de ataques de arma hasta el final de tu próximo turno.', 0, 'Abjuración', '1 acción', 0, '1 asalto'),
-('Booming Blade', 'Como parte de la acción, haces un ataque cuerpo a cuerpo con un arma. Si golpeas, el objetivo recibe daño normal y queda envuelto en energía atronadora. Si se mueve voluntariamente, recibe 1d8 de daño de trueno. El daño aumenta a niveles 5, 11 y 17.', 0, 'Evocación', '1 acción', 1.5, '1 asalto'),
-('Chill Touch', 'Creas una mano esquelética espectral. Ataque a distancia: 1d8 de daño necrótico y el objetivo no puede recuperar PV hasta el inicio de tu próximo turno. A niveles 5, 11 y 17 el daño aumenta en 1d8.', 0, 'Nigromancia', '1 acción', 36, '1 asalto'),
-('Control Flames', 'Controlas llamas no mágicas en un cubo de 1.5m. Puedes apagarlas, hacerlas crecer, crear formas o colores.', 0, 'Transmutación', '1 acción', 18, 'Instantánea o 1 hora'),
-('Create Bonfire', 'Creas una hoguera en el suelo. Las criaturas en el espacio deben superar Destreza o recibir 1d8 de daño de fuego. A niveles 5, 11 y 17 el daño aumenta en 1d8.', 0, 'Conjuración', '1 acción', 18, 'Concentración, hasta 1 minuto'),
-('Dancing Lights', 'Creas hasta cuatro luces que parecen antorchas o globos de luz. Puedes moverlas hasta 18m mientras te concentras.', 0, 'Evocación', '1 acción', 36, 'Concentración, hasta 1 minuto'),
-('Druidcraft', 'Pequeños efectos druídicos: predecir el tiempo, hacer florecer una flor, crear un sonido de animal.', 0, 'Transmutación', '1 acción', 9, 'Instantánea'),
-('Eldritch Blast', 'Creas un rayo de energía. Ataque a distancia: 1d10 de daño de fuerza. Obtienes rayos adicionales a niveles 5, 11 y 17 (2, 3 y 4 rayos respectivamente).', 0, 'Evocación', '1 acción', 36, 'Instantánea'),
-('Fire Bolt', 'Lanzas una mota de fuego. Ataque a distancia: 1d10 de daño de fuego. Puede prender objetos inflamables. A niveles 5, 11 y 17 el daño aumenta en 1d10.', 0, 'Evocación', '1 acción', 36, 'Instantánea'),
-('Friends', 'Obtienes ventaja en pruebas de Carisma contra una criatura que no sea hostil. Al finalizar, la criatura sabe que la afectaste con magia y puede volverse hostil.', 0, 'Encantamiento', '1 acción', 0, 'Concentración, hasta 1 minuto'),
-('Frostbite', 'Causas escarcha en una criatura. Debe superar Constitución o recibir 1d6 de daño de frío y tener desventaja en su próxima tirada de ataque de arma. A niveles 5, 11 y 17 el daño aumenta en 1d6.', 0, 'Evocación', '1 acción', 18, 'Instantánea'),
-('Green-Flame Blade', 'Como parte de la acción, haces un ataque cuerpo a cuerpo con un arma. Si golpeas, el objetivo recibe daño normal y una segunda criatura a 1.5m recibe daño de fuego igual a tu modificador. A niveles 5, 11 y 17 el daño aumenta.', 0, 'Evocación', '1 acción', 1.5, 'Instantánea'),
-('Guidance', 'Tocas a una criatura. Una vez antes de que el hechizo termine, puede añadir 1d4 a una prueba de habilidad.', 0, 'Adivinación', '1 acción', 0, 'Concentración, hasta 1 minuto'),
-('Gust', 'Manipulas el aire: mueves objeto pequeño, cambias dirección de viento, empujas criatura 1.5m.', 0, 'Transmutación', '1 acción', 9, 'Instantánea'),
+(1, 'Salpicadura Acida (Acid Splash)', 'Lanzas una burbuja de ácido a uno o mas objetivos.', 0, 'Conjuración', '1 acción', 60, 'Instantánea'),
+(2, 'Guardián de la Espada (Blade Ward)', 'Dibujas un simbolo de guarda en el aire y consigues resistencias.', 0, 'Abjuración', '1 acción', 0, '1 ronda'),
+(3, 'Hoja en Auge (Booming Blade)', 'Encantas tu arma para golpear cuerpo a cuerpo, infligiendo daño adicional si el objetivo se mueve posteriormente.', 0, 'Evocación', '1 acción', 5, '1 ronda'),
+(4, 'Toque Helado (Chill Touch)', 'Creas una mano esquelética espectral encima de una criatura que lo daña y corta curaciones.', 0, 'Nigromancia', '1 acción', 120, '1 ronda'),
+(5, 'Controlar Llamas (Control Flames)', 'Controlas llamas no mágicas en un cubo de 5fts. Puedes apagarlas, hacerlas crecer, crear formas o colores.', 0, 'Transmutación', '1 acción', 60, 'Instantánea o 1 hora'),
+(6, 'Crear Hoguera (Create Bonfire)', 'Creas una hoguera en el suelo que puede quemar criaturas.', 0, 'Conjuración', '1 acción', 60, 'Concentración, hasta 1 minuto'),
+(7, 'Luces Danzantes (Dancing Lights)', 'Creas hasta cuatro luces que parecen antorchas u orbes de luz. Puedes moverlas hasta 60fts mientras te concentras.', 0, 'Evocación', '1 acción', 120, 'Concentración, hasta 1 minuto'),
+(8, 'Saber Druidico (Druidcraft)', 'Pequeños efectos druídicos: predecir el tiempo, hacer florecer una flor, crear un sonido de animal, apagar o prender una fuente de luz.', 0, 'Transmutación', '1 acción', 30, 'Instantánea'),
+(9, 'Explosión sobrenatural (Eldritch Blast)', 'Permite al lanzador disparar un rayo de fuerza.', 0, 'Evocación', '1 acción', 120, 'Instantánea'),
+(10, 'Descarga de Fuego (Fire Bolt)', 'Lanzas una descarga de fuego a un objetivo.', 0, 'Evocación', '1 acción', 120, 'Instantánea'),
+(11, 'Amigos (Friends)', 'Obtienes ventaja en en lo que respecta Carisma contra una criatura que no sea hostil. Al finalizar, la criatura sabe que la afectaste con magia y puede volverse hostil.', 0, 'Encantamiento', '1 acción', 0, 'Concentración, hasta 1 minuto'),
+(12, 'Congelación (Frostbite)', 'Causas un frio entumecedor a una criatura.', 0, 'Evocación', '1 acción', 60, 'Instantánea'),
+(13, 'Hoja en Llama Verde (Green-Flame Blade)', 'Encantas tu arma con un fuego verde. Al golpear una criatura ese fuego se pasara a una criatura que se encuentre adyacente al objetivo, causandole daño.', 0, 'Evocación', '1 acción', 5, 'Instantánea'),
+(14, 'Guía (Guidance)', 'Permite a los lanzadores otorgar una bonificación temporal a una criatura.', 0, 'Adivinación', '1 acción', 0, 'Concentración, hasta 1 minuto'),
+(15, 'Soplido (Gust)', 'Manipulas el aire: puedes mover un objeto pequeño, cambiar la dirección del viento o empujar a una criatura 5 fts.', 0, 'Transmutación', '1 acción', 30, 'Instantánea'),
 ('Infestation', 'Llamas a una nube de ácaros/parásitos. El objetivo debe superar Constitución o recibir 1d6 de daño de veneno y moverse 1.5m aleatoriamente. A niveles 5, 11 y 17 el daño aumenta en 1d6.', 0, 'Conjuración', '1 acción', 9, 'Instantánea'),
 ('Light', 'Tocas un objeto. Ilumina 6m de luz brillante y 6m adicionales de luz tenue. El color es el que elijas.', 0, 'Evocación', '1 acción', 0, '1 hora'),
 ('Lightning Lure', 'Creas un látigo de energía de rayo. El objetivo debe superar Fuerza o ser tirado 3m hacia ti y recibir 1d8 de daño de rayo. A niveles 5, 11 y 17 el daño aumenta en 1d8.', 0, 'Evocación', '1 acción', 4.5, 'Instantánea'),
@@ -1029,6 +1029,19 @@ BEGIN
         WHERE arma = a.nombre AND armadura = ar.nombre;
     ELSE
     		SELECT 'No se hallaron proficiencias';
+    	END IF;
+ 	END//
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE buscador_de_hechizos (IN hechizo(70))
+BEGIN
+    IF hechizo != '' THEN
+    	SELECT h.nombre
+        FROM hechizos h
+        WHERE MATCH (h.nombre) AGAINST (hechizo IN NATURAL LANGUAGE MODE); --Esta sentencia sirve para hacer una busqueda filtrada
+    ELSE
+    		SELECT 'No se hallaron hechizos';
     	END IF;
  	END//
 DELIMITER ;
