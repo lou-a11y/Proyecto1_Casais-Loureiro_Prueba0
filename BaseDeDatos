@@ -499,3 +499,6 @@ JOIN proficiencia_de_arma pda
 ON pda.id_clase = c.id_clase
 JOIN armas a
 ON a.id_arma = pda.id_arma;
+
+CREATE VIEW clase_arma
+SELECT `c`.`nombre` AS `clase`,`a`.`nombre` AS `arma`,`a`.`sintesis` AS `descripcion`,`a`.`tipo_de_arma` AS `tipo` from ((`db_dndespañol`.`clase` `c` join `db_dndespañol`.`proficiencia_de_arma` `pda` on(`pda`.`id_clase` = `c`.`id_clase`)) join `db_dndespañol`.`armas` `a` on(`a`.`id_arma` = `pda`.`id_arma`))
