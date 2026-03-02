@@ -514,7 +514,7 @@ ON ar.id_armadura = pdar.id_armadura;
 
 _______________________________________________________________________________________________________PROCEDIMIENTO ALMACENADO
 
-DELIMITER//
+DELIMITER //
 CREATE PROCEDURE buscador_de_proficiencias (IN arma char(45), IN armadura char(45))
 BEGIN
     IF arma!= '' AND armadura != '' THEN
