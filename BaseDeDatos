@@ -493,12 +493,21 @@ INSERT INTO proficiencia_de_armadura (id_armadura, id_clase) VALUES
 ______________________________________________________________________________________________________VISTAS
 
 CREATE VIEW proficiencias_de_clase AS 
-SELECT c.nombre AS clase , a.nombre AS arma, a.sintesis AS descripcion, a.tipo_de_arma AS tipo
+SELECT c.nombre AS clase, c.tiradas_de_salvacion AS tiradas_de_salvacion, c.talentos AS talentos
 FROM clase c
-JOIN proficiencia_de_arma pda
+
+CREATE VIEW clase_arma AS
+SELECT c.nombre AS clase, a.nombre AS arma, a.sintesis AS descripcion, a.tipo_de_arma AS tipo
+FROM clase c 
+JOIN proficiencia_de_arma pda 
 ON pda.id_clase = c.id_clase
 JOIN armas a
 ON a.id_arma = pda.id_arma;
 
-CREATE VIEW clase_arma
-SELECT `c`.`nombre` AS `clase`,`a`.`nombre` AS `arma`,`a`.`sintesis` AS `descripcion`,`a`.`tipo_de_arma` AS `tipo` from ((`db_dndespañol`.`clase` `c` join `db_dndespañol`.`proficiencia_de_arma` `pda` on(`pda`.`id_clase` = `c`.`id_clase`)) join `db_dndespañol`.`armas` `a` on(`a`.`id_arma` = `pda`.`id_arma`))
+CREATE VIEW clase_armadura AS
+SELECT c.nombre AS clase, ar.nombre AS armadura, ar.sintesis AS descripcion, ar.tipo_de_armadura AS tipo
+FROM clase c
+JOIN proficiencia_de_armadura pdar
+ON pdar.id_clase = c.id_clase
+JOIN armaduras ar
+ON ar.id_armadura = pdar.id_armadura;
