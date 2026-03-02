@@ -511,3 +511,22 @@ JOIN proficiencia_de_armadura pdar
 ON pdar.id_clase = c.id_clase
 JOIN armaduras ar
 ON ar.id_armadura = pdar.id_armadura;
+
+_______________________________________________________________________________________________________PROCEDIMIENTO ALMACENADO
+
+DELIMITER//
+CREATE PROCEDURE buscador_de_proficiencias (IN arma char(45), IN armadura char(45))
+BEGIN
+    IF arma!= '' AND armadura != '' THEN
+    	SELECT c.nombre
+        FROM clase c
+        JOIN proficiencia_de_arma pda ON c.id_clase = pda.id_clase
+        JOIN armas a ON a.id_arma = pda.id_arma
+        JOIN proficiencia_de_armadura pdar ON c.id_clase = pdar.id_clase
+        JOIN armaduras ar ON ar.id_armadura = pdar.id_armadura
+        WHERE arma = a.nombre AND armadura = ar.nombre;
+    ELSE
+    		SELECT 'No se hallaron proficiencias';
+    	END IF;
+ 	END//
+DELIMITER ;
