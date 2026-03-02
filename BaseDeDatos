@@ -72,7 +72,7 @@ CREATE TABLE armaduras (
     fuerza_necesaria varchar(45) DEFAULT NULL, 
     desventaja_en_sigilo varchar(3) DEFAULT NULL,
     peso int(11)DEFAULT NULL,
-	tipo_de_armadura varchar(45) DEFAULT NULL,
+	tipo_de_armadura varchar(45)DEFAULT NULL,
     PRIMARY KEY(id_armadura)
 )
 
@@ -237,3 +237,296 @@ INSERT INTO `clase` (`id_clase`, `nombre`, `pv_por_nivel`, `tiradas_de_salvacion
 (11, 'Brujo', '1d8 + CON mod por nivel', 'Sab, Car', 'Elige 2: Arcana, Engaño, Historia, Intimidación, Investigación, Naturaleza, Religión'),
 (12, 'Mago', '1d6 + CON mod por nivel', 'Int, Sab', 'Elige 2: Arcana, Historia, Perspicacia, Investigación, Medicina, Religión'),
 (13, 'Artificiero', '1d8 + CON mod por nivel', 'Con, Int', 'Elige 2: Arcana, Historia, Investigación, Medicina, Naturaleza, Percepción, Juego de manos');
+
+_____________________________________________________________________________________________________________________________________________RAZAS
+
+INSERT INTO razas (nombre, sintesis, estadisticas_amplificadas, edad, orientacion, tamaño, velocidad, lenguajes)
+VALUES
+-- 1. Humano
+('Humano',
+ 'Los humanos son la raza más adaptable y ambiciosa. Su diversidad cultural y su capacidad de aprendizaje rápido les permite prosperar en casi cualquier entorno.',
+ 'Todas las características +1',
+ 80,
+ 'Cualquier alineamiento',
+ 'Mediano',
+ 30,
+ 'Común'),
+
+-- 2. Elfo
+('Elfo',
+ 'Seres gráciles y longevos con gran conexión con la magia y la naturaleza. Son perceptivos y poseen sentidos afinados.',
+ 'Des +2',
+ 750,
+ 'Legal Neutro',
+ 'Mediano',
+ 30,
+ 'Común, Élfico'),
+
+-- 3. Enano
+('Enano',
+ 'Robustos y resistentes, conocidos por su maestría en la forja y su fuerte tradición cultural.',
+ 'Con +2',
+ 350,
+ 'Legal Bueno',
+ 'Mediano',
+ 25,
+ 'Común, Enano'),
+
+-- 4. Hobbit (Hafling)
+('Hobbit',
+ 'Alegres, ágiles y afortunados. Suelen vivir en comunidades tranquilas y evitar conflictos.',
+ 'Des +2',
+ 150,
+ 'Neutral Bueno',
+ 'Pequeño',
+ 25,
+ 'Común, Hobbit'),
+
+-- 5. Dracónido
+('Dracónido',
+ 'Descendientes de dragones, orgullosos y poderosos, capaces de exhalar energía elemental.',
+ 'Fue +2, Car +1',
+ 80,
+ 'Legal Neutro',
+ 'Mediano',
+ 30,
+ 'Común, Dracónico'),
+
+-- 6. Gnomo
+('Gnomo',
+ 'Curiosos e ingeniosos, con un amor profundo por la invención y la ilusión.',
+ 'Int +2',
+ 500,
+ 'Caótico Bueno',
+ 'Pequeño',
+ 25,
+ 'Común, Gnómico'),
+
+-- 7. Semielfo
+('Semielfo',
+'Mezcla de humano y elfo,combinan versatilidad humana con la gracia élfica.',
+'Car +2, Dos habilidades +1',
+180,
+'Cualquier alineamiento',
+'Mediano',
+30,
+'Común, Élfico, + 1 extra'),
+
+-- 8. Semiorco
+('Semiorco', 
+'Físicamente imponentes, heredan la fuerza orca y la determinación humana.', 
+'Fue +2, Con +1',
+75, 
+'Caótico Neutral', 
+'Mediano',
+30,
+'Común, Orco'),
+
+-- 9. Tiefling
+('Tiefling', 
+'Marcados por linajes infernales, poseen habilidades mágicas innatas y una apariencia demoníaca.',
+'Car +2',
+90,
+'Cualquier alineamiento',
+'Mediano',
+30,
+'Común, Infernal'),
+
+-- 10. Aarakocra
+('Aarakocra',
+'Humanoides alados de las montañas y planos elementales del aire. Expertos en exploración aérea.',
+'3 Habilidades + 1 \r\no\r\n1 Habilidad + 1 y 1 Habilidad + 2',
+30,
+'Neutral',
+'Mediano',
+30,
+'Común, + 1 Extra'),
+
+-- 11. Genasi
+('Genasi de Aire',
+'Descendientes de genios elementales, su cuerpo refleja el poder elemental de su ascendencia.',
+'3 Habilidades + 1 \r\no\r\n1 Habilidad + 1 y 1 Habilidad + 2',
+120,
+'Cualquier alineamiento',
+'Mediano',
+30,
+'Común, + 1 Extra'),
+
+-- 12. Goliat
+('Goliat',
+'Gigantescos y competitivos, habitantes de las montañas altas. Su fuerza física es notable.',
+'3 Habilidades + 1 \r\no\r\n1 Habilidad + 1 y 1 Habilidad + 2',
+80,
+'Cualquier alineamiento',
+'Mediano',
+30,
+'Común, + 1 Extra'),
+
+-- 13. Aasimar
+('Aasimar',
+'Seres con herencia celestial. Son guiados por un propósito divino y poseen habilidades curativas y luminosas.',
+'3 Habilidades + 1 \r\no\r\n1 Habilidad + 1 y 1 Habilidad + 2',
+0,
+'Cualquier alineamiento',
+'Mediano o Chico',
+30,
+'Común, + 1 Extra'),
+
+-- 14. Tabaxi
+('Tabaxi',
+'Felinos humanoides curiosos y ágiles provenientes de tierras exóticas. Excelentes exploradores y buscadores de conocimiento.',
+'3 Habilidades + 1 \r\no\r\n1 Habilidad + 1 y 1 Habilidad + 2',
+0,
+'Cualquier alineamiento',
+'Mediano o Chico',
+30,
+'Común, + 1 Extra');
+
+______________________________________________________________________________________________________________________________________________PROFICIENCIA_DE_ARMAS
+
+INSERT INTO proficiencia_de_arma (id_arma, id_clase) VALUES
+-- BARBARO (1): TODAS LAS ARMAS 1–37
+(1,1),(2,1),(3,1),(4,1),(5,1),(6,1),(7,1),(8,1),(9,1),(10,1),
+(11,1),(12,1),(13,1),(14,1),(15,1),(16,1),(17,1),(18,1),(19,1),(20,1),
+(21,1),(22,1),(23,1),(24,1),(25,1),(26,1),(27,1),(28,1),(29,1),(30,1),
+(31,1),(32,1),(33,1),(34,1),(35,1),(36,1),(37,1),
+
+-- BARDO (2): simples (1–14) + 22 + 26 + 28 + 34
+(1,2),(2,2),(3,2),(4,2),(5,2),(6,2),(7,2),(8,2),(9,2),(10,2),
+(11,2),(12,2),(13,2),(14,2),
+(22,2),(26,2),(28,2),(34,2),
+
+-- CLERIGO (3): simples (1–14)
+(1,3),(2,3),(3,3),(4,3),(5,3),(6,3),(7,3),(8,3),(9,3),(10,3),
+(11,3),(12,3),(13,3),(14,3),
+
+-- DRUIDA (4): {1,2,5,7,8,9,10,12,14,27}
+(1,4),(2,4),(5,4),(7,4),(8,4),(9,4),(10,4),(12,4),(14,4),(27,4),
+
+-- GUERRERO (5): TODAS LAS ARMAS 1–37
+(1,5),(2,5),(3,5),(4,5),(5,5),(6,5),(7,5),(8,5),(9,5),(10,5),
+(11,5),(12,5),(13,5),(14,5),(15,5),(16,5),(17,5),(18,5),(19,5),(20,5),
+(21,5),(22,5),(23,5),(24,5),(25,5),(26,5),(27,5),(28,5),(29,5),(30,5),
+(31,5),(32,5),(33,5),(34,5),(35,5),(36,5),(37,5),
+
+-- MONJE (6): simples (1–14) + espada corta (28)
+(1,6),(2,6),(3,6),(4,6),(5,6),(6,6),(7,6),(8,6),(9,6),(10,6),
+(11,6),(12,6),(13,6),(14,6),
+(28,6),
+
+-- PALADIN (7): TODAS LAS ARMAS 1–37
+(1,7),(2,7),(3,7),(4,7),(5,7),(6,7),(7,7),(8,7),(9,7),(10,7),
+(11,7),(12,7),(13,7),(14,7),(15,7),(16,7),(17,7),(18,7),(19,7),(20,7),
+(21,7),(22,7),(23,7),(24,7),(25,7),(26,7),(27,7),(28,7),(29,7),(30,7),
+(31,7),(32,7),(33,7),(34,7),(35,7),(36,7),(37,7),
+
+-- EXPLORADOR (8): TODAS LAS ARMAS 1–37
+(1,8),(2,8),(3,8),(4,8),(5,8),(6,8),(7,8),(8,8),(9,8),(10,8),
+(11,8),(12,8),(13,8),(14,8),(15,8),(16,8),(17,8),(18,8),(19,8),(20,8),
+(21,8),(22,8),(23,8),(24,8),(25,8),(26,8),(27,8),(28,8),(29,8),(30,8),
+(31,8),(32,8),(33,8),(34,8),(35,8),(36,8),(37,8),
+
+-- PICARO (9): simples (1–14) + 22 + 26 + 28 + 34
+(1,9),(2,9),(3,9),(4,9),(5,9),(6,9),(7,9),(8,9),(9,9),(10,9),
+(11,9),(12,9),(13,9),(14,9),
+(22,9),(26,9),(28,9),(34,9),
+
+-- HECHICERO (10): {2,8,12,14,34}
+(2,10),(8,10),(12,10),(14,10),(34,10),
+
+-- BRUJO (11): simples (1–14)
+(1,11),(2,11),(3,11),(4,11),(5,11),(6,11),(7,11),(8,11),(9,11),(10,11),
+(11,11),(12,11),(13,11),(14,11),
+
+-- MAGO (12): {2,8,12,14,34}
+(2,12),(8,12),(12,12),(14,12),(34,12),
+
+-- ARTIFICIERO (13): simples (1–14)
+(1,13),(2,13),(3,13),(4,13),(5,13),(6,13),(7,13),(8,13),(9,13),(10,13),
+(11,13),(12,13),(13,13),(14,13);
+
+___________________________________________________________________________________________________PROFICIENCIA_DE_ARMADURAS
+
+INSERT INTO proficiencia_de_armadura (id_armadura, id_clase) VALUES
+
+-- BARBARO (1): ligeras, medianas y escudos (1–9,14)
+(1,1),(2,1),(3,1),(4,1),(5,1),(6,1),(7,1),(8,1),(9,1),(14,1),
+
+-- BARDO (2): ligeras (1–3)
+(1,2),(2,2),(3,2),
+
+-- CLERIGO (3): ligeras, medianas y escudos (1–9,14)
+(1,3),(2,3),(3,3),(4,3),(5,3),(6,3),(7,3),(8,3),(9,3),(14,3),
+
+-- DRUIDA (4): ligeras, medianas y escudos (sin metal) {1,2,3,4,6,14}
+(1,4),(2,4),(3,4),(4,4),(6,4),(14,4),
+
+-- GUERRERO (5): TODAS (1–14)
+(1,5),(2,5),(3,5),(4,5),(5,5),(6,5),(7,5),(8,5),(9,5),
+(10,5),(11,5),(12,5),(13,5),(14,5),
+
+-- MONJE (6): ninguna
+-- (sin filas)
+
+-- PALADIN (7): TODAS (1–14)
+(1,7),(2,7),(3,7),(4,7),(5,7),(6,7),(7,7),(8,7),(9,7),
+(10,7),(11,7),(12,7),(13,7),(14,7),
+
+-- EXPLORADOR (8): ligeras, medianas y escudos (1–9,14)
+(1,8),(2,8),(3,8),(4,8),(5,8),(6,8),(7,8),(8,8),(9,8),(14,8),
+
+-- PICARO (9): ligeras (1–3)
+(1,9),(2,9),(3,9),
+
+-- HECHICERO (10): ninguna
+-- (sin filas)
+
+-- BRUJO (11): ligeras(1-3)
+-- (1,11),(2,11),(3,11),
+
+-- MAGO (12): ninguna
+-- (sin filas)
+
+-- ARTIFICIERO (13): ligeras, medianas y escudos (1–9,14)
+(1,13),(2,13),(3,13),(4,13),(5,13),(6,13),(7,13),(8,13),(9,13),(14,13);
+
+______________________________________________________________________________________________________VISTAS
+
+CREATE VIEW proficiencias_de_clase AS 
+SELECT c.nombre AS clase, c.tiradas_de_salvacion AS tiradas_de_salvacion, c.talentos AS talentos
+FROM clase c
+
+CREATE VIEW clase_arma AS
+SELECT c.nombre AS clase, a.nombre AS arma, a.sintesis AS descripcion, a.tipo_de_arma AS tipo
+FROM clase c 
+JOIN proficiencia_de_arma pda 
+ON pda.id_clase = c.id_clase
+JOIN armas a
+ON a.id_arma = pda.id_arma;
+
+CREATE VIEW clase_armadura AS
+SELECT c.nombre AS clase, ar.nombre AS armadura, ar.sintesis AS descripcion, ar.tipo_de_armadura AS tipo
+FROM clase c
+JOIN proficiencia_de_armadura pdar
+ON pdar.id_clase = c.id_clase
+JOIN armaduras ar
+ON ar.id_armadura = pdar.id_armadura;
+
+_______________________________________________________________________________________________________PROCEDIMIENTO ALMACENADO
+
+DELIMITER //
+CREATE PROCEDURE buscador_de_proficiencias (IN arma char(45), IN armadura char(45))
+BEGIN
+    IF arma!= '' AND armadura != '' THEN
+    	SELECT c.nombre
+        FROM clase c
+        JOIN proficiencia_de_arma pda ON c.id_clase = pda.id_clase
+        JOIN armas a ON a.id_arma = pda.id_arma
+        JOIN proficiencia_de_armadura pdar ON c.id_clase = pdar.id_clase
+        JOIN armaduras ar ON ar.id_armadura = pdar.id_armadura
+        WHERE arma = a.nombre AND armadura = ar.nombre;
+    ELSE
+    		SELECT 'No se hallaron proficiencias';
+    	END IF;
+ 	END//
+DELIMITER ;
