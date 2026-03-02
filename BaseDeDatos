@@ -490,6 +490,62 @@ INSERT INTO proficiencia_de_armadura (id_armadura, id_clase) VALUES
 -- ARTIFICIERO (13): ligeras, medianas y escudos (1–9,14)
 (1,13),(2,13),(3,13),(4,13),(5,13),(6,13),(7,13),(8,13),(9,13),(14,13);
 
+______________________________________________________________________________________________________HECHIZOS
+
+INSERT INTO hechizos (nombre, sintesis, nivel, escuela, tiempo_de_conjuracion, rango, duracion) VALUES
+('Abrandar Mente', 'Relajas la tensión mental del objetivo, haciéndolo menos reactivo.', 2, 'Encantamiento', 1, 18, '1 minuto'),
+('Abrir', 'Abre un objeto cerrado sin dañarlo.', 2, 'Transmutación', 1, 18, 'Instantánea'),
+('Acelerar', 'Aumenta drásticamente la velocidad y reflejos de una criatura.', 3, 'Transmutación', 1, 18, '1 minuto'),
+('Agarre Electrizante', 'Tocas al objetivo causando una descarga que impide que reaccione.', 0, 'Evocación', 1, 1, 'Instantánea'),
+('Agrandar/Reducir', 'Aumenta o reduce el tamaño de una criatura, alterando su fuerza.', 2, 'Transmutación', 1, 18, '1 minuto'),
+('Agua Purificada', 'Elimina contaminación de agua o comida.', 0, 'Transmutación', 1, 1, 'Instantánea'),
+('Agua en Movimiento', 'Manipulas agua para apartarla o dividirla.', 2, 'Transmutación', 1, 18, 'Instantánea'),
+('Alarma', 'Crea una alerta mágica para detectar intrusos.', 1, 'Abjuración', 1, 18, '8 horas'),
+('Alterar Apariencia', 'Modificas tu rostro y rasgos corporales.', 2, 'Transmutación', 1, 1, '1 hora'),
+('Amistad', 'Haces que alguien sea receptivo a ti por un breve tiempo.', 0, 'Encantamiento', 1, 1, '1 minuto'),
+('Andar por el Viento', 'Permite caminar sobre ráfagas de aire como si fueran escalones.', 3, 'Transmutación', 1, 18, '1 hora'),
+('Animar Muertos', 'Reanimas cadáveres para que obedezcan tus órdenes.', 3, 'Nigromancia', 1, 3, 'Instantánea'),
+('Armadura de Agathys', 'Te cubre una armadura helada que daña a quien te golpee.', 1, 'Abjuración', 1, 1, '1 hora'),
+('Armadura de Mago', 'Una barrera mágica te otorga protección adicional.', 1, 'Abjuración', 1, 1, '8 horas'),
+('Arma Elemental', 'Infundes energía elemental en un arma.', 3, 'Transmutación', 1, 1, '1 hora'),
+('Arma Mágica', 'Convierte un arma normal en un arma mágica.', 2, 'Transmutación', 1, 1, '1 hora'),
+('Aterrorizar', 'Llenas de miedo el corazón de una criatura.', 3, 'Ilusión', 1, 60, '1 minuto'),
+('Aura de Vida', 'Impide que tus aliados caigan inconscientes fácilmente.', 4, 'Abjuración', 1, 1, '10 minutos'),
+('Aura de Pureza', 'Protege a un grupo de enfermedades y venenos.', 4, 'Abjuración', 1, 1, '10 minutos'),
+('Aura de Vitalidad', 'Proyecta una energía que sana repetidamente.', 3, 'Evocación', 1, 1, '1 minuto'),
+('Bendecir', 'Mejora la precisión y suerte de tus aliados.', 1, 'Encantamiento', 1, 18, '1 minuto'),
+('Bola Cromática', 'Lanzas una esfera de energía del tipo elemental que elijas.', 1, 'Evocación', 1, 27, 'Instantánea'),
+('Bola de Fuego', 'Una explosión ardiente arrasa todo en un área amplia.', 3, 'Evocación', 1, 45, 'Instantánea'),
+('Barrera de Llamas', 'Un muro ardiente bloquea el paso y quema a quienes lo atraviesan.', 4, 'Evocación', 1, 36, '1 minuto'),
+('Bendición de Vida', 'Concedes energía vital que facilita la recuperación.', 1, 'Evocación', 1, 1, 'Instantánea'),
+('Brotar Espinas', 'Cubres el suelo con espinas que desgarran a quien lo pise.', 2, 'Conjuración', 1, 45, '10 minutos'),
+('Burla Cruel', 'Hierves la mente del objetivo con insultos mágicos.', 0, 'Encantamiento', 1, 18, 'Instantánea'),
+('Cabalgar el Viento', 'Permite flotar o elevarse con una corriente ascendente.', 4, 'Transmutación', 1, 18, '10 minutos'),
+('Caída de Pluma', 'Haces que las criaturas desciendan suavemente.', 1, 'Transmutación', 1, 18, '1 minuto'),
+('Caminar por Agua', 'Permite cruzar agua como si fuera tierra firme.', 3, 'Transmutación', 1, 9, '1 hora'),
+('Camuflaje', 'Coloras tu cuerpo para mezclarte con el entorno.', 2, 'Transmutación', 1, 1, '1 hora'),
+('Ceguera/Sordera', 'Privas a una criatura de la vista o el oído temporalmente.', 2, 'Nigromancia', 1, 9, '1 minuto'),
+('Círculo de la Muerte', 'Un estallido necrótico drena la vida de un gran número de criaturas.', 6, 'Nigromancia', 1, 45, 'Instantánea'),
+('Círculo de Protección', 'Proteges un área contra ciertos tipos de criaturas.', 3, 'Abjuración', 1, 1, '1 hora'),
+('Clarividencia', 'Creas un punto invisible desde el cual observar a distancia.', 3, 'Adivinación', 10, 1, '10 minutos'),
+('Clavar', 'Fuerzas a una criatura a quedarse pegada al suelo.', 2, 'Conjuración', 1, 18, '1 minuto'),
+('Comprensión de Idiomas', 'Te permite entender cualquier idioma hablado o escrito.', 1, 'Adivinación', 1, 1, '1 hora'),
+('Compulsión', 'Obligas a varias criaturas a avanzar en una dirección.', 4, 'Encantamiento', 1, 18, '1 minuto'),
+('Concentración de Hielo', 'Congelas el suelo impidiendo movimiento fluido.', 2, 'Evocación', 1, 18, '1 minuto'),
+('Confusión', 'Desordena la mente de las criaturas afectadas.', 4, 'Encantamiento', 1, 27, '1 minuto'),
+('Conjurar Animales', 'Invocas bestias para luchar a tu favor.', 3, 'Conjuración', 1, 18, '1 hora'),
+('Conjurar Elemental', 'Traes un elemental para ayudarte.', 5, 'Conjuración', 1, 27, '1 hora'),
+('Conjurar Ser Menor', 'Invocas criaturas pequeñas para asistir o combatir.', 4, 'Conjuración', 1, 18, '1 hora'),
+('Construir Barrera', 'Formas una pared mágica invisible que bloquea paso.', 1, 'Abjuración', 1, 1, '10 minutos'),
+('Contagio', 'Infectas a una criatura con una enfermedad debilitante.', 5, 'Nigromancia', 1, 1, '7 días'),
+('Contemplar Pensamientos', 'Lees la superficie de los pensamientos de alguien.', 2, 'Adivinación', 1, 18, '1 minuto'),
+('Controlar Agua', 'Manipulas secciones amplias de agua a voluntad.', 4, 'Transmutación', 1, 90, '10 minutos'),
+('Controlar Clima', 'Modificas el clima de manera drástica.', 8, 'Transmutación', 10, 1, '8 horas'),
+('Controlar Viento', 'Generas corrientes intensas para empujar o frenar.', 5, 'Transmutación', 1, 90, '10 minutos'),
+('Crear o Destruir Agua', 'Creas agua o eliminas la existente en un área.', 1, 'Transmutación', 1, 27, 'Instantánea'),
+('Crear Alimento', 'Generas comida simple para varias criaturas.', 3, 'Conjuración', 1, 9, '24 horas'),
+('Crear Llama', 'Generas una llama pequeña flotante en tu mano.', 0, 'Conjuración', 1, 0, '10 minutos');
+
 ______________________________________________________________________________________________________VISTAS
 
 CREATE VIEW proficiencias_de_clase AS 
