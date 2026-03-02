@@ -46,7 +46,7 @@ CREATE TABLE hechizos (
     nivel int(11) DEFAULT NULL,
     #observacion: en DEFAULT queda como cantrip, por ahora es un problema.
     escuela varchar(60) DEFAULT NULL, 
-    tiempo_de_conjuracion int(11) DEFAULT NULL,
+    tiempo_de_conjuracion varchar(45) DEFAULT NULL,
     rango int(11) DEFAULT NULL,
     duracion varchar(45)DEFAULT NULL,
     PRIMARY KEY(id_hechizo)
