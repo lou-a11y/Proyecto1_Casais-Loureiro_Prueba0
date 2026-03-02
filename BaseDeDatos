@@ -42,6 +42,7 @@ CREATE TABLE razas (
 CREATE TABLE hechizos (
     id_hechizo int(11) NOT NULL AUTO_INCREMENT,
     nombre varchar(45) DEFAULT NULL,	
+	FULLTEXT(nombre),
     sintesis varchar(1000) DEFAULT NULL,
     nivel int(11) DEFAULT NULL,
     #observacion: en DEFAULT queda como cantrip, por ahora es un problema.
