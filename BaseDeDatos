@@ -639,6 +639,7 @@ INSERT INTO hechizos (nombre, sintesis, nivel, escuela, tiempo_de_conjuracion, r
 ('Descarga Embrujada (Witch Bolt)', 'Evocas un destellante laser de energía azul a una criatura formando un enlace relampagueante entre tu objetivo y vos. La criatura recibe daño de Rayo y en cada turno recibe una descarga eléctrica de igual daño.', 1, 'Evocación', '1 acción', 30, 'Concentración, hasta 1 minuto'),
 ('Castigo Iracundo (Wrathful Smite)', 'La siguiente vez que ataques a una criatura con un arma cuerpo a cuerpo, recibirá un daño extra Psíquico y es asustada.', 1, 'Evocación', '1 acción adicional', 0, 'Concentración, hasta 1 minuto'),
 ('Golpe Céfiro (Zephyr Strike)', 'Te mueves como el viento y no provocas ataques de oportunidad. Además te puedes blindar ventaja en una tirada de ataque, causando daño extra de Fuerza. E incrementa tu velocidad.', 1, 'Transmutación', '1 acción adicional', 0, 'Concentración, hasta 1 minuto'),
+
 -- NIVEL 2 (TODOS)
 ('Aganazzar''s Scorcher', 'Línea de 9x1.5m. 3d8 fuego. Destreza para mitad. Por nivel: +1d8.', 2, 'Evocación', '1 acción', 9, 'Instantánea'),
 ('Aid', 'Hasta 3 criaturas +5 PV máximos y actuales. Por nivel superior: +5 PV.', 2, 'Abjuración', '1 acción', 9, '8 horas'),
