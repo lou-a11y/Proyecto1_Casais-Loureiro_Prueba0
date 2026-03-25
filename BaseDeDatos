@@ -677,7 +677,6 @@ INSERT INTO hechizos (nombre, sintesis, nivel, escuela, tiempo_de_conjuracion, r
 ('Esfera de Fuego (Flaming Sphere)', 'Invocas una esfera de fuego en un espacio desocupado causando daño de Fuego a las criaturas dentro de la esfera.', 2, 'Conjuración', '1 acción', 60, 'Concentración, hasta 1 minuto'),
 ('Rebaño de Familiares (Flock of Familiars)', 'Convocas 3 familiares temporalmente, que toman la forma animal a tu elección. Puedes comunicarte telepáticamente con ellos y compartir su vision y sentido de la escucha.', 2, 'Conjuración', '1 minuto', 0, 'Concentración, hasta 1 hora'),
 ('Favor de la Fortuna (Fortune\'s Favor)', 'Te otorgas a ti o a una criatura voluntaria una fortuna latente. (Puede usar un d20 extra en tiradas a elección).', 2, 'Adivinación', '1 minuto', 60, '1 hora'),
-INSERT INTO `hechizos` (`id_hechizo`, `nombre`, `sintesis`, `nivel`, `escuela`, `tiempo_de_conjuracion`, `rango`, `duracion`) VALUES
 ('Reposo Gentil (Gentle Repose)', 'Tocas un cadáver para protegerlo de descomposición y no puede ser no-muerto.', 2, 'Nigromancia', '1 acción', 0, '10 días'),
 ('Regalo de Gab (Gift of Gab)', 'Conjuras un hechizo para modificar la memoria de los oyentes. Haciendo que olviden todo lo que dijiste los ultimos 6 segundos.', 2, 'Encantamiento', 'reacción', 0, 'Instantánea'),
 ('Ráfaga de Viento (Gust of Wind)', 'Una fuerte ráfaga de viento emana de vos en una dirección. Las criaturas envueltas en la ráfaga serán empujadas.', 2, 'Evocación', '1 acción', 60, 'Concentración, hasta 1 minuto'),
