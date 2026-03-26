@@ -1,1 +1,1080 @@
+CREATE DATABASE IF NOT EXIST db_dndespañol;
+USE db_dndespañol;
 
+CREATE TABLE clase (
+    id_clase int(11) NOT NULL AUTO_INCREMENT,
+    nombre varchar(45) DEFAULT NULL,
+    pv_por_nivel varchar(45) DEFAULT NULL,
+	tiradas_de_salvacion varchar(45) DEFAULT NULL,
+    talentos varchar(200) DEFAULT NULL,
+    PRIMARY KEY(id_clase)
+)
+
+CREATE TABLE subclase (
+    id_subclase int(11) NOT NULL AUTO_INCREMENT,
+    id_clase int(11) DEFAULT NULL,
+    nombre varchar(45) DEFAULT NULL,
+    sintesis varchar(1000) DEFAULT NULL,
+    PRIMARY KEY(id_subclase),
+    FOREIGN KEY(id_clase) REFERENCES clase(id_clase)
+)
+
+CREATE TABLE habilidades (
+    id_habilidad int(11) NOT NULL AUTO_INCREMENT,
+    nombre varchar(45) DEFAULT NULL,
+    sintesis varchar(1000) DEFAULT NULL,
+    PRIMARY KEY(id_habilidad)
+)
+
+CREATE TABLE razas (
+    id_raza int(11) NOT NULL AUTO_INCREMENT,
+    nombre varchar(45) DEFAULT NULL,	
+    sintesis varchar(1000) DEFAULT NULL,
+    estadisticas_amplificadas varchar(70) DEFAULT NULL,
+    edad int(11) DEFAULT NULL,
+    orientacion varchar(60) DEFAULT NULL,
+    tamaño varchar(45) DEFAULT NULL,
+    velocidad int(11)DEFAULT NULL,
+    lenguajes varchar(45)DEFAULT NULL,
+    PRIMARY KEY(id_raza)
+)
+
+CREATE TABLE hechizos (
+    id_hechizo int(11) NOT NULL AUTO_INCREMENT,
+    nombre varchar(70) DEFAULT NULL,	
+	FULLTEXT(nombre),
+    sintesis varchar(1000) DEFAULT NULL,
+    nivel int(11) DEFAULT NULL,
+    #observacion: en DEFAULT queda como cantrip, por ahora es un problema.
+    escuela varchar(60) DEFAULT NULL, 
+    tiempo_de_conjuracion varchar(45) DEFAULT NULL,
+    rango int(11) DEFAULT NULL,
+    duracion varchar(45)DEFAULT NULL,
+    PRIMARY KEY(id_hechizo)
+)
+
+CREATE TABLE armas (
+    id_arma int(11) NOT NULL AUTO_INCREMENT,
+    nombre varchar(45) DEFAULT NULL,	
+    sintesis varchar(200) DEFAULT NULL,
+    daño varchar(45) DEFAULT NULL,
+    tipo_de_daño varchar(45) DEFAULT NULL, 
+    peso int(11) DEFAULT NULL,
+    propiedades varchar(45) DEFAULT NULL,
+    tipo_de_arma varchar(45)DEFAULT NULL,
+    PRIMARY KEY(id_arma)
+)
+
+CREATE TABLE armaduras (
+    id_armadura int(11) NOT NULL AUTO_INCREMENT,
+    nombre varchar(45) DEFAULT NULL,	
+    sintesis varchar(200) DEFAULT NULL,
+    proteccion varchar(45) DEFAULT NULL,
+    fuerza_necesaria varchar(45) DEFAULT NULL, 
+    desventaja_en_sigilo varchar(3) DEFAULT NULL,
+    peso int(11)DEFAULT NULL,
+	tipo_de_armadura varchar(45)DEFAULT NULL,
+    PRIMARY KEY(id_armadura)
+)
+
+CREATE TABLE equipamientos_iniciales (
+    id_equipamiento int(11) NOT NULL AUTO_INCREMENT,
+    arma_principal varchar(60) DEFAULT NULL,	
+    arma_secundaria varchar(60) DEFAULT NULL,
+    arma_terciaria varchar(60) DEFAULT NULL,
+    consumible varchar(45) DEFAULT NULL, 
+    mochila varchar(45) DEFAULT NULL,
+    armadura varchar(45)DEFAULT NULL,
+    PRIMARY KEY(id_equipamiento)
+)
+
+________________________________________________________________________________________________________________________ RELACIONES
+
+
+CREATE TABLE habilidades_conocidas_clase (
+    id_habilidades_conocidas_clase int(11) NOT NULL AUTO_INCREMENT,
+    id_habilidad int(11) DEFAULT NULL,	
+    id_clase int(11) DEFAULT NULL,
+    PRIMARY KEY(id_habilidades_conocidas_clase),
+    FOREIGN KEY(id_habilidad) REFERENCES habilidades(id_habilidad),
+    FOREIGN KEY(id_clase) REFERENCES clase(id_clase)
+)
+
+CREATE TABLE habilidades_conocidas_sub (
+    id_habilidades_conocidas_sub int(11) NOT NULL AUTO_INCREMENT,
+    id_habilidad int(11) DEFAULT NULL,	
+    id_subclase int(11) DEFAULT NULL,
+    PRIMARY KEY(id_habilidades_conocidas_sub),
+    FOREIGN KEY(id_habilidad) REFERENCES habilidades(id_habilidad),
+    FOREIGN KEY(id_subclase) REFERENCES subclase(id_subclase)
+)
+
+CREATE TABLE habilidades_conocidas_raza (
+    id_habilidades_conocidas_raza int(11) NOT NULL AUTO_INCREMENT,
+    id_habilidad int(11) DEFAULT NULL,	
+    id_raza int(11) DEFAULT NULL,
+    PRIMARY KEY(id_habilidades_conocidas_raza),
+    FOREIGN KEY(id_habilidad) REFERENCES habilidades(id_habilidad),
+    FOREIGN KEY(id_raza) REFERENCES razas(id_raza)
+)
+
+CREATE TABLE hechizos_conocidos_clase (
+    id_hechizos_conocidos_clase int(11) NOT NULL AUTO_INCREMENT,
+    id_hechizo int(11) DEFAULT NULL,	
+    id_clase int(11) DEFAULT NULL,
+    PRIMARY KEY(id_hechizos_conocidos_clase),
+    FOREIGN KEY(id_hechizo) REFERENCES hechizos(id_hechizo),
+    FOREIGN KEY(id_clase) REFERENCES clase(id_clase)
+)
+
+CREATE TABLE hechizos_conocidos_sub (
+    id_hechizos_conocidos_sub int(11) NOT NULL AUTO_INCREMENT,
+    id_hechizo int(11) DEFAULT NULL,	
+    id_subclase int(11) DEFAULT NULL,
+    PRIMARY KEY(id_hechizos_conocidos_sub),
+    FOREIGN KEY(id_hechizo) REFERENCES hechizos(id_hechizo),
+    FOREIGN KEY(id_subclase) REFERENCES subclase(id_subclase)
+)
+
+CREATE TABLE equipar (
+    id_equipar int(11) NOT NULL AUTO_INCREMENT,
+    id_equipamiento int(11) DEFAULT NULL,	
+    id_clase int(11) DEFAULT NULL,
+    PRIMARY KEY(id_equipar),
+    FOREIGN KEY(id_equipamiento) REFERENCES equipamientos_iniciales(id_equipamiento),
+    FOREIGN KEY(id_clase) REFERENCES clase(id_clase)
+)
+
+CREATE TABLE proficiencia_de_arma (
+    id_proficiencia_de_arma int(11) NOT NULL AUTO_INCREMENT,
+    id_arma int(11) DEFAULT NULL,	
+    id_clase int(11) DEFAULT NULL,
+    PRIMARY KEY(id_proficiencia_de_arma),
+    FOREIGN KEY(id_arma) REFERENCES armas (id_arma),
+    FOREIGN KEY(id_clase) REFERENCES clase(id_clase)
+)
+
+CREATE TABLE proficiencia_de_armadura (
+    id_proficiencia_de_armadura int(11) NOT NULL AUTO_INCREMENT,
+    id_armadura int(11) DEFAULT NULL,	
+    id_clase int(11) DEFAULT NULL,
+    PRIMARY KEY(id_proficiencia_de_armadura),
+    FOREIGN KEY(id_armadura) REFERENCES armaduras(id_armadura),
+    FOREIGN KEY(id_clase) REFERENCES clase(id_clase)
+)
+
+__________________________________________________________________________________________________________________________________________ARMAS
+
+INSERT INTO `armas` (`id_arma`, `nombre`, `sintesis`, `daño`, `tipo_de_daño`, `peso`, `propiedades`, `tipo_de_arma`) VALUES
+(1, 'Garrote', 'Un palo corto y pesado usado como arma contundente.', '1d4', 'Contundente', 2, 'Ligera', 'Simple cuerpo a cuerpo'),
+(2, 'Daga', 'Una hoja corta y equilibrada, útil tanto en combate como para lanzar.', '1d4', 'Perforante', 1, 'Ligera, arrojadiza (20/60), sutil', 'Simple cuerpo a cuerpo'),
+(3, 'Gran garrote', 'Un garrote largo y pesado usado con ambas manos.', '1d8', 'Contundente', 10, 'A dos manos', 'Simple cuerpo a cuerpo'),
+(4, 'Hacha de mano', 'Un hacha versátil usada en combate cercano o arrojada.', '1d6', 'Cortante', 2, 'Ligera, arrojadiza (20/60)', 'Simple cuerpo a cuerpo'),
+(5, 'Jabalina', 'Un arma ligera diseñada para lanzarse a distancia.', '1d6', 'Perforante', 2, 'Arrojadiza (30/120)', 'Simple cuerpo a cuerpo'),
+(6, 'Martillo ligero', 'Un martillo pequeño equilibrado para lanzar.', '1d4', 'Contundente', 2, 'Ligera, arrojadiza (20/60)', 'Simple cuerpo a cuerpo'),
+(7, 'Maza', 'Un arma de impacto con cabeza pesada.', '1d6', 'Contundente', 4, '—', 'Simple cuerpo a cuerpo'),
+(8, 'Bastón', 'Un palo largo usado tanto como apoyo como para combatir.', '1d6', 'Contundente', 4, 'Versátil (1d8)', 'Simple cuerpo a cuerpo'),
+(9, 'Hoz', 'Una hoja curva usada para cortar.', '1d4', 'Cortante', 2, 'Ligera', 'Simple cuerpo a cuerpo'),
+(10, 'Lanza', 'Un arma de asta corta, efectivo tanto en combate cerrado como arrojadiza.', '1d6', 'Perforante', 3, 'Arrojadiza (20/60), versátil (1d8)', 'Simple cuerpo a cuerpo'),
+(11, 'Ballesta ligera', 'Una ballesta fácil de usar con pernos.', '1d8', 'Perforante', 5, 'Munición (80/320), recarga, a dos manos', 'Simple a distancia'),
+(12, 'Dardo', 'Proyectil pequeño y equilibrado para lanzar.', '1d4', 'Perforante', 0, 'Arrojadiza (20/60), sutil', 'Simple a distancia'),
+(13, 'Arco corto', 'Un arco ligero para disparos rápidos.', '1d6', 'Perforante', 2, 'Munición (80/320), a dos manos', 'Simple a distancia'),
+(14, 'Honda', 'Una tira de cuero que lanza proyectiles.', '1d4', 'Contundente', 0, 'Munición (30/120)', 'Simple a distancia'),
+(15, 'Hacha de batalla', 'Un arma pesada de filo utilizada por guerreros.', '1d8', 'Cortante', 4, 'Versátil (1d10)', 'Marcial cuerpo a cuerpo'),
+(16, 'Mangual', 'Un arma con cabeza articulada a una cadena para golpear con fuerza.', '1d8', 'Contundente', 2, '—', 'Marcial cuerpo a cuerpo'),
+(17, 'Guja', 'Un arma de asta con hoja curva.', '1d10', 'Cortante', 6, 'Alcance, a dos manos', 'Marcial cuerpo a cuerpo'),
+(18, 'Hacha a dos manos', 'Un hacha masiva diseñada para golpes devastadores.', '1d12', 'Cortante', 7, 'A dos manos', 'Marcial cuerpo a cuerpo'),
+(19, 'Espada a dos manos', 'Una gran espada usada con ambas manos.', '2d6', 'Cortante', 6, 'A dos manos', 'Marcial cuerpo a cuerpo'),
+(20, 'Alabarda', 'Arma de asta con punta y hoja lateral.', '1d10', 'Cortante', 6, 'Alcance, a dos manos', 'Marcial cuerpo a cuerpo'),
+(21, 'Lanza de caballería', 'Una lanza larga para combate montado.', '1d12', 'Perforante', 6, 'Alcance, especial', 'Marcial cuerpo a cuerpo'),
+(22, 'Espada larga', 'Una hoja versátil común entre los guerreros.', '1d8', 'Cortante', 3, 'Versátil (1d10)', 'Marcial cuerpo a cuerpo'),
+(23, 'Maza a dos manos', 'Un arma contundente extremadamente pesada.', '2d6', 'Contundente', 10, 'A dos manos', 'Marcial cuerpo a cuerpo'),
+(24, 'Lucero del alba', 'Un mazo con una cabeza de pinchos.', '1d8', 'Perforante', 4, '—', 'Marcial cuerpo a cuerpo'),
+(25, 'Pica', 'Arma de asta larga usada para detener cargas.', '1d10', 'Perforante', 18, 'Alcance, a dos manos', 'Marcial cuerpo a cuerpo'),
+(26, 'Estoque', 'Una espada delgada y precisa.', '1d8', 'Perforante', 2, 'Sutil', 'Marcial cuerpo a cuerpo'),
+(27, 'Cimitarra', 'Una hoja curva rápida y ligera.', '1d6', 'Cortante', 3, 'Ligera, sutil', 'Marcial cuerpo a cuerpo'),
+(28, 'Espada corta', 'Una espada compacta y ágil.', '1d6', 'Perforante', 2, 'Ligera, sutil', 'Marcial cuerpo a cuerpo'),
+(29, 'Tridente', 'Un arma con tres puntas para estocar.', '1d6', 'Perforante', 4, 'Arrojadiza (20/60), versátil (1d8)', 'Marcial cuerpo a cuerpo'),
+(30, 'Pico de guerra', 'Un pico reforzado para perforar armaduras.', '1d8', 'Perforante', 2, '—', 'Marcial cuerpo a cuerpo'),
+(31, 'Martillo de guerra', 'Un martillo pesado para aplastar armaduras.', '1d8', 'Contundente', 2, 'Versátil (1d10)', 'Marcial cuerpo a cuerpo'),
+(32, 'Látigo', 'Un arma flexible para atacar a distancia corta.', '1d4', 'Cortante', 3, 'Alcance, sutil', 'Marcial cuerpo a cuerpo'),
+(33, 'Cerbatana', 'Un tubo que dispara dardos diminutos.', '1', 'Perforante', 1, 'Munición (25/100), recarga', 'Marcial a distancia'),
+(34, 'Ballesta de mano', 'Una ballesta compacta fácil de ocultar.', '1d6', 'Perforante', 3, 'Munición (30/120), recarga, ligera', 'Marcial a distancia'),
+(35, 'Ballesta pesada', 'Una ballesta grande y poderosa.', '1d10', 'Perforante', 18, 'Munición (100/400), recarga, a dos manos', 'Marcial a distancia'),
+(36, 'Arco largo', 'Un arco alto con gran potencia.', '1d8', 'Perforante', 2, 'Munición (150/600), a dos manos', 'Marcial a distancia'),
+(37, 'Red', 'Una red para inmovilizar enemigos.', '—', '—', 3, 'Especial, arrojadiza (5/15)', 'Marcial a distancia');
+
+__________________________________________________________________________________________________________________________________________ARMADURAS
+
+INSERT INTO `armaduras` (`id_armadura`, `nombre`, `sintesis`, `proteccion`, `fuerza_necesaria`, `desventaja_en_sigilo`, `peso`, `tipo_de_armadura`) VALUES
+(1, 'Acolchada', 'Armadura blanda de capas acolchadas.', '11 + DES', 'Ninguna', 'Sí', 8, 'Ligera'),
+(2, 'Cuero', 'Armadura ligera hecha de cuero endurecido.', '11 + DES', 'Ninguna', 'No', 10, 'Ligera'),
+(3, 'Cuero Reforzado', 'Cuero con remaches metálicos para mayor defensa.', '12 + DES', 'Ninguna', 'No', 13, 'Ligera'),
+(4, 'Pieles', 'Pieles y cueros toscos usados como armadura.', '12 + DES (máx +2)', 'Ninguna', 'No', 12, 'Mediana'),
+(5, 'Cota de Mallas', 'Cota tejida de anillos metálicos.', '14 + DES (máx +2)', 'Ninguna', 'Sí', 45, 'Mediana'),
+(6, 'Cota de Escamas', 'Armadura de placas superpuestas unidas con cuero.', '14 + DES (máx +2)', 'Ninguna', 'Sí', 45, 'Mediana'),
+(7, 'Armadura con Pinchos', 'Es literalmente una armadura con pinchos.', '14 + DES (máx +2)', 'Ninguna', 'Sí', 45, 'Mediana'),
+(8, 'Coraza', 'Placas de metal que protegen el torso.', '14 + DES (máx +2)', 'Ninguna', 'No', 20, 'Mediana'),
+(9, 'Semiplacas', 'Placas sólidas que cubren zonas vitales.', '15 + DES (máx +2)', 'Ninguna', 'Sí', 40, 'Mediana'),
+(10, 'Cota Anillada', 'Aros metálicos usados como protección básica.', '14', 'Ninguna', 'Sí', 40, 'Pesada'),
+(11, 'Cota de Malla (pesada)', 'Cota de anillos muy cerrados y reforzados.', '16', 'Fuerza 13', 'Sí', 55, 'Pesada'),
+(12, 'Armadura de Férulas', 'Placas largas de metal unidas con cuero.', '17', 'Fuerza 15', 'Sí', 60, 'Pesada'),
+(13, 'Placas', 'Armadura pesada completa de placas metálicas.', '18', 'Fuerza 15', 'Sí', 65, 'Pesada'),
+(14, 'Escudo', 'Escudo defensivo.', '+2', 'Ninguna', 'No', 6, '—');
+
+_____________________________________________________________________________________________________________________________________________CLASES
+
+INSERT INTO `clase` (`id_clase`, `nombre`, `pv_por_nivel`, `tiradas_de_salvacion`, `talentos`) VALUES
+(1, 'Bárbaro', '1d12 + CON mod por nivel', 'Fue, Con', 'Elige 2: Manejo de animales, Atletismo, Intimidación, Naturaleza, Percepción, Supervivencia'),
+(2, 'Bardo', '1d8 + CON mod por nivel', 'Des, Car', 'Elige 3: Cualquier habilidad'),
+(3, 'Clérigo', '1d8 + CON mod por nivel', 'Sab, Car', 'Elige 2: Historia, Perspicacia, Medicina, Persuasión, Religión'),
+(4, 'Druida', '1d8 + CON mod por nivel', 'Int, Sab', 'Elige 2: Arcana, Manejo de animales, Naturaleza, Percepción, Medicina, Perspicacia, Religión, Supervivencia'),
+(5, 'Guerrero', '1d10 + CON mod por nivel', 'Fue, Con', 'Elige 2: Acrobacias, Manejo de animales, Atletismo, Historia, Perspicacia, Intimidación, Percepción, Supervivencia'),
+(6, 'Monje', '1d8 + CON mod por nivel', 'Fue, Des', 'Elige 2: Acrobacias, Atletismo, Historia, Perspicacia, Religión, Sigilo'),
+(7, 'Paladín', '1d10 + CON mod por nivel', 'Sab, Car', 'Elige 2: Atletismo, Perspicacia, Intimidación, Medicina, Persuasión, Religión'),
+(8, 'Explorador', '1d10 + CON mod por nivel', 'Fue, Des', 'Elige 3: Atletismo, Manejo de animales, Perspicacia, Investigación, Naturaleza, Percepción, Sigilo, Supervivencia'),
+(9, 'Pícaro', '1d8 + CON mod por nivel', 'Des, Int', 'Elige 4: Acrobacias, Atletismo, Interpretación, Investigación, Perspicacia, Percepción, Persuasión, Sigilo, Juego de manos, Engaño, Intimidación'),
+(10, 'Hechicero', '1d6 + CON mod por nivel', 'Con, Car', 'Elige 2: Arcana, Engaño, Intimidación, Perspicacia, Religión, Persuasión'),
+(11, 'Brujo', '1d8 + CON mod por nivel', 'Sab, Car', 'Elige 2: Arcana, Engaño, Historia, Intimidación, Investigación, Naturaleza, Religión'),
+(12, 'Mago', '1d6 + CON mod por nivel', 'Int, Sab', 'Elige 2: Arcana, Historia, Perspicacia, Investigación, Medicina, Religión'),
+(13, 'Artificiero', '1d8 + CON mod por nivel', 'Con, Int', 'Elige 2: Arcana, Historia, Investigación, Medicina, Naturaleza, Percepción, Juego de manos');
+
+_____________________________________________________________________________________________________________________________________________RAZAS
+
+INSERT INTO razas (nombre, sintesis, estadisticas_amplificadas, edad, orientacion, tamaño, velocidad, lenguajes)
+VALUES
+-- 1. Humano
+('Humano',
+ 'Los humanos son la raza más adaptable y ambiciosa. Su diversidad cultural y su capacidad de aprendizaje rápido les permite prosperar en casi cualquier entorno.',
+ 'Todas las características +1',
+ 80,
+ 'Cualquier alineamiento',
+ 'Mediano',
+ 30,
+ 'Común'),
+
+-- 2. Elfo
+('Elfo',
+ 'Seres gráciles y longevos con gran conexión con la magia y la naturaleza. Son perceptivos y poseen sentidos afinados.',
+ 'Des +2',
+ 750,
+ 'Legal Neutro',
+ 'Mediano',
+ 30,
+ 'Común, Élfico'),
+
+-- 3. Enano
+('Enano',
+ 'Robustos y resistentes, conocidos por su maestría en la forja y su fuerte tradición cultural.',
+ 'Con +2',
+ 350,
+ 'Legal Bueno',
+ 'Mediano',
+ 25,
+ 'Común, Enano'),
+
+-- 4. Hobbit (Hafling)
+('Hobbit',
+ 'Alegres, ágiles y afortunados. Suelen vivir en comunidades tranquilas y evitar conflictos.',
+ 'Des +2',
+ 150,
+ 'Neutral Bueno',
+ 'Pequeño',
+ 25,
+ 'Común, Hobbit'),
+
+-- 5. Dracónido
+('Dracónido',
+ 'Descendientes de dragones, orgullosos y poderosos, capaces de exhalar energía elemental.',
+ 'Fue +2, Car +1',
+ 80,
+ 'Legal Neutro',
+ 'Mediano',
+ 30,
+ 'Común, Dracónico'),
+
+-- 6. Gnomo
+('Gnomo',
+ 'Curiosos e ingeniosos, con un amor profundo por la invención y la ilusión.',
+ 'Int +2',
+ 500,
+ 'Caótico Bueno',
+ 'Pequeño',
+ 25,
+ 'Común, Gnómico'),
+
+-- 7. Semielfo
+('Semielfo',
+'Mezcla de humano y elfo,combinan versatilidad humana con la gracia élfica.',
+'Car +2, Dos habilidades +1',
+180,
+'Cualquier alineamiento',
+'Mediano',
+30,
+'Común, Élfico, + 1 extra'),
+
+-- 8. Semiorco
+('Semiorco', 
+'Físicamente imponentes, heredan la fuerza orca y la determinación humana.', 
+'Fue +2, Con +1',
+75, 
+'Caótico Neutral', 
+'Mediano',
+30,
+'Común, Orco'),
+
+-- 9. Tiefling
+('Tiefling', 
+'Marcados por linajes infernales, poseen habilidades mágicas innatas y una apariencia demoníaca.',
+'Car +2',
+90,
+'Cualquier alineamiento',
+'Mediano',
+30,
+'Común, Infernal'),
+
+-- 10. Aarakocra
+('Aarakocra',
+'Humanoides alados de las montañas y planos elementales del aire. Expertos en exploración aérea.',
+'3 Habilidades + 1 \r\no\r\n1 Habilidad + 1 y 1 Habilidad + 2',
+30,
+'Neutral',
+'Mediano',
+30,
+'Común, + 1 Extra'),
+
+-- 11. Genasi
+('Genasi de Aire',
+'Descendientes de genios elementales, su cuerpo refleja el poder elemental de su ascendencia.',
+'3 Habilidades + 1 \r\no\r\n1 Habilidad + 1 y 1 Habilidad + 2',
+120,
+'Cualquier alineamiento',
+'Mediano',
+30,
+'Común, + 1 Extra'),
+
+-- 12. Goliat
+('Goliat',
+'Gigantescos y competitivos, habitantes de las montañas altas. Su fuerza física es notable.',
+'3 Habilidades + 1 \r\no\r\n1 Habilidad + 1 y 1 Habilidad + 2',
+80,
+'Cualquier alineamiento',
+'Mediano',
+30,
+'Común, + 1 Extra'),
+
+-- 13. Aasimar
+('Aasimar',
+'Seres con herencia celestial. Son guiados por un propósito divino y poseen habilidades curativas y luminosas.',
+'3 Habilidades + 1 \r\no\r\n1 Habilidad + 1 y 1 Habilidad + 2',
+0,
+'Cualquier alineamiento',
+'Mediano o Chico',
+30,
+'Común, + 1 Extra'),
+
+-- 14. Tabaxi
+('Tabaxi',
+'Felinos humanoides curiosos y ágiles provenientes de tierras exóticas. Excelentes exploradores y buscadores de conocimiento.',
+'3 Habilidades + 1 \r\no\r\n1 Habilidad + 1 y 1 Habilidad + 2',
+0,
+'Cualquier alineamiento',
+'Mediano o Chico',
+30,
+'Común, + 1 Extra');
+
+______________________________________________________________________________________________________________________________________________PROFICIENCIA_DE_ARMAS
+
+INSERT INTO proficiencia_de_arma (id_arma, id_clase) VALUES
+-- BARBARO (1): TODAS LAS ARMAS 1–37
+(1,1),(2,1),(3,1),(4,1),(5,1),(6,1),(7,1),(8,1),(9,1),(10,1),
+(11,1),(12,1),(13,1),(14,1),(15,1),(16,1),(17,1),(18,1),(19,1),(20,1),
+(21,1),(22,1),(23,1),(24,1),(25,1),(26,1),(27,1),(28,1),(29,1),(30,1),
+(31,1),(32,1),(33,1),(34,1),(35,1),(36,1),(37,1),
+
+-- BARDO (2): simples (1–14) + 22 + 26 + 28 + 34
+(1,2),(2,2),(3,2),(4,2),(5,2),(6,2),(7,2),(8,2),(9,2),(10,2),
+(11,2),(12,2),(13,2),(14,2),
+(22,2),(26,2),(28,2),(34,2),
+
+-- CLERIGO (3): simples (1–14)
+(1,3),(2,3),(3,3),(4,3),(5,3),(6,3),(7,3),(8,3),(9,3),(10,3),
+(11,3),(12,3),(13,3),(14,3),
+
+-- DRUIDA (4): {1,2,5,7,8,9,10,12,14,27}
+(1,4),(2,4),(5,4),(7,4),(8,4),(9,4),(10,4),(12,4),(14,4),(27,4),
+
+-- GUERRERO (5): TODAS LAS ARMAS 1–37
+(1,5),(2,5),(3,5),(4,5),(5,5),(6,5),(7,5),(8,5),(9,5),(10,5),
+(11,5),(12,5),(13,5),(14,5),(15,5),(16,5),(17,5),(18,5),(19,5),(20,5),
+(21,5),(22,5),(23,5),(24,5),(25,5),(26,5),(27,5),(28,5),(29,5),(30,5),
+(31,5),(32,5),(33,5),(34,5),(35,5),(36,5),(37,5),
+
+-- MONJE (6): simples (1–14) + espada corta (28)
+(1,6),(2,6),(3,6),(4,6),(5,6),(6,6),(7,6),(8,6),(9,6),(10,6),
+(11,6),(12,6),(13,6),(14,6),
+(28,6),
+
+-- PALADIN (7): TODAS LAS ARMAS 1–37
+(1,7),(2,7),(3,7),(4,7),(5,7),(6,7),(7,7),(8,7),(9,7),(10,7),
+(11,7),(12,7),(13,7),(14,7),(15,7),(16,7),(17,7),(18,7),(19,7),(20,7),
+(21,7),(22,7),(23,7),(24,7),(25,7),(26,7),(27,7),(28,7),(29,7),(30,7),
+(31,7),(32,7),(33,7),(34,7),(35,7),(36,7),(37,7),
+
+-- EXPLORADOR (8): TODAS LAS ARMAS 1–37
+(1,8),(2,8),(3,8),(4,8),(5,8),(6,8),(7,8),(8,8),(9,8),(10,8),
+(11,8),(12,8),(13,8),(14,8),(15,8),(16,8),(17,8),(18,8),(19,8),(20,8),
+(21,8),(22,8),(23,8),(24,8),(25,8),(26,8),(27,8),(28,8),(29,8),(30,8),
+(31,8),(32,8),(33,8),(34,8),(35,8),(36,8),(37,8),
+
+-- PICARO (9): simples (1–14) + 22 + 26 + 28 + 34
+(1,9),(2,9),(3,9),(4,9),(5,9),(6,9),(7,9),(8,9),(9,9),(10,9),
+(11,9),(12,9),(13,9),(14,9),
+(22,9),(26,9),(28,9),(34,9),
+
+-- HECHICERO (10): {2,8,12,14,34}
+(2,10),(8,10),(12,10),(14,10),(34,10),
+
+-- BRUJO (11): simples (1–14)
+(1,11),(2,11),(3,11),(4,11),(5,11),(6,11),(7,11),(8,11),(9,11),(10,11),
+(11,11),(12,11),(13,11),(14,11),
+
+-- MAGO (12): {2,8,12,14,34}
+(2,12),(8,12),(12,12),(14,12),(34,12),
+
+-- ARTIFICIERO (13): simples (1–14)
+(1,13),(2,13),(3,13),(4,13),(5,13),(6,13),(7,13),(8,13),(9,13),(10,13),
+(11,13),(12,13),(13,13),(14,13);
+
+___________________________________________________________________________________________________PROFICIENCIA_DE_ARMADURAS
+
+INSERT INTO proficiencia_de_armadura (id_armadura, id_clase) VALUES
+
+-- BARBARO (1): ligeras, medianas y escudos (1–9,14)
+(1,1),(2,1),(3,1),(4,1),(5,1),(6,1),(7,1),(8,1),(9,1),(14,1),
+
+-- BARDO (2): ligeras (1–3)
+(1,2),(2,2),(3,2),
+
+-- CLERIGO (3): ligeras, medianas y escudos (1–9,14)
+(1,3),(2,3),(3,3),(4,3),(5,3),(6,3),(7,3),(8,3),(9,3),(14,3),
+
+-- DRUIDA (4): ligeras, medianas y escudos (sin metal) {1,2,3,4,6,14}
+(1,4),(2,4),(3,4),(4,4),(6,4),(14,4),
+
+-- GUERRERO (5): TODAS (1–14)
+(1,5),(2,5),(3,5),(4,5),(5,5),(6,5),(7,5),(8,5),(9,5),
+(10,5),(11,5),(12,5),(13,5),(14,5),
+
+-- MONJE (6): ninguna
+-- (sin filas)
+
+-- PALADIN (7): TODAS (1–14)
+(1,7),(2,7),(3,7),(4,7),(5,7),(6,7),(7,7),(8,7),(9,7),
+(10,7),(11,7),(12,7),(13,7),(14,7),
+
+-- EXPLORADOR (8): ligeras, medianas y escudos (1–9,14)
+(1,8),(2,8),(3,8),(4,8),(5,8),(6,8),(7,8),(8,8),(9,8),(14,8),
+
+-- PICARO (9): ligeras (1–3)
+(1,9),(2,9),(3,9),
+
+-- HECHICERO (10): ninguna
+-- (sin filas)
+
+-- BRUJO (11): ligeras(1-3)
+-- (1,11),(2,11),(3,11),
+
+-- MAGO (12): ninguna
+-- (sin filas)
+
+-- ARTIFICIERO (13): ligeras, medianas y escudos (1–9,14)
+(1,13),(2,13),(3,13),(4,13),(5,13),(6,13),(7,13),(8,13),(9,13),(14,13);
+
+______________________________________________________________________________________________________HECHIZOS
+
+-- VOLCADO COMPLETO DE HECHIZOS DE D&D 5e
+-- Fuentes: Player's Handbook, Xanathar's Guide to Everything, Tasha's Cauldron of Everything
+-- Incluye TODOS los hechizos oficiales hasta la fecha
+
+INSERT INTO hechizos (nombre, sintesis, nivel, escuela, tiempo_de_conjuracion, rango, duracion) VALUES
+-- TRUCOS (NIVEL 0) - TODOS
+('Salpicadura Acida (Acid Splash)', 'Lanzas una burbuja de ácido a uno o mas objetivos.', 0, 'Conjuración', '1 acción', 60, 'Instantánea'),
+('Guardián de la Espada (Blade Ward)', 'Dibujas un simbolo de guarda en el aire y consigues resistencias.', 0, 'Abjuración', '1 acción', 0, '1 ronda'),
+('Hoja en Auge (Booming Blade)', 'Encantas tu arma para golpear cuerpo a cuerpo, infligiendo daño adicional si el objetivo se mueve posteriormente.', 0, 'Evocación', '1 acción', 5, '1 ronda'),
+('Toque Helado (Chill Touch)', 'Creas una mano esquelética espectral encima de una criatura que lo daña y corta curaciones.', 0, 'Nigromancia', '1 acción', 120, '1 ronda'),
+('Controlar Llamas (Control Flames)', 'Controlas llamas no mágicas en un cubo de 5fts. Puedes apagarlas, hacerlas crecer, crear formas o colores.', 0, 'Transmutación', '1 acción', 60, 'Instantánea o 1 hora'),
+('Crear Hoguera (Create Bonfire)', 'Creas una hoguera en el suelo que puede quemar criaturas.', 0, 'Conjuración', '1 acción', 60, 'Concentración, hasta 1 minuto'),
+('Luces Danzantes (Dancing Lights)', 'Creas hasta cuatro luces que parecen antorchas u orbes de luz. Puedes moverlas hasta 60fts mientras te concentras.', 0, 'Evocación', '1 acción', 120, 'Concentración, hasta 1 minuto'),
+('Saber Druidico (Druidcraft)', 'Pequeños efectos druídicos: predecir el tiempo, hacer florecer una flor, crear un sonido de animal, apagar o prender una fuente de luz.', 0, 'Transmutación', '1 acción', 30, 'Instantánea'),
+('Explosión sobrenatural (Eldritch Blast)', 'Permite al lanzador disparar un rayo de fuerza.', 0, 'Evocación', '1 acción', 120, 'Instantánea'),
+('Descarga de Fuego (Fire Bolt)', 'Lanzas una descarga de fuego a un objetivo.', 0, 'Evocación', '1 acción', 120, 'Instantánea'),
+('Amigos (Friends)', 'Obtienes ventaja en en lo que respecta Carisma contra una criatura que no sea hostil. Al finalizar, la criatura sabe que la afectaste con magia y puede volverse hostil.', 0, 'Encantamiento', '1 acción', 0, 'Concentración, hasta 1 minuto'),
+('Congelación (Frostbite)', 'Causas un frio entumecedor a una criatura.', 0, 'Evocación', '1 acción', 60, 'Instantánea'),
+('Hoja en Llama Verde (Green-Flame Blade)', 'Encantas tu arma con un fuego verde. Al golpear una criatura ese fuego se pasara a una criatura que se encuentre adyacente al objetivo, causandole daño.', 0, 'Evocación', '1 acción', 5, 'Instantánea'),
+('Guía (Guidance)', 'Permite a los lanzadores otorgar una bonificación temporal a una criatura.', 0, 'Adivinación', '1 acción', 0, 'Concentración, hasta 1 minuto'),
+('Soplido (Gust)', 'Manipulas el aire: puedes mover un objeto pequeño, cambiar la dirección del viento o empujar a una criatura 5 fts.', 0, 'Transmutación', '1 acción', 30, 'Instantánea'),
+('Mano Resplandeciente (Hand of Radiance)', 'De tu mano emerge resplandor calcinante, dañando a las criaturas cercanas.', 0, 'Evocación', '1 acción', 5, 'Instantánea'),
+('Infestación (Infestation)', 'Llamas a una nube de ácaros/parásitos sobre una criatura.', 0, 'Conjuración', '1 acción', 30, 'Instantánea'),
+('Luz (Light)', 'Tocas un objeto para iluminarlo. Puedes elegir un color.', 0, 'Evocación', '1 acción', 0, '1 hora'),
+('Rayo Atractor (Lightning Lure)', 'Creas un látigo de energía de rayo que golpea una criatura la cual es atraido y sufre daño.', 0, 'Evocación', '1 acción', 15, 'Instantánea'),
+('Mano Magica (Mage Hand)', 'Aparece una mano espectral. Puedes manipular objetos a distancia, abrir puertas, recoger objetos sueltos.', 0, 'Conjuración', '1 acción', 30, '1 minuto'),
+('Piedra Magica (Magic Stone)', 'Imbuís de 1 a 3 piedras con magia, haciéndolas proyectiles mágicos.', 0, 'Transmutación', '1 acción adicional', 0, '1 minuto'),
+('Remendar (Mending)', 'Reparas una rotura, grieta o desgarro pequeño en un objeto.', 0, 'Transmutación', '1 minuto', 0, 'Instantánea'),
+('Mensaje (Message)', 'Susurras un mensaje a una criatura que puedas ver. Solo ella lo oye y puede responder susurrando.', 0, 'Transmutación', '1 acción', 120, '1 ronda'),
+('Punzada Mental (Mind Sliver)', 'Transmites a una criatura una punzada de energía psíquica desorientarte, dañándola y aportando una pequeña desventaja', 0, 'Encantamiento', '1 acción', 60, '1 ronda'),
+('Ilusión menor (Minor Illusion)', 'Conjura una ilusión, que no se puede mover, para distraer y/o atraer criaturas. ', 0, 'Ilusión', '1 acción', 30, '1 minuto'),
+('Moldear Tierra (Mold Earth)', 'Manipulas tierra: excavas, creas tierra difícil, dibujas formas.', 0, 'Transmutación', '1 acción', 30, 'Instantánea o 1 hora'),
+('Activar/Desactivar (On/Off)', 'Puedes activar o desactivar cualquier dispositivo de electricidad simple.', 0, 'Transmutación', '1 acción', 60, 'Instantánea'),
+('Spray Venenoso (Poison Spray)', 'Extiendes la mano y rocías una nube de gas nocivo a una criatura ', 0, 'Conjuración', '1 acción', 10, 'Instantánea'),
+('Prestidigitación (Prestidigitation)', 'Pequeños trucos menores: enfriar, calentar, limpiar, ensuciar, crear pequeños objetos inútiles, crear símbolos.', 0, 'Transmutación', '1 acción', 10, 'Hasta 1 hora'),
+('Salvajismo Primigenio (Primal Savagery)', 'Tus uñas/dientes se vuelven filosas. Al atacar cuerpo a cuerpo a una criatura le produces daño acido.', 0, 'Transmutación', '1 acción', 0, 'Instantánea'),
+('Producir Llama (Produce Flame)', 'Aparece una llama en tu mano iluminar como una antorcha. Puedes atacar con la misma, haciendo daño de fuego, pero termina el conjuro.', 0, 'Conjuración', '1 acción', 0, '10 minutos'),
+('Rayo Gelido (Ray of Frost)', 'Un laser de luz celeste ataca a una criatura, causando daño y reduciendo su movimiento.', 0, 'Evocación', '1 acción', 60, 'Instantánea'),
+('Resistencia (Resistance)', 'Tocas a una criatura voluntaria. Antes que termine el hechizo, esta criatura tiene una pequeña ventaja en tiradas de Salvación.', 0, 'Abjuración', '1 acción', 0, 'Concentración, hasta 1 minuto'),
+('Flama Sagrada (Sacred Flame)', 'Una resplandor con forma de flama desciende sobre una criatura causándole daño radiante.', 0, 'Evocación', '1 acción', 60, 'Instantánea'),
+('Punzada Absorbente (Sapping Sting)', 'Absorbes levemente la vitalidad de una criatura, causándole daño necrótico y cae boca abajo', 0, 'Nigromancia', '1 acción', 30, 'Instantánea'),
+('Manipular Agua (Shape Water)', 'Manipulas el agua: mueves, cambias color, crear formas o congelarlo.', 0, 'Transmutación', '1 acción', 30, 'Instantánea o 1 hora'),
+('Shillelagh (Shillelagh)', 'Imbuís en un bastón o garrote con la fuerza de la naturaleza. El arma utiliza tu habilidad de casteo para los ataques y daños.', 0, 'Transmutación', '1 acción adicional', 0, '1 minuto'),
+('Agarre Shockeante (Shocking Grasp)', 'Rayos danzan entre tus manos transfiriendo cargas de energia a las criaturas que toques. Al atacar una criatura, tiene ventaja si usa armadura de metal. Al ser golpeada: sufre daño electrico y no puede reaccionar.', 0, 'Evocación', '1 acción', 0, 'Instantánea'),
+('Estabilizar al Moribundo (Spare the Dying)', 'Tocas a una criatura inconsciente y se estabiliza automáticamente.', 0, 'Nigromancia', '1 acción', 0, 'Instantánea'),
+('Espiral de Espadas (Sword Burst)', 'Creas un anillo de espadas espectrales que giran alrededor tuyo. Todas las criaturas que entren en rango sufren daño de fuerza.', 0, 'Conjuración', '1 acción', 5, 'Instantánea'),
+('Taumaturgia (Thaumaturgy)', 'Manifiestas un milagro menor: voz potente, temblores inofensivos, sonidos instantaneos desde un punto a eleccion, puertas o ventanas desbloqueadas se abran o se cierren, ojos cambian de apariencia.', 0, 'Transmutación', '1 acción', 30, 'Hasta 1 minuto'),
+('Latigo Espinozo (Thorn Whip)', 'Creas un látigo de espinas. Al hacer un ataque magico, causa daño perforante y atrae a las criaturas.', 0, 'Transmutación', '1 acción', 30, 'Instantánea'),
+('Aplauso Estruendoso (Thunderclap)', 'Creas un sonido de explosión estruendoso. Las criaturas que estén al alcance sufren daño tormentoso.', 0, 'Evocación', '1 acción', 5, 'Instantánea'),
+('Campana de los Muertos (Toll the Dead)', 'Señalas a una criatura y la misma empieza a escuchar un sonido campaneante doloroso, sufriendo daño necrotico. Si al objetivo le falta PVs, sufre mas daño.', 0, 'Nigromancia', '1 acción', 60, 'Instantánea'),
+('Golpe Certero (True Strike)', 'Extiendes la mano y señalas a un objetivo. Tu magia te sede percepción sobre la defensa de tu objetivo. En tu siguiente turno, tienes ventaja en tu primer ataque sobre el objetivo.', 0, 'Adivinación', '1 acción', 30, 'Concentración, hasta 1 ronda'),
+('Burla Viciosa (Vicious Mockery)', 'Desencadenas una serie de insultos encantados a una criatura. La criatura recibe daño psíquico y desventaja en su siguiente ataque.', 0, 'Encantamiento', '1 acción', 60, 'Instantánea'),
+('Virtud (Virtue)', 'Tocas a una criatura, imbuyéndola en vitalidad, garantizándole PVs temporales.', 0, 'Abjuración', '1 acción', 0, '1 ronda'),
+('Palabra Radiante (Word of Radiance)', 'Pronuncias una palabra divina y un ardiente resplandor erupciona de ti. Cada criatura que eliges, en el rango, sufre daño radiante.', 0, 'Evocación', '1 acción', 5, 'Instantánea'),
+
+-- NIVEL 1 (TODOS)
+('Absorber Elementos (Absorb Elements)', 'El hechizo absorbe parte de energia de un ataque entrante, reduciendo su efecto y almacenandola para tu sigueinte ataque cuerpo a cuerpo. Dependiendo de la fuente ganas resistencia a la misma y tu siguiente ataque tiene daño extra del tipo de la fuente', 1, 'Abjuración', '1 reacción', 0, '1 ronda'),
+('Corriente Corrosivo (Acid Stream)', 'Lanzas una corriente de acido en una linea, en una dirección a elección, impregnando a todas las criaturas en la misma. Las criaturas cubiertas en acido reciben daño corrosivo.', 1, 'Evocación', '1 acción', 30, 'Concentracion, hasta 1 minuto'),
+('Alarma (Alarm)', 'Creas una alarma. Entre una puerta, una venta o un area de 20fts. Si alguien entra, recibes una señal mental o auditiva.', 1, 'Abjuración', '1 minuto', 30, '8 horas'),
+('Amistad Animal (Animal Friendship)', 'Convences a una bestia, de baja inteligencia, de que no eres un peligro.', 1, 'Encantamiento', '1 acción', 30, '24 horas'),
+('Arma Arcana (Arcane Weapon)', 'Canalizas energia arcana a un arma simple o marcial que sostienes. Eliges un tipo de daño (acido, hielo, fuego, rayo, estruendo o veneno), que brindara daño extra a tu arma.', 1, 'Transmutación', '1 acción adicional', 0, 'Concentracion, hasta 1 hora'),
+('Armadura de Agathys (Armor of Agathys)', 'Una fuerza mágica protectora te envuelve, manifestando a un espectro de hielo que te cubre a ti y a tu equipamiento. Ganas PV temporales y si una criatura te golpea cuerpo a cuerpo recibe daño de hielo.', 1, 'Abjuración', '1 acción', 0, '1 hora'),
+('Brazos de Hadar (Arms of Hadar)', 'Invocas el poder de Hadar, filamentos tentaculares oscuros nacen del invocador realizando daño a las criaturas cercanas.', 1, 'Conjuración', '1 acción', 10, 'Instantánea'),
+('Perdición (Bane)', 'Encantas hasta 3 criaturas para que tengan una pequeña desventaja en ataques.', 1, 'Encantamiento', '1 acción', 30, 'Concentración, hasta 1 minuto'),
+('Vinculo Bestial (Beast Bond)', 'Estableces un vínculo con una bestia (amistosa o encantadas), de poca inteligencia, que tocas. Tiene ventaja en ataques contra criaturas cercanas a ti. Puedes comunicarte con la misma telepáticamente.', 1, 'Adivinación', '1 acción', 0, 'Concentración, hasta 10 minutos'),
+('Bendición (Bless)', 'Bendices hasta 3 criaturas. Las criaturas benditas reciben una pequeña ventaja en ataques y tiradas de salvacion. ', 1, 'Encantamiento', '1 acción', 30, 'Concentración, hasta 1 minuto'),
+('Manos Ardientes (Burning Hands)', 'Lanzas fuego de tus dedos en un radio conico. Cada criatura sufrira daño de fuego.', 1, 'Evocación', '1 acción', 15, 'Instantánea'),
+('Catapulta (Catapult)', 'Catapultas un objeto liviando hasta 90fts en una dirección a elección. Si el objeto golpea a una criatura, ésta deja de moverse y recibe daño contundente.', 1, 'Transmutación', '1 acción', 60, 'Instantánea'),
+('Causar Terror (Cause Fear)', 'Asustas a una criatura, que no sea un centinela o un no-muerto. La criatura queda aterrada.', 1, 'Nigromancia', '1 acción', 60, 'Concentración, hasta 1 minuto'),
+('Descarga Caótica (Chaos Bolt)', 'Acumulas una masa caotica de energia y se lo lanzas a una criatura. De forma azarosa, la criatura recibira un tipo distinto de daño. La energia caotica puede rebotar en distintas criaturas.', 1, 'Evocación', '1 acción', 120, 'Instantánea'),
+('Encantar Persona (Charm Person)', 'Encantas a una criatura para que te considere amigo.', 1, 'Encantamiento', '1 acción', 30, '1 hora'),
+('Orbe Cromático (Chromatic Orb)', 'Creas una esfera de energía que puede le puedes aplicar las siguientes propiedades: Acido, Hielo, Fuego, Rayo, Trueno o Veneno.', 1, 'Evocación', '1 acción', 90, 'Instantánea'),
+('Colores Cegadores (Color Spray)', 'De tus manos salen ondas deslumbrantes de colores brillantes dejando ciega a todas las criaturas afectadas y las mismas recibiendo gran daño.', 1, 'Ilusión', '1 acción', 15, '1 ronda'),
+('Comando (Command)', 'Le ordenas un comando a una criatura que entienda tu lenguaje, que no sea un no-muerto o que no sea hostil hacia ella. El comando es una tarea simple, entre ellos: Acercarce, Soltar, Escapa, Arrastrarse o Detenerse.', 1, 'Encantamiento', '1 acción', 60, '1 ronda'),
+('Duelo Forzado (Compelled Duel)', 'Retas a una criatura a un duelo. La criatura queda enfocada hacia ti y por el resto del hechizo tiene desventaja en ataques hacia otras criaturas que no sean hacia ti. Además no puede alejarse de ti.', 1, 'Encantamiento', '1 acción adicional', 30, 'Concentración, hasta 1 minuto'),
+('Comprender Lenguajes (Comprehend Languages)', 'Por la duración del hechizo puedes entender cualquier lenguaje hablado o escrito, que este a tu alcance.', 1, 'Adivinación', '1 acción', 0, '1 hora'),
+('Crear o Destruir Agua (Create or Destroy Water)', 'Tienes la opción de Emanar o Evaporar agua de un contenedor alternativamente puedes crear lluvia o disipar niebla en un área especifica.', 1, 'Transmutación', '1 acción', 30, 'Instantánea'),
+('Curar Heridas (Cure Wounds)', 'Mientras una criatura no sea un centinela o un no-muerto, puedes curar una criatura tocándola.', 1, 'Evocación', '1 acción', 0, 'Instantánea'),
+('Detectar el Bien y el Mal (Detect Evil and Good)', 'Detectas aberraciones, celestiales, elementales, hadas, demonios y no-muertos en un rango especifico, asi como su locación. Además en ese mismo rango detectas lugares u objetos consagrados o profanados.', 1, 'Adivinación', '1 acción', 0, 'Concentración, hasta 10 minutos'),
+('Detectar Magia (Detect Magic)', 'Sientes la presencia de magia en un rango en especifico. Puedes presenciar una leve aura en cualquier criatura u objeto visible que contenga magia.', 1, 'Adivinación', '1 acción', 0, 'Concentración, hasta 10 minutos'),
+('Detectar Venenos y Enfermedades (Detect Poison and Disease)', 'Puedes sentir la presencia y ubicación de criaturas venenosas, venenos, enfermedades y sus tipos.', 1, 'Adivinación', '1 acción', 0, 'Concentración, hasta 10 minutos '),
+('Disfrazarse (Disguise Self)', 'Cambias tu apariencia (altura, peso, ropa). No cambia tu tipo de criatura.', 1, 'Ilusión', '1 acción', 0, '1 hora'),
+('Susurros Disonantes (Dissonant Whispers)', 'Susurras una disonante melodía a una criatura para causarle un terrible dolor que le provoca una moderada cantidad de daño psíquico y debe usar su reacción inmediatamente para huir de ti.', 1, 'Encantamiento', '1 acción', 60, 'Instantánea'),
+('Distorsionar Valor (Distort Value)', 'Redoblas el precio percibido de un objeto agregándole ornamentos y detalles, o reduces a la mitad el precio de un objeto agregándole desgastes y ralladuras.', 1, 'Ilusión', '1 minuto', 0, '8 Horas'),
+('Favor Divino (Divine Favor)', 'Tus oraciones te empoderan con un resplandor divino. Tus ataques causan un pequeño daño extra Radiante', 1, 'Evocación', '1 acción adicional', 0, 'Concentración, hasta 1 minuto'),
+('Temblor (Earth Tremor)', 'Causas un temblor en la tierra en un radio especifico. Las criaturas en ese radio sufren daño contundente y caen al suelo.', 1, 'Evocación', '1 acción', 10, 'Instantánea'),
+('Golpe Enredante (Ensnaring Strike)', 'Tu siguiente ataque con arma desprende una serie de lianas que atrapan a la criatura objetivo. Al inicio de su turno, de estar atrapada, sufre daño perforante.', 1, 'Conjuración', '1 acción adicional', 0, 'Concentración, hasta 1 minuto'),
+('Enredar (Entangle)', 'Tomando raíces del suelo, vuelve el terreno difícil en un área especifica. Si una criatura pisa este terreno, quedara restringida por las plantas.', 1, 'Conjuración', '1 acción', 90, 'Concentración, hasta 1 minuto'),
+('Retirada Eficiente (Expeditious Retreat)', 'Este hechizo te permite correr mucho mas.', 1, 'Transmutación', '1 acción adicional', 0, 'Concentración, hasta 10 minutos'),
+('Fuego Feérico (Faerie Fire)', 'Cada objeto o criatura quedan delineados y los mismos emanan una tenue luz (azul, verde o violeta). Los ataques contra las criaturas u objetos afectados tienen ventaja.', 1, 'Evocación', '1 acción', 60, 'Concentración, hasta 1 minuto'),
+('Vida Falsa (False Life)', 'Te refuerzas a ti mismo con una capa necrotica de falsa vida ganando PVs temporales.', 1, 'Nigromancia', '1 acción', 0, '1 hora'),
+('Caida de Pluma (Feather Fall)', 'Eliges hasta un maximo de 5 criaturas que caen. Las criaturas afectadas reducen su velocidad de caida, evitando daño por caida.', 1, 'Transmutación', '1 reacción', 60, '1 minuto'),
+('Encontrar Familiar (Find Familiar)', 'Obtienes un familiar (animal pequeño). Comparten sentidos, hablas telepaticamente con ella y puedes conjurar hechizos a traves del mismo con un toque.', 1, 'Conjuración', '1 hora', 10, 'Instantánea'),
+('Nube de Niebla (Fog Cloud)', 'Creas una densa esfera de niebla en un area, creando profunda oscuridad.', 1, 'Conjuración', '1 acción', 120, 'Concentración, hasta 1 hora'),
+('Dedos Gelidos (Frost Fingers)', 'De tus dedos emanan rafagas heladas en un area conica alrededor de ti. Toda criatura atrapada en el area recibe daño gélido y los liquidos no mágicos quedan congelados.', 1, 'Evocación', '1 acción', 15, 'Instantánea'),
+('Don de Destreza (Gift of Alacrity)', 'Tocas una criatura bendiciendo a la misma con una moderada ventaja en tiradas de iniciativa.', 1, 'Adivinación', '1 minuto', 0, '8 horas'),
+('La Buena Baya (Goodberry)', 'Hasta 10 bayas aparecen en tu mano que sacia el hambre, por un dia, a las criaturas que las consuman.', 1, 'Transmutación', '1 acción', 0, 'Instantánea'),
+('Grasa (Grease)', 'En el suelo creas un area de grasa resbaladiza. Este area ahora es terreno dificil. Las criaturas dentro del area o que ingresen al area pueden caer.', 1, 'Conjuración', '1 acción', 60, '1 minuto'),
+('Rafaga Guiada (Guiding Bolt)', 'Evocas un destello de luz hacia una criatura. La criatura recibe daño Radiante y el siguiente ataque a esa criatura será con ventaja.', 1, 'Evocación', '1 acción', 120, '1 ronda'),
+('Mano Guia (Guiding Hand)', 'Creas una mano que al nombrarle un punto de referencia la mano intentara guiarte allí.', 1, 'Adivinación', '1 minuto', 5, 'Concentración, hasta 8 horas'),
+('Lluvia de Espinas (Hail of Thorns)', 'Tu siguiente ataque a distancia, al golpearla, el hechizo crea una lluvia de espinas. La criatura objetivo y las criaturas adjayentes a ella reciben daño perforante.', 1, 'Conjuración', '1 acción adicional', 0, 'Concentración, hasta 1 minuto'),
+('Elixir Curativo (Healing Elixir)', 'Creas un elixir de vida, al consumirla se regeneran PVs.', 1, 'Conjuración', '1 minuto', 0, '24 horas'),
+('Palabra Curativa (Healing Word)', 'Pronuncias una serie de palabras que al ser escuchadas por una criatura a tu eleccion, que no sea un sentinela o no-muerto, gana PVs.', 1, 'Evocación', '1 acción adicional', 60, 'Instantánea'),
+('Reprimenda Infernal (Hellish Rebuke)', 'Apuntas a una criatura, que te haya hecho daño, y la misma será rodeada por unas flamas infernales. El mismo puede recibir daño llameante.', 1, 'Evocación', '1 reacción', 60, 'Instantánea'),
+('Heroismo (Heroism)', 'Tocas a una criatura para imbuirla con valor. Esta criatura es inmune a miedo y gana PV temporales cada turno.', 1, 'Encantamiento', '1 acción', 0, 'Concentración, hasta 1 minuto'),
+('Maleficio (Hex)', 'Maldices a una criatura. Tus ataques le causan daño necrotico extra. Ademas tienen desventaja en un tipo de tirada de habilidad. Si a la criatura se le acaban los PVs puedes trasladar la maldicion.', 1, 'Encantamiento', '1 acción adicional', 90, 'Concentración, hasta 1 hora'),
+('Marca del Cazador (Hunter\'s Mark)', 'Marca a una criatura como tu presa. Al atacarla con armas le causas daño extra. Tienes ventaja al rastrear a tu presa. Si a la criatura se le acaban los PVs, puedes trasladar la marca.', 1, 'Adivinación', '1 acción adicional', 90, 'Concentración, hasta 1 hora'),
+('Esquirla Gelida (Ice Knife)', 'Creas una esquirla de hielo y se lo lanzas a una criatura. La misma recibe daño Perforante. La esquirla luego explota causando al objetivo y las criaturas adyacentes al mismo daño Gelido adicional.', 1, 'Conjuración', '1 acción', 60, 'Instantánea'),
+('Insinuacion de Identidad (Id Insinuation)', 'Desatas un torrente de deseos conflictivos en la mente de una criatura la cual queda incapacitada. La criatura afectada recibe daño psiquico al inicio de su turno.', 1, 'Encantamiento', '1 acción', 60, 'Concentración, hasta 1 minuto'),
+('Identificar (Identify)', 'Aprendes propiedades y especificaciones de un objeto mágico o hechizo/s que afecta/n a una criatura.', 1, 'Adivinación', '1 minuto', 0, 'Instantánea '),
+('Codigo Ilusorio (Illusory Script)', 'Escribes un mensaje que solo quien tú quieras puede leer. Los demás ven algo ininteligible.', 1, 'Ilusión', '1 minuto', 0, '10 días '),
+('Retransmisión Infalible (Infallible Relay)', 'Eliges a una criatura con la que hayas hablado previamente. El medio de comunicacion, electrico o mágico, más cercano al mismo empieza a sonar. La criatura afectada deberá contestar la llamada y deberá pelear contra su voluntad para cortar la misma.', 1, 'Adivinación', '1 minuto', 0, 'Concentración, hasta 10 minutos'),
+('Causar Heridas (Inflict Wounds)', 'Transmites un hechizo cuerpo a cuerpo que le causa a la criatura objetivo daño Necrotico moderado.', 1, 'Nigromancia', '1 acción', 0, 'Instantánea'),
+('El Confiable Misil Magico de Jim (Jim\'s Magic Missile)', 'Creas 3 dardos retorcidos, silbantes, hipoalergénicos y sin glúten de fuerza mágica que causan daño de Fuerza.', 1, 'Evocación', '1 acción', 120, 'Instantánea'),
+('SALTO! (Jump)', 'Tocas una criatura. Su salto se triplica.', 1, 'Transmutación', '1 acción', 0, '1 minuto'),
+('Caminante (Longstrider)', 'Tocas a una criatura. Su velocidad incrementa.', 1, 'Transmutación', '1 acción', 0, '1 hora'),
+('Armadura de Mago (Mage Armor)', 'Tocas a una criatura que no tenga armadura y una fuerza magica la envuelve proporcionandole protección.', 1, 'Abjuración', '1 acción', 0, '8 horas'),
+('Misil Mágico (Magic Missile)', 'Creas 3 dardo mágicos brillantes. Los mismos pueden golpear simultaneamente a una o varias criaturas proporcionandoles daño de Fuerza.', 1, 'Evocación', '1 acción', 120, 'Instantánea'),
+('Ampliar Gravedad (Magnify Gravity)', 'Aumentas la gravedad en un área definida, las criaturas dentro de ella recibirán daño de Fuerza y su velocidad se divide a la mitad. Además los objetos que no estén siendo transportados pesarán más.', 1, 'Transmutación', '1 acción', 60, '1 ronda'),
+('Protección del Bien y el Mal (Protection from Evil and Good)', 'Protege al portador del Hechizo de aberraciones, celestiales, elementales, hadas, demonios y no-muertos.', 1, 'Abjuración', '1 acción', 0, 'Concentración, hasta 10 minutos'),
+('Marioneta (Puppet)', 'Puedes controlar a un humanoide para moverlo en la dirección que eligas. Adicionalmente puedes ordenarle que tire cualquier cosa que sostenga.', 1, 'Encantamiento', '1 acción', 120, 'Instantánea'),
+('Purificar Comida y Agua (Purify Food and Drink)', 'Purificas comida y agua no mágica en un radio de 5fts.', 1, 'Transmutación', '1 acción', 10, 'Instantánea '),
+('Rayo Enfermizo (Ray of Sickness)', 'Azotas a una criatura con un rayo verde de energía enfermiza causandole daño Venenoso moderado y envenenandolo.', 1, 'Nigromancia', '1 acción', 60, 'Instantánea'),
+('Acceso Remoto (Remote Access)', 'Puedes usar un dispositivo electrónico como si lo tuvieras en las manos.', 1, 'Transmutación', '1 acción', 120, '10 minutos'),
+('Santuario (Sanctuary)', 'Resguardas a una criatura. La criatura resguardada no puede ser elegida como un objetivo.', 1, 'Abjuración', '1 acción adicional', 30, '1 minuto'),
+('Castigo Abrasador (Searing Smite)', 'La proxima vez que realices un ataque cuerpo a cuerpo con tu arma, la misma destella con caliente y brillante intencidad, causando un leve daño extra de Fuego y enciende en llamas al objetivo causando daño de Fuego en cada turno.', 1, 'Evocación', '1 acción adicional', 0, 'Concentración, hasta 1 minuto'),
+('Sentir Emoción (Sense Emotion)', 'Puedes concentrar tus sentidos en un humanoide, ganando conocimiento instantáneo de la emoción prevalente del objetivo.', 1, 'Adivinación', '1 acción', 0, 'Concentración, hasta 1 minuto'),
+('Protección (Shield)', 'Una barrera invisible de fuerza mágica aparece y te protege.', 1, 'Abjuración', '1 reacción', 0, '1 ronda'),
+('Escudo de Fe (Shield of Faith)', 'Una esfera brillante aparece y rodea una criatura a elección, protegiéndola.', 1, 'Abjuración', '1 acción adicional', 60, 'Concentración, hasta 10 minutos'),
+('Imagen Silenciosa (Silent Image)', 'Creas imagen de un objeto/criatura hasta un cubo de 15fts que puede moverse a tu orden.', 1, 'Ilusión', '1 acción', 60, 'Concentración, hasta 10 minutos'),
+('Burla Plateada (Silvery Barbs)', 'Distraes magicamente a una criatura atacante y conviertes su incerteza a determinacion para otra criatura. La criatura distraida debe hacer otra tirada de ataque y quedarse con la mas baja y la criatura determinada tiene ventaja.', 1, 'Encantamiento', '1 reacción', 60, 'Instantánea'),
+('Dormir (Sleep)', 'Envías a varias criaturas en un rango especifico a un letargo mágico. Este hechizo no afecta a No-muertos ni a criaturas inmunes a ser encantadas.', 1, 'Encantamiento', '1 acción', 90, '1 minuto'),
+('Trampa (Snare)', 'Creas una trampa circular a partir de una soga y la misma se vuelve invisible. La criaturas entren en el circulo, activan la trampa y quedan colgados boca a bajo 3fts sobre el suelo', 1, 'Abjuración', '1 minuto', 0, '8 horas'),
+('Hablar con Animales (Speak with Animals)', 'Hablas con bestias las cuales pueden entenderte, responder y brindar información.', 1, 'Adivinación', '1 acción', 0, '10 minutos'),
+('Abrupto Despertar (Sudden Awakening)', 'Cada criatura dormida a tu elección despierta y cada criatura caída se pueden parar sin gastar movimiento.', 1, 'Encantamiento', '1 acción adicional', 10, 'Instantánea'),
+('Infusión Cáustica de Tasha (Tasha\'s Caustic Brew)', 'Un flujo de acido emana de ti en una linea recta con 5fts de ancho. Cada criatura cubierta en acido sufre daño moderado de Acido en cada turno.', 1, 'Evocación', '1 acción', 30, 'Concentración, hasta 1 minuto'),
+('La Espantosa Risa de Tasha (Tasha\'s Hideous Laughter)', 'Una criatura a elección percibe todo como hilarantemente gracioso y cae al suelo en un estallido de risa, quedando incapacitada e incapaz de pararse.', 1, 'Encantamiento', '1 acción', 30, 'Concentración, hasta 1 minuto'),
+('Disco Flotante de Tenser (Tenser\'s Floating Disk)', 'Creas un disco circular que levita horizontal al suelo. Puede llevar carga y no le afecta el terreno.', 1, 'Conjuración', '1 acción', 30, '1 hora'),
+('Castigo Atronador (Thunderous Smite)', 'La primera vez que ataques con tu arma mientras el hechizo esta activo, tu arma resuena de forma estruendosa y causa un daño moderado extra Tormentoso. Si el objetivo es una criatura: es empujada y cae al suelo.', 1, 'Evocación', '1 acción adicional', 0, 'Concentración, hasta 1 minuto'),
+('Onda Tormentosa (Thunderwave)', 'Una onda de fuerza estruendosa barren de ti. Las criaturas en el rango del hechizo reciben un daño moderado Tormentoso y son repelidas de ti.', 1, 'Evocación', '1 acción', 15, 'Instantánea'),
+('Coro Sobrenatural (Unearthly Chorus)', 'Invocas en un área un estilo de música. Ganas ventaja en Carisma, puedes volver amistosa a una criatura que no esta siendo atacada y puede oír la música.', 1, 'Ilusión', '1 acción', 30, 'Concentración, hasta 10 minutos'),
+('Sirviente Invisible (Unseen Servant)', 'Este hechizo crea una fuerza invisible, sin forma y sin mente de tamaño medio que, a comando tuyo, hace tareas simples. El fuerza puede realizar tareas de un sirviente e interactuar con objetos.', 1, 'Conjuración', '1 acción', 60, '1 hora'),
+('Astucia Silvestre (Wild Cunning)', 'Llamas a los espíritus de la naturaleza para que te ayuden. Para rastrear: una criatura, comestibles, agua, un refugio. También puedes comandar a los espíritus para hacer una fogata o que desarmen un campamento.', 1, 'Transmutación', '1 acción', 120, 'Instantánea'),
+('Descarga Embrujada (Witch Bolt)', 'Evocas un destellante laser de energía azul a una criatura formando un enlace relampagueante entre tu objetivo y vos. La criatura recibe daño de Rayo y en cada turno recibe una descarga eléctrica de igual daño.', 1, 'Evocación', '1 acción', 30, 'Concentración, hasta 1 minuto'),
+('Castigo Iracundo (Wrathful Smite)', 'La siguiente vez que ataques a una criatura con un arma cuerpo a cuerpo, recibirá un daño extra Psíquico y es asustada.', 1, 'Evocación', '1 acción adicional', 0, 'Concentración, hasta 1 minuto'),
+('Golpe Céfiro (Zephyr Strike)', 'Te mueves como el viento y no provocas ataques de oportunidad. Además te puedes blindar ventaja en una tirada de ataque, causando daño extra de Fuerza. E incrementa tu velocidad.', 1, 'Transmutación', '1 acción adicional', 0, 'Concentración, hasta 1 minuto'),
+
+-- NIVEL 2 (TODOS)
+('Abrasador de Aganazzar (Aganazzar\'s Scorcher)', 'Emanas una furiosa linea de fuego en una dirección. Las criaturas afectadas sufren una moderada cantidad de daño Fuego.', 2, 'Evocación', '1 acción', 30, 'Instantánea'),
+('Socorro (Aid)', 'Refuerzas a tus aliados con resolución, incrementando su vida máxima por la duración del hechizo.', 2, 'Abjuración', '1 acción', 30, '8 horas'),
+('Burbuja de Aire (Air Bubble)', 'Creas un globo espectral alrededor de la cabeza de una criatura voluntaria. La burbuja esta llena de aire y evita sofocaciones.', 2, 'Conjuración', '1 acción', 60, '24 Horas'),
+('Alteración Propia (Alter Self)', 'Asumes una forma distinta entre las siguientes opciones: Adaptacion acuatica, cambiar apariencia o arma natural.', 2, 'Transmutación', '1 acción', 0, 'Concentración, hasta 1 hora'),
+('Animal Mensajero (Animal Messenger)', 'Utilizas a un pequeño animal como mensajero. Le especificas una locación y un receptor, le das el mensaje por hablado. Cuando el mensajero llegue entrega el mensaje al receptor descrito, replicando el sonido de tu voz.', 2, 'Encantamiento', '1 acción', 30, '24 horas'),
+('Hack Arcano (Arcane Hacking)', 'Ganas ventaja en tiradas de inteligencia utilizando herramientas de hackeo, permitiéndote romper hechizos protectores de nivel 2 o menor.', 2, 'Transmutación', '1 acción', 0, 'Instantánea'),
+('Candado Arcano (Arcane Lock)', 'Creas una cerradura arcana a cualquier tipo de puerta, ventana o contenedor. Al realizar el hechizo, tu y las criaturas que elijas pueden abrir el objeto normalmente. Puedes ponerle contraseña.', 2, 'Abjuración', '1 acción', 0, 'Hasta disipar'),
+('Augurio (Augury)', 'Empleas un ritual de adivinacion por el que recibes una epifania de una entidad de otro mundo sobre los resultados de un plan en especifico en 30 minutos.', 2, 'Adivinación', '1 minuto', 0, 'Instantánea'),
+('Piel de Corteza (Barkskin)', 'Tocas a una criatura voluntaria. Hasta el final del hechizo, a la criatura se le endurece la piel adaptando la apariencia de una corteza y gana Puntos de Armadura', 2, 'Transmutación', '1 acción', 0, 'Concentración, hasta 1 hora'),
+('Sentido de Bestia (Beast Sense)', 'Tocas una bestia voluntaria. Durante la duracion del hechizo puedes ver y oir a través de la bestia.', 2, 'Adivinación', '1 acción', 0, 'Concentración, hasta 1 hora'),
+('Ceguera/Sordera (Blindness/Deafness)', 'Puedes cegar o ensordecer a un enemigo a elección.', 2, 'Nigromancia', '1 acción', 30, '1 minuto'),
+('Difuminar (Blur)', 'Tu forma se vuelve borrosa. Las tiradas de ataque contra vos tienen desventaja.', 2, 'Ilusión', '1 acción', 0, 'Concentración, hasta 1 minuto'),
+('Conocimiento Prestado (Borrowed Knowledge)', 'Acudes a los conocimientos de espiritus del pasado y ganas proficiencia, que no tengas, en un talento.', 2, 'Adivinación', '1 acción', 0, '1 hora'),
+('Castigo Marcador (Branding Smite)', 'La siguiente vez que golpes a una criatura con un arma: El arma destella con un resplandor astral causando daño Radiante extra moderado. El objetivo emana luz.', 2, 'Evocación', '1 acción adicional', 0, 'Concentración, hasta 1 minuto'),
+('Calmar Emociones (Calm Emotions)', 'Intentas suprimir grandes emociones en un grupo de personas. Las criaturas afectadas quedan encantadas o aterradas a tu elección. Alternativamente puedes crear indiferencia de un objetivo hacia unas criaturas que sean hostiles.', 2, 'Encantamiento', '1 acción', 60, 'Concentración, hasta 1 minuto'),
+('Nube de Dagas (Cloud of Daggers)', 'Llenas el aire con dagas giratorias. Las criaturas afectadas en el area reciben un daño moderado Cortante.', 2, 'Conjuración', '1 acción', 60, 'Concentración, hasta 1 minuto'),
+('Llama Eterna (Continual Flame)', 'Creas un fuego inapagable que solo ilumina.', 2, 'Evocación', '1 acción', 0, 'Hasta disipar'),
+('Cordón de Flechas (Cordon of Arrows)', 'Colocas en el suelo 4 municiones no mágicas y las hechizas para que den guardia a un área. Hasta el final del turno: cuando una criatura entra en el área, es atacada por una munición recibiendo leve daño Perforante.', 2, 'Transmutación', '1 acción', 5, '8 horas'),
+('Corona de Locura (Crown of Madness)', 'Una coronda dentada y retorcida de hierro aparece en la cabeza de un humanoide. El mismo ataca a quienes vos elijas durante la duracion del hechizo.', 2, 'Encantamiento', '1 acción', 120, 'Concentración, hasta 1 minuto'),
+('Oscuridad (Darkness)', 'Una esfera de oscuridad de 15 fts de radio aparece a tu elección en el rango establecido. No se puede ver dentro de la esfera.', 2, 'Evocación', '1 acción', 60, 'Concentración, hasta 10 minutos'),
+('Vision Nocturna (Darkvision)', 'Tocas una criatura voluntaria para que pueda ver en la oscuridad.', 2, 'Transmutación', '1 acción', 0, '8 horas'),
+('Detectar Pensamientos (Detect Thoughts)', 'Puedes leer los pensamientos de una criatura con inteligencia suficiente y que hable tu lenguaje. La criatura sabra que leiste su mente.', 2, 'Adivinación', '1 acción', 0, 'Concentración, hasta 1 minuto'),
+('Fantasma Digital (Digital Phantom)', 'Esconde tu presencia adentro de un sistema de computación.', 2, 'Abjuración', '1 acción', 0, 'Concentración, hasta 1 hora'),
+('Aliento de Dragon (Dragon\'s Breath)', 'Tocas una criatura voluntaria para ofrecerle el poder de escupir por la boca energia magica. Puede elegir entre Ácido, Gélido, Fuego, Rayo y Veneno.', 2, 'Transmutación', '1 acción adicional', 0, 'Concentración, hasta 1 minuto'),
+('Demonio de Polvo (Dust Devil)', 'Creas una fuerza elemental que se asemeja a un demonio de polvo. Las criaturas cercanas al demonio sufren daño Contundente.', 2, 'Conjuración', '1 acción', 60, 'Concentración, hasta 1 minuto'),
+('Vínculo de Tierra (Earthbind)', 'Elijes a una criatura que puedas ver y lazos amarillos de energia mágica circulan alrededor de la criatura reduciendo su velocidad de vuelo a 0.', 2, 'Transmutación', '1 acción', 300, 'Concentración, hasta 1 minuto'),
+('Potenciar Habilidad (Enhance Ability)', 'Tocas a una criatura para otorgarle un potenciamiento mágico. Puedes elegir entre: la Resistencia de un Oso, la Fuerza de un Toro, la Gracia de un Gato, el Esplendor de un Águila, la Astucia de un Zorro o la Sabiduría de un Búho.', 2, 'Transmutación', '1 acción', 0, 'Concentración, hasta 1 hora'),
+('Agrandar/Reducir (Enlarge/Reduce)', 'Duplicas o reduces tamaño a una criatura u objeto que puedas ver. Ventaja/desventaja en Fuerza y daño extra.', 2, 'Transmutación', '1 acción', 30, 'Concentración, hasta 1 minuto'),
+('Cautivar (Enthrall)', 'Tejes un hilo de palabras que distraen a una criatura, causando que tenga problemas para percibir a otras criaturas que no sean vos.', 2, 'Encantamiento', '1 acción', 60, '1 minuto'),
+('Encontrar Corcel (Find Steed)', 'Invocas un corcel que puede tomar la forma de un caballo de guerra, poni, camello, venado o perro. Puedes comunicarte telepaticamente con tu corcel.', 2, 'Conjuración', '10 minutos', 30, 'Instantánea'),
+('Encontrar Trampas (Find Traps)', 'Sientes trampas a 120fts. Sabes dirección pero no ubicación exacta.', 2, 'Adivinación', '1 acción', 120, 'Instantánea'),
+('Encontrar Vehiculo (Find Vehicle)', 'Invocas un espiritu que asume la forma de un vehiculo de tierra no militar, a elección.', 2, 'Conjuración', '10 minutos', 30, '8 horas'),
+('Espada en Llamas (Flame Blade)', 'Invocas una espada de fuego en tu mano libre.', 2, 'Evocación', '1 acción adicional', 0, 'Concentración, hasta 10 minutos'),
+('Esfera de Fuego (Flaming Sphere)', 'Invocas una esfera de fuego en un espacio desocupado causando daño de Fuego a las criaturas dentro de la esfera.', 2, 'Conjuración', '1 acción', 60, 'Concentración, hasta 1 minuto'),
+('Rebaño de Familiares (Flock of Familiars)', 'Convocas 3 familiares temporalmente, que toman la forma animal a tu elección. Puedes comunicarte telepáticamente con ellos y compartir su vision y sentido de la escucha.', 2, 'Conjuración', '1 minuto', 0, 'Concentración, hasta 1 hora'),
+('Favor de la Fortuna (Fortune\'s Favor)', 'Te otorgas a ti o a una criatura voluntaria una fortuna latente. (Puede usar un d20 extra en tiradas a elección).', 2, 'Adivinación', '1 minuto', 60, '1 hora'),
+('Reposo Gentil (Gentle Repose)', 'Tocas un cadáver para protegerlo de descomposición y no puede ser no-muerto.', 2, 'Nigromancia', '1 acción', 0, '10 días'),
+('Regalo de Gab (Gift of Gab)', 'Conjuras un hechizo para modificar la memoria de los oyentes. Haciendo que olviden todo lo que dijiste los ultimos 6 segundos.', 2, 'Encantamiento', 'reacción', 0, 'Instantánea'),
+('Ráfaga de Viento (Gust of Wind)', 'Una fuerte ráfaga de viento emana de vos en una dirección. Las criaturas envueltas en la ráfaga serán empujadas.', 2, 'Evocación', '1 acción', 60, 'Concentración, hasta 1 minuto'),
+('Espíritu Curativo (Healing Spirit)', 'Llamas a un espíritu de la naturaleza, para calmar a los heridos. El espíritu te curará a vos o a una criatura que vea dentro del espacio del mismo.', 2, 'Conjuración', '1 acción adicional', 60, 'Concentración, hasta 1 minuto'),
+('Calentar Metal (Heat Metal)', 'Elijes un objeto manufacturado de metal, causando que brille de un rojo incandecente. Cualquier criatura que tenga contacto físico con el utencilio sufrirá daño Ígneo.', 2, 'Transmutación', '1 acción', 60, 'Concentración, hasta 1 minuto'),
+('Paralizar Persona (Hold Person)', 'Elijes a un humanoide a rango para paralizarlo.', 2, 'Encantamiento', '1 acción', 60, 'Concentración, hasta 1 minuto'),
+('Escarcha de Icingdeath (Icingdeath\'s Frost)', 'Una ráfaga de energía gélida emana de vos. Las criaturas reciben daño Gélido y pueden congelarse.', 2, 'Evocación', '1 acción', 15, 'Instantánea'),
+('Objeto Inamovible (Immovable Object)', 'Tocas un objeto que no pese más de 4,5kg y el mismo quedará totalmente pegado en su sitio para todas las criaturas que no eligas.', 2, 'Transmutación', '1 acción', 0, '1 hora'),
+('Invisible (Invisibility)\r\n', 'La criatura que toques se vuelve invisible.', 2, 'Ilusión', '1 acción', 0, 'Concentración, hasta 1 hora'),
+('La Brillante Moneda de Jim (Jim\'s Glowing Coin)', 'Creas una BRILLANTE moneda mágica que distrae a las criaturas a tu elección.', 2, 'Encantamiento', '1 acción', 60, '1 minuto'),
+('Excursión Cinética (Kinetic Jaunt)', 'Empoderas tus movimientos mágicamente con pasos de baile recibiendo varios beneficios: más velocidad, no recibes ataques de reacción y libertad móvil.', 2, 'Transmutación', '1 acción adicional', 0, 'Concentración, hasta 1 minuto'),
+('TocToc (Knock)', 'Elijes un contenedor o puerta para desbloquear. En caso de que haya más de una cerradura, solo desbloquearás una. Al lanzar el hechizo provocas un fuerte ¡TOCTOC! en los alrededores.', 2, 'Transmutación', '1 acción', 60, 'Instantánea'),
+('Restauración Menor (Lesser Restoration)', 'Tocas a una criatura para curarla de una enfermedad o condición.', 2, 'Abjuración', '1 acción', 0, 'Instantánea'),
+('Levitar (Levitate)', 'Elijes una criatura u objeto para levitarla 20fts en el aire y permanecer suspendido.', 2, 'Transmutación', '1 acción', 60, 'Concentración, hasta 10 minutos'),
+('Localizar Animales o Plantas (Locate Animals or Plants)', 'Prestando atención a los sonidos de la naturaleza aprendes la dirección y la distancia de la bestia o planta que describas dentro de un radio específico.', 2, 'Adivinación', '1 acción', 0, 'Instantánea'),
+('Localizar Objeto (Locate Object)', 'Localizas un objeto familiar que no esté cubierto sintiendo su dirección.', 2, 'Adivinación', '1 acción', 0, 'Concentración, hasta 10 minutos'),
+('Boca Mágica (Magic Mouth)', 'Implantas un mensaje a un objeto en un rango específico y le implementas condiciones para que se transmita el mensaje. Cuando las condiciones se cumplen del objeto saldrá una boca mágica con tu tono de voz y volumen.', 2, 'Ilusión', '1 minuto', 30, 'Hasta disipar '),
+('Arma Mágica (Magic Weapon)', 'Tocas un arma para volverla mágica. Para aumentar su daño y maniobravilidad.', 2, 'Transmutación', '1 acción adicional', 0, 'Concentración, hasta 1 hora'),
+('El Agarre Terrestre de Maximillian (Maximillian\'s Earthen Grasp)', 'Creas en un espacio desocupado una mano de tierra para oprimir a las criaturas haciendo que sufran daño Contundente.', 2, 'Transmutación', '1 acción', 30, 'Concentración, hasta 1 minuto'),
+('La Flecha Ácida de Melf (Melf\'s Acid Arrow)', 'Una brillante flecha verde se dirige a un objetivo en un rango específico y rocía ácido causando daño Ácido.', 2, 'Evocación', '1 acción', 90, 'Instantánea'),
+('Barrera Mental (Mental Barrier)', 'Protege tu mente con un bucle de pensamientos repetitivos brindando ventaja en Tiradas de Inteligencia, Carisma y Sabiduria. Aporta resistencia a daño Psíquico.', 2, 'Abjuración', '1 reacción', 0, '1 ronda'),
+('Espiga Mental (Mind Spike)', 'Te adentras en la mente de una criatura que puedas ver. La misma recibe daño Psíquico y conoces su ubicación hasta que termine el hechizo.', 2, 'Adivinación', '1 acción', 60, 'Concentración, hasta 1 hora'),
+('Penetración Mental (Mind Thrust)', 'Incrustas una lanza Psíquica en la mente de una criatura que puedas ver, haciendo que tome daño Psíquico y no pueda reaccionar hasta el final de su turno. Además la criatura tiene restringido sus posibilidades de acción a una sola.', 2, 'Encantamiento', '1 acción adicional', 60, '1 ronda'),
+('Imagen Espejada (Mirror Image)', '3 copias ilusorias que imitan tus acciones, se mueven contigo y cambian de posicion, confundiendo los ataques que se dirigen a vos.', 2, 'Ilusión', '1 acción', 0, '1 minuto'),
+('Paso Brumoso (Misty Step)', 'Te envuelve una niebla plateada teletransportandote 30 fts.', 2, 'Conjuración', '1 acción adicional', 0, 'Instantánea'),
+('Rayo Lunar (Moonbeam)', 'Un rayo plateado de luz pálida ilumina desde el cielo en un radio de 5fts. Las criaturas dentro del área sufren daño Radiante.', 2, 'Evocación', '1 acción', 120, 'Concentración, hasta 1 minuto'),
+('La Diablura de Nathair (Nathair\'s Mischief)', 'Creas un cubo a partir de magia draconida y de hada. Dentro del cubo acontecen efectos azarosos y traviesos.', 2, 'Ilusión', '1 acción', 60, 'Concentración, hasta 1 minuto'),
+('El Aura Mágica de Nystul (Nystul\'s Magic Aura)', 'Colocas una ilusión a una criatura u objeto para que los hechizos de Divinación reciban información falsa.', 2, 'Ilusión', '1 acción', 0, '24 horas'),
+('Paso sin Trazo (Pass without Trace)', 'Un velo de sombra y silencio irradia de vos enmascarandote a vos y a tus compañeros de detección.', 2, 'Abjuración', '1 acción', 0, 'Concentración, hasta 1 hora'),
+('Fuerza Fantasmal (Phantasmal Force)', 'Creas una ilusión en la mente de una criatura convenciendola de que existe. La criatura pensara que esa ilusión es un ente real y no lo considerara como un fenómeno irreal.', 2, 'Ilusión', '1 acción', 60, 'Concentración, hasta 1 minuto'),
+('Oracion de Curación (Prayer of Healing)', 'Hasta 6 criaturas de tu elección que puedas ver en un rango específico recuperan PV\'s. No funciona con sentinelas y no-muertos.', 2, 'Evocación', '10 minutos', 30, 'Instantánea'),
+('Protección de Veneno (Protection from Poison)', 'Neutraliza veneno en una criatura. La misma obtiene ventaja contra veneno y resistencia al daño Veneno.', 2, 'Abjuración', '1 acción', 0, '1 hora'),
+('Pirotecnias (Pyrotechncis)', 'Elijes un área donde hay una llama, la extingues y a partir de ella creas cohetes o humo. Los cohetes cegarán a las criaturas a partir de luces y colores. El humo netrualizará la vision en un área.', 2, 'Transmutación', '1 acción', 60, 'Instantánea'),
+('Rayo Decadente (Ray of Enfeeblement)', 'Un rayo negro de energía enervante emana de tu dedo a una criatura. El objetivo hace la mitad de daño con su arma que use Fuerza.', 2, 'Nigromancia', '1 acción', 60, 'Concentración, hasta 1 minuto'),
+('Hielo Vinculante de la Escarcha (Rime\'s Binding Ice)', 'Emana una explosión de energía gélida de tí en un cono. Las criaturas afectadas reciben moderado daño gélido y son restringidas por hielo.', 2, 'Evocación', '1 acción', 30, 'Instantánea'),
+('Truco de Soga (Rope Trick)', 'Tocas una cuerda la cual se extiende de forma perpendicular al piso. En su extremo superior se crea una entrada invisible a una dimension alterna.', 2, 'Transmutación', '1 acción', 0, '1 hora'),
+('Rayo Abrazador (Scorching Ray)', 'Creas 3 rayos de fuego y puedes lanzarlos hacia 1 o 3 enemigos distintos dentro de un rango específico haciendo leve daño Ígneo.', 2, 'Evocación', '1 acción', 120, 'Instantánea'),
+('Ver Invisibilidad (See Invisibility)', 'Puedes ver criaturas y objetos invisibles o que se encuentren en el plano Etéreo.', 2, 'Adivinación', '1 acción', 0, '1 hora'),
+('Espada Sombría (Shadow Blade)', 'Entrelazas hilos de sombra para creas una espada de solificada penumbra. Tiene moderado daño Psíquico y tienes ventaja en tiradas de ataque si el objetivo está en una oscuridad o luz difuminada.', 2, 'Ilusión', '1 acción adicional', 0, 'Concentración, hasta 1 minuto'),
+('Fragmentar (Shatter)', 'Dentro del rango, un fuerte y repentino sonido de intensidad dolorosa, surge en un punto específico. Las criaturas impactadas por el hechizo reciben moderado daño estruendoso.', 2, 'Evocación', '1 acción', 60, 'Instantánea'),
+('Silencio (Silence)', 'Creas una esfera ensordecedora en un punto especifico del rango, de 20fts de radio. Las criaturas y objetos adentro de la esfera son inmunes al daño estruendoso y son ensodecidas.', 2, 'Ilusión', '1 acción', 120, 'Concentración, hasta 10 minutos '),
+('Escritura en el Firmamento (Skywrite)', 'Escribes, con nubes, hasta 10 palabras en el cielo. ', 2, 'Transmutación', '1 acción', 0, 'Concentración, hasta 1 día '),
+('Enjambre de Bolas de Nieve de Snilloc (Snilloc\'s Snowball Swarm)', 'Una ráfaga de mágicas bolas de nieve erupcionan de un punto específico en el rango. cada criatura a 5 fts de distancia del punto recibe moderado daño Gélido.', 2, 'Evocación', '1 acción', 90, 'Instantánea'),
+('Hombre Araña (Spider Climb)', 'Tocas una criatura voluntaria para brindarle una gran responsabilidad (se mueve como una araña por las paredes y techo).', 2, 'Transmutación', '1 acción', 0, 'Concentración, hasta 1 hora'),
+('Espina Creciente (Spike Growth)', 'Del piso se retuercen y brotan espinas y púas duras. El terreno es difícil. Las criaturas que se muevan dentro del área afectada reciben leve daño Perforante.', 2, 'Transmutación', '1 acción', 150, 'Concentración, hasta 10 minutos'),
+('Arma Espiritual (Spiritual Weapon)', 'Creas un arma espectral flotante. Las criaturas que son atacadas por el arma reciben leve daño de Fuerza.', 2, 'Evocación', '1 acción adicional', 60, '1 minuto'),
+('Dispersión de Cartas (Spray of Cards)', 'Dispersas cartas espectrales en un cono de 15 fts. Cada criatura recibe leve daño de Fuerza y es cegada. ', 2, 'Conjuración', '1 acción', 15, 'Instantánea'),
+('Sugestión (Suggestion)', 'Suguieres una acción, o curso de acción, razonable para la criatura objetivo. La misma intentará completar la orden.', 2, 'Encantamiento', '1 acción', 30, 'Concentración, hasta 8 horas'),
+('Invocar Bestia (Summon Beast)', 'Manifiestas una bestia espiritual que adopta la forma según el entorno que eligas.', 2, 'Conjuración', '1 acción', 90, 'Concentración, hasta 1 hora'),
+('Látigo Mental de Tasha (Tasha\'s Mind Whip)', 'Azotas psiquicamente a una criatura en un rango específico haciendo que sufra moderado daño Psíquico.', 2, 'Encantamiento', '1 acción', 90, '1 asalto'),
+('Escudo de Pensamiento (Thought Shield)', 'Creas un velo nuboso sobre la mente de una criatura que tocas haciendo que no pueda leer o detectar mentes ni comunicarse telepáticamente.', 2, 'Abjuración', '1 acción', 0, '8 horas'),
+('Distorsión de Vórtice (Vortex Warp)', 'Mágicamente tuerces el espacio sobre una criatura que puedas ver. La criatura será teletransportada a otro espacio a tu elección en el rango.', 2, 'Conjuración', '1 acción', 90, 'Instantánea'),
+('Vínculo de Protección (Warding Bond)', 'Tocas a una criatura voluntaria y creas una conección mística con ella. Mientras estén a 60 fts de diferencia, la criatura gana bonificacion de armadura, resistencia a todos los daños y vos recibís el mismo daño que recibe la criatura.', 2, 'Abjuración', '1 acción', 0, '1 hora'),
+('Viento Protector (Warding Wind)', 'Un fuerte viento arremolina de vos hasta unos 10 fts, el mismo se mueve con vos. El viento ensordece, extingue llamas pequeñas, crea terreno difícil, los ataques a distancia tienen desventaja y los gases son disipados.', 2, 'Evocación', '1 acción', 0, 'Concentración, hasta 10 minutos'),
+('Sentido Distorcionado (Warp Sense)', 'Detectas portales en un radio de 30 fts de vos. Además puedes estudiar su origen y su modo de acceso.', 2, 'Adivinación', '1 acción', 0, 'Concentración, hasta 1 minuto'),
+('Red (Web)', 'Conjuras una gruesa y pegajoza red en un rango específico. La red, de 20 fts en un cubo, es terreno difícil y oscurece el área. La red puede atrapar criaturas.', 2, 'Conjuración', '1 acción', 60, 'Concentración, hasta 1 hora'),
+('Marchitarse y Florecer (Wither and Bloom)', 'Invocas vida y muerte en un punto específico con un radio de 10 fts. Cada criatura dentro del circulo y a tu elección reciben ligero daño Necrótico. Una criatura de las que estan dentro y a tu elección, puede ser levemente curada.', 2, 'Nigromancia', '1 acción', 60, 'Instantánea'),
+('Bolsillo de Muñeca (Wristpocket)', 'Giras tu muñeca rápidamente haciendo que un objeto de tu mano desaparezca a un espacio extradimensional, puedes mover tu muñeca de vuelta para traer el objeto nuevamente a tu mano.', 2, 'Conjuración', '1 acción', 0, 'Concentración, hasta 1 hora'),
+('Zona de la Verdad (Zone of Truth)', 'Creas una zona mágica para protegerte del engaño, las criaturas que estén dentro del área específica no pueden decir mentiras, pero pueden evitar responder preguntas.', 2, 'Encantamiento', '1 acción', 60, '10 minutos'),
+
+-- NIVEL 3 (TODOS)
+('Reanimar Muertos (Animate Dead)', 'Eliges una pila de huesos de un humanoide de tamaño pequeño o mediano, imbuyes al objetivo con una vil imitación de la vida y creas un sirviente No-muerto.', 3, 'Nigromancia', '1 minuto', 10, 'Instantánea'),
+('Enemistarse (Antagonize)', 'Le susurras palabras mágicas que antagonizan a una criatura a tu elección en un rango especifico. La criatura recibe ligero daño Psíquico. La criatura ataca inmediatamente a otra criatura en su rango o tiene desventaja en su siguiente ataque.', 3, 'Encantamiento', '1 acción', 30, 'Instantánea'),
+('El Paso de Ashardalon (Ashardalon\'s Stride)', 'Las flamas ondulantes de un dragón estallan de tus pies garantizándote velocidad explosiva. Al pasar al lado de una criatura u objeto que no este siendo usado, recibe leve daño Ígneo por tu rastro de calor.', 3, 'Transmutación', '1 acción adicional', 0, 'Concentración, hasta 1 minuto'),
+('Aura de Vitalidad (Aura of Vitality)', 'Energía radiante curativa emana de ti en un aura y el aura se mueve contigo. El aura puede curarte ligeramente a vos o a criaturas a tu elección.', 3, 'Evocación', '1 acción', 30, 'Concentración, hasta 1 minuto'),
+('Faro de Esperanza (Beacon of Hope)', 'El hechizo otorga esperanza y vitalidad. Eliges un numero de criaturas en un rango y las mismas obtendrán tiradas de ventaja en Sabiduría y tiradas de salvación de muerte. Además si una criatura se cura, siempre se curara lo máximo que pueda.', 3, 'Abjuración', '1 acción', 30, 'Concentración, hasta 1 minuto'),
+('Otorgar Maldición (Bestow Curse)', 'Tocas a una criatura y la maldices, otorgándole una de las siguientes opciones: Desventaja en tiras de un talento, desventaja en tiradas de ataque hacia vos, que la criatura desperdicie acciones o que los ataques hacia la criatura por tu parte realicen leve daño necrótico extra.', 3, 'Nigromancia', '1 acción', 0, 'Concentración, hasta 1 minuto'),
+('Castigo Cegador (Blinding Smite)', 'La siguiente vez que ataques a una criatura con un arma cuerpo a cuerpo, tu arma destellara con una luz brillante causando daño moderado Radiante extra al objetivo. Además el objetivo quedara cegado.', 3, 'Evocación', '1 acción adicional', 0, 'Concentración, hasta 1 minuto'),
+('Pestañar (Blink)', 'Te esfumas de el actual plano de existencia y apareces en el plano etéreo. Puedes escuchar y ver el plano en el que estabas originalmente y solamente puedes ser afectado por otras criaturas del plano etéreo.', 3, 'Transmutación', '1 acción', 0, '1 minuto'),
+('Llamar Rayo (Call Lightning)', 'Haces aparecer tormentas de nubes con la forma de un cilindro de 10 fts de alto y 60 fts de radio. Eliges un punto justo debajo de las nubes, un relámpago cae sobre ese punto y las criaturas que estén a 5 fts de ese punto recibirán moderado daño Eléctrico. Puedes repetir esta acción hasta el final de hechizo. Si ya hay una tormenta el daño de cada rayo aumenta.', 3, 'Conjuración', '1 acción', 120, 'Concentración, hasta 10 minutos'),
+('Siestecita (Catnap)', 'Realizas un gesto calmante y hasta 3 criaturas voluntarias de tu elección caen inconscientes.', 3, 'Encantamiento', '1 acción', 30, '10 minutos'),
+('Clarividencia (Clairvoyance)', 'Creas un sensor invisible en una locación familiar a ti o una locación obvia (detrás de una puerta por ejemplo). Eliges entre escuchar o ver, puedes usar el sentido del sensor para simular que estas ahí.', 3, 'Adivinación', '10 minutos', 5000, 'Concentración, hasta 10 minutos'),
+('Conjurar Animales (Conjure Animals)', 'Invocas los espíritus de las hadas para que tomen la forma de bestias y aparezcan en un rango en especifico. Eliges una de las siguientes opciones para que aparezcan: Una bestia no muy débil, 2 bestias débiles, 4 bestias muy débiles o 8 bestias enclenques.', 3, 'Conjuración', '1 acción', 60, 'Concentración, hasta 1 hora'),
+('Conjurar Bombardeo (Conjure Barrage)', 'Tiras un arma arrojadiza no mágica o disparas una pieza de munición no mágica al aire para crear un clon de armas idénticas que disparan y desaparecen. Cada criatura en el rango recibe daño moderado del tipo del arma.', 3, 'Conjuración', '1 acción', 60, 'Instantánea'),
+('Conjurar Demonio Menor (Conjure Lesser Demon)', 'Invocas hasta un total de 8 malformaciones demoniacas en un rango especifico. Los demonios son hostiles hacia todas las criaturas. Como parte del hechizo puedes dibujar en un circulo de sangre en el piso y los demonios no pueden pasar ese circulo.', 3, 'Conjuración', '1 acción', 60, 'Concentración, hasta 1 hora'),
+('Contrahechizo (Counterspell)', 'Interrumpes a una criatura el proceso de invocación de un hechizo.', 3, 'Abjuración', '1 reacción', 60, 'Instantánea'),
+('Crear Comida y Agua (Create Food and Water)', 'Creas comida y agua para 15 criaturas. El agua es limpia y no puede echarse a perder, la comida es nutritiva pero se echa a perder en 24 horas.', 3, 'Conjuración', '1 acción', 30, 'Instantánea'),
+('Manto del Cruzado (Crusader\'s Mantle)', 'Poder sagrado irradia de vos despertando audacia en criaturas amistosas. Cada criatura no hostil incluyéndote, provoca leve daño Radiante extra con sus ataques.', 3, 'Evocación', '1 acción', 30, 'Concentración, hasta 1 minuto'),
+('Luz de Dia (Daylight)', 'Puedes elegir un punto o un objeto en un rango especifico. Si es un punto se propaga una esfera de 60 fts de radio que emana una luz brillante.', 3, 'Evocación', '1 acción', 60, '1 hora'),
+('Disipar Magia (Dispel Magic)', 'Elegis una criatura, objeto o efecto magico dentro del rango. Los hechizos en esa entidad desaparecen.', 3, 'Abjuración', '1 acción', 60, 'Instantánea'),
+('Arma Elemental (Elemental Weapon)', 'Un arma no mágica que tocas se convierte en un arma mágica. Eliges un tipo de daño (Corrosivo, Gélido, Ígneo, Eléctrico o Estruendoso) y esa arma causara un leve daño extra del daño elegido.', 3, 'Transmutación', '1 acción', 0, 'Concentración, hasta 1 hora'),
+('Abundan Enemigos (Enemies Abound)', 'Alcanzas las profundidades de la mente de una criatura y la misma pierde la habilidad de diferenciar entre amigo o enemigo.', 3, 'Encantamiento', '1 acción', 120, 'Concentración, hasta 1 minuto'),
+('Tierra en Erupción (Erupting Earth)', 'Eliges un punto en la tierra dentro del rango. Una fuente de tierra y piedras agitadas erupciona en un cubo centrado 20 fts. Cada criatura en el área recibirá elevado daño Contundente. Además el terreno se vuelve difícil.', 3, 'Transmutación', '1 acción', 120, 'Instantánea'),
+('Fear', 'Cono de miedo. Huye y no puede acercarse.', 3, 'Ilusión', '1 acción', 0, 'Concentración, hasta 1 minuto'),
+('Feign Death', 'Tocas criatura. Parece muerta. Resistente a daño psíquico.', 3, 'Nigromancia', '1 acción', 0, '1 hora (ritual)'),
+('Fireball', 'Esfera 6m. 8d6 fuego. Por nivel: +1d6.', 3, 'Evocación', '1 acción', 45, 'Instantánea'),
+('Flame Arrows', 'Tocas flechas (12). +1d6 fuego. Por nivel: +2 flechas.', 3, 'Transmutación', '1 acción', 0, 'Concentración, hasta 1 hora'),
+('Fly', 'Una criatura vuela 18m. Por nivel: +1 criatura.', 3, 'Transmutación', '1 acción', 0, 'Concentración, hasta 10 minutos'),
+('Gaseous Form', 'Criatura se vuelve nube. Resistente a daño. No puede atacar.', 3, 'Transmutación', '1 acción', 0, 'Concentración, hasta 1 hora'),
+('Glyph of Warding', 'Símbolo en objeto. Explosión o hechizo almacenado.', 3, 'Abjuración', '1 hora', 0, 'Hasta disipar'),
+('Haste', '+9m velocidad, +2 CA, ventaja Destreza, acción extra. Aturdido al terminar.', 3, 'Transmutación', '1 acción', 9, 'Concentración, hasta 1 minuto'),
+('Hunger of Hadar', 'Esfera 6m oscuridad. Daño 2d6 frío y 2d6 ácido. Sordo y ciego.', 3, 'Conjuración', '1 acción', 45, 'Concentración, hasta 1 minuto'),
+('Hypnotic Pattern', 'Cubo 9m. Fascina criaturas. Daño termina.', 3, 'Ilusión', '1 acción', 36, 'Concentración, hasta 1 minuto'),
+('Intellect Fortress', 'Ventaja en Int, Sab, Car. Resistencia psíquico. Por nivel: +1 criatura.', 3, 'Abjuración', '1 acción', 9, 'Concentración, hasta 1 hora'),
+('Invisibility to Cameras', 'Invisible a cámaras.', 3, 'Ilusión', '1 acción', 0, 'Concentración, hasta 1 minuto'),
+('Leomund''s Tiny Hut', 'Cúpula inmóvil 3m. 9 criaturas. Clima y ataques no pasan.', 3, 'Evocación', '1 minuto', 0, '8 horas (ritual)'),
+('Life Transference', 'Te dañas 4d8 necrótico. Otro cura el doble. Por nivel: +2d8.', 3, 'Nigromancia', '1 acción', 9, 'Instantánea'),
+('Lightning Bolt', 'Línea 30x1.5m. 8d6 rayo. Por nivel: +1d6.', 3, 'Evocación', '1 acción', 0, 'Instantánea'),
+('Magic Circle', 'Círculo 3m contra tipo de criatura. No puede entrar.', 3, 'Abjuración', '1 minuto', 3, '1 hora'),
+('Major Image', 'Imagen con sonido, olor, temperatura. Interactiva. Por nivel: +sin concentración.', 3, 'Ilusión', '1 acción', 36, 'Concentración, hasta 10 minutos'),
+('Mass Healing Word', 'Hasta 6 criaturas recuperan 1d4+mod. Por nivel: +1d4.', 3, 'Evocación', '1 acción adicional', 18, 'Instantánea'),
+('Meld into Stone', 'Entras en piedra. Ves/oyes fuera. +9 PV por minuto.', 3, 'Transmutación', '1 acción', 0, '8 horas (ritual)'),
+('Melf''s Minute Meteors', '6 meteoros pequeños. Acción: lanza 2, 2d6 fuego. Por nivel: +2 meteoros.', 3, 'Evocación', '1 acción', 36, 'Concentración, hasta 10 minutos'),
+('Nondetection', 'Esconde criatura/objeto de adivinación.', 3, 'Abjuración', '1 acción', 0, '8 horas'),
+('Phantom Steed', 'Montura ilusoria. Velocidad 30m. No combate.', 3, 'Ilusión', '1 minuto', 9, '1 hora (ritual)'),
+('Plant Growth', 'Plantas crecen. Terreno difícil o cosecha duplicada.', 3, 'Transmutación', '1 acción u 8h', 45, 'Instantánea'),
+('Protection from Energy', 'Resistencia a un tipo: ácido, frío, fuego, rayo, trueno.', 3, 'Abjuración', '1 acción', 0, 'Concentración, hasta 1 hora'),
+('Remove Curse', 'Termina maldición en criatura/objeto.', 3, 'Abjuración', '1 acción', 0, 'Instantánea'),
+('Revivify', 'Criatura muerta hace 1 minuto vuelve a 1 PV.', 3, 'Nigromancia', '1 acción', 0, 'Instantánea'),
+('Sending', 'Mensaje 25 palabras a cualquier plano. Responde.', 3, 'Evocación', '1 acción', 'Ilimitado', '1 asalto'),
+('Sleet Storm', 'Tormenta en radio 12m. Terreno difícil, concentración, invisible.', 3, 'Conjuración', '1 acción', 45, 'Concentración, hasta 1 minuto'),
+('Slow', 'Hasta 6 criaturas. Velocidad mitad, -2 CA, -2 Destreza, acciones limitadas.', 3, 'Transmutación', '1 acción', 36, 'Concentración, hasta 1 minuto'),
+('Speak with Dead', 'Cadáver responde 5 preguntas. No sabe lo que no sabía.', 3, 'Nigromancia', '1 acción', 3, '10 minutos'),
+('Speak with Plants', 'Hablas con plantas. Obtienes información.', 3, 'Transmutación', '1 acción', 0, '10 minutos'),
+('Spirit Guardians', 'Espíritus 4.5m. 3d8 radiante/necrótico y velocidad mitad.', 3, 'Conjuración', '1 acción', 0, 'Concentración, hasta 10 minutos'),
+('Spirit Shroud', 'Ataques +1d8 necrótico/radiante/frío. Velocidad -3m. Por nivel: +1d8/2 niveles.', 3, 'Transmutación', '1 acción adicional', 0, 'Concentración, hasta 1 minuto'),
+('Stinking Cloud', 'Nube apestosa 6m. Constitución o pierde acción.', 3, 'Conjuración', '1 acción', 27, 'Concentración, hasta 1 minuto'),
+('Summon Fey', 'Convocas hada. Nivel 3: 30 PV, +7 ataque, 1d6+3 + 1d6 daño. Por nivel: +10 PV y +1d6.', 3, 'Conjuración', '1 acción', 27, 'Concentración, hasta 1 hora'),
+('Summon Lesser Demons', '1d4+1 demonios ND1/2 o 2d4 ND1/4. Control limitado.', 3, 'Conjuración', '1 acción', 18, 'Concentración, hasta 1 hora'),
+('Summon Shadowspawn', 'Convocas sombra. Nivel 3: 35 PV, +7 ataque, 1d8+3 + 2d6 daño. Por nivel: +10 PV y +1d8+1d6.', 3, 'Conjuración', '1 acción', 27, 'Concentración, hasta 1 hora'),
+('Summon Undead', 'Convocas no-muerto. Nivel 3: 30 PV, +7 ataque, 1d8+3 + 1d8 daño. Por nivel: +10 PV y +1d8.', 3, 'Conjuración', '1 acción', 27, 'Concentración, hasta 1 hora'),
+('Thunder Step', 'Teletransportas 27m. 3d10 trueno al salir. Por nivel: +1d10.', 3, 'Conjuración', '1 acción', 27, 'Instantánea'),
+('Tidal Wave', 'Ola 9x9x3m. 4d8 contundente y derriba. Por nivel: +1d8.', 3, 'Conjuración', '1 acción', 36, 'Instantánea'),
+('Tiny Servant', 'Objeto pequeño animado. Sirve 8h.', 3, 'Transmutación', '1 minuto', 0, '8 horas'),
+('Tongues', 'Criatura entiende y habla cualquier idioma.', 3, 'Adivinación', '1 acción', 0, '1 hora'),
+('Vampiric Touch', 'Ataque cuerpo a cuerpo: 3d6 necrótico y curas mitad. Por nivel: +1d6.', 3, 'Nigromancia', '1 acción', 0, 'Concentración, hasta 1 minuto'),
+('Wall of Sand', 'Muro de arena 9x9x3m. Ciega y terreno difícil.', 3, 'Evocación', '1 acción', 27, 'Concentración, hasta 10 minutos'),
+('Wall of Water', 'Muro de agua 9x9x3m. Resistencia fuego.', 3, 'Evocación', '1 acción', 18, 'Concentración, hasta 10 minutos'),
+('Water Breathing', 'Hasta 10 criaturas respiran bajo agua.', 3, 'Transmutación', '1 acción', 9, '24 horas (ritual)'),
+('Water Walk', 'Hasta 10 criaturas caminan sobre agua.', 3, 'Transmutación', '1 acción', 9, '1 hora (ritual)'),
+('Wind Wall', 'Muro de viento 15x4.5x1.5m. Desvía proyectiles.', 3, 'Evocación', '1 acción', 36, 'Concentración, hasta 1 minuto'),
+
+-- NIVEL 4 (TODOS)
+('Arcane Eye', 'Ojo invisible teletransportable. Ves a través.', 4, 'Adivinación', '1 acción', 9, 'Concentración, hasta 1 hora'),
+('Aura of Life', 'Radio 9m. PV máximo +0, recuperan 1 al inicio si 0 PV.', 4, 'Abjuración', '1 acción', 0, 'Concentración, hasta 10 minutos'),
+('Aura of Purity', 'Radio 9m. Ventaja en salvaciones. Inmune a daño y condición.', 4, 'Abjuración', '1 acción', 0, 'Concentración, hasta 10 minutos'),
+('Banishment', 'Destierra a criatura a otro plano. Por nivel: +1 objetivo.', 4, 'Abjuración', '1 acción', 18, 'Concentración, hasta 1 minuto'),
+('Blight', 'Daño 8d8 necrótico a criatura/planta. Por nivel: +1d8.', 4, 'Nigromancia', '1 acción', 9, 'Instantánea'),
+('Charm Monster', 'Encantas monstruo. Sabiduría evita. Por nivel: +1 objetivo.', 4, 'Encantamiento', '1 acción', 9, '1 hora'),
+('Compulsion', 'Criaturas huyen en dirección que elijas.', 4, 'Encantamiento', '1 acción', 9, 'Concentración, hasta 1 minuto'),
+('Conjure Minor Elementals', 'Convocas elemental ND2 o menos. Opciones según ND.', 4, 'Conjuración', '1 minuto', 27, 'Concentración, hasta 1 hora'),
+('Conjure Woodland Beings', 'Convocas fatas ND2 o menos. Opciones según ND.', 4, 'Conjuración', '1 acción', 18, 'Concentración, hasta 1 hora'),
+('Control Water', 'Controlas agua: inundar, partir, redirigir, remolino.', 4, 'Transmutación', '1 acción', 90, 'Concentración, hasta 10 minutos'),
+('Death Ward', 'Si criatura cae a 0 PV, vuelve a 1. Cancela efecto muerte instantánea.', 4, 'Abjuración', '1 acción', 0, '8 horas'),
+('Dimension Door', 'Teletransportas 150m. Llevas criatura misma tamaño.', 4, 'Conjuración', '1 acción', 150, 'Instantánea'),
+('Divination', 'Respondes una pregunta sobre futuro. 70% precisión.', 4, 'Adivinación', '1 acción', 0, 'Instantánea (ritual)'),
+('Dominate Beast', 'Controlas bestia. Aprovecha acciones. Por nivel: +1 nivel de bestia.', 4, 'Encantamiento', '1 acción', 18, 'Concentración, hasta 1 minuto'),
+('Evard''s Black Tentacles', 'Tentáculos en cubo 6m. Daño 3d6 contundente y sujetan.', 4, 'Conjuración', '1 acción', 27, 'Concentración, hasta 1 minuto'),
+('Fabricate', 'Conviertes materia prima en objeto del mismo material.', 4, 'Transmutación', '10 minutos', 36, 'Instantánea'),
+('Fire Shield', 'Escudo térmico. +2d8 fuego/frío a quien te golpea. Resistencia frío/fuego.', 4, 'Evocación', '1 acción', 0, '10 minutos'),
+('Freedom of Movement', 'Criatura ignora terreno difícil. Inmune a parálisis y sujeción.', 4, 'Abjuración', '1 acción', 0, '1 hora'),
+('Giant Insect', 'Insectos gigantes bajo control.', 4, 'Transmutación', '1 acción', 9, 'Concentración, hasta 10 minutos'),
+('Grasping Vine', 'Liana ataca. Tira 6m. Daño contundente.', 4, 'Conjuración', '1 acción adicional', 9, 'Concentración, hasta 1 minuto'),
+('Greater Invisibility', 'Criatura invisible. Termina con concentración.', 4, 'Ilusión', '1 acción', 0, 'Concentración, hasta 1 minuto'),
+('Guardian of Faith', 'Guardián espectral. Daño 20 radiante a intrusos.', 4, 'Conjuración', '1 acción', 9, '8 horas'),
+('Guardians of the Grove', 'Guardián druídico. Efectos según tipo.', 4, 'Conjuración', '10 minutos', 0, '24 horas'),
+('Hallucinatory Terrain', 'Escondes terreno como otro tipo.', 4, 'Ilusión', '10 minutos', 90, '24 horas'),
+('Ice Storm', 'Tormenta en cilindro 6m. 2d8 contundente y 4d6 frío. Por nivel: +1d8 y +1d6.', 4, 'Evocación', '1 acción', 90, 'Instantánea'),
+('Leomund''s Secret Chest', 'Escondes cofre en Etéreo. Lo recuperas.', 4, 'Conjuración', '1 acción', 0, 'Instantánea'),
+('Locate Creature', 'Encuentras criatura familiar en 300m.', 4, 'Adivinación', '1 acción', 0, 'Concentración, hasta 1 hora'),
+('Mordenkainen''s Faithful Hound', 'Perro guardián invisible. Alerta y ataca.', 4, 'Conjuración', '1 acción', 9, '8 horas'),
+('Mordenkainen''s Private Sanctum', 'Seguridad en área 30m. Impide escuchar, ver, teletransporte.', 4, 'Abjuración', '10 minutos', 36, '24 horas'),
+('Otiluke''s Resilient Sphere', 'Esfera 1.5m. Inmóvil. Atrapa criatura.', 4, 'Evocación', '1 acción', 9, 'Concentración, hasta 1 minuto'),
+('Phantasmal Killer', 'Ilusión mata. 4d10 psíquico. Sabiduría cada turno. Por nivel: +1d10.', 4, 'Ilusión', '1 acción', 36, 'Concentración, hasta 1 minuto'),
+('Polymorph', 'Transformas criatura en bestia ND igual o menor.', 4, 'Transmutación', '1 acción', 18, 'Concentración, hasta 1 hora'),
+('Stone Shape', 'Transformas piedra en forma que desees.', 4, 'Transmutación', '1 acción', 0, 'Instantánea'),
+('Stoneskin', 'Resistencia a daño no mágico contundente, perforante, cortante.', 4, 'Abjuración', '1 acción', 0, 'Concentración, hasta 1 hora'),
+('Storm Sphere', 'Esfera 6m. 2d6 trueno y 2d6 rayo. Por nivel: +1d6 de cada.', 4, 'Evocación', '1 acción', 45, 'Concentración, hasta 1 minuto'),
+('Summon Aberration', 'Convocas aberración. Nivel 4: 40 PV, +8 ataque, 1d8+4 + 1d8 daño. Por nivel: +10 PV y +1d8.', 4, 'Conjuración', '1 acción', 27, 'Concentración, hasta 1 hora'),
+('Summon Construct', 'Convocas constructo. Nivel 4: 40 PV, +8 ataque, 1d10+4 daño. Por nivel: +10 PV y +1d10.', 4, 'Conjuración', '1 acción', 27, 'Concentración, hasta 1 hora'),
+('Summon Elemental', 'Convocas elemental. Nivel 4: 40 PV, +8 ataque, 1d10+4 + 1d8 daño. Por nivel: +10 PV y +1d10+1d8.', 4, 'Conjuración', '1 acción', 27, 'Concentración, hasta 1 hora'),
+('Vitriolic Sphere', 'Esfera 6m. 10d4 ácido y 5d4 al siguiente. Por nivel: +2d4 y +1d4.', 4, 'Evocación', '1 acción', 45, 'Instantánea'),
+('Wall of Fire', 'Muro fuego 18x6x1.5m. 5d8 fuego. Por nivel: +1d8.', 4, 'Evocación', '1 acción', 36, 'Concentración, hasta 1 minuto'),
+('Watery Sphere', 'Esfera agua 1.5m. Atrapa criatura. Puedes mover.', 4, 'Conjuración', '1 acción', 27, 'Concentración, hasta 1 minuto'),
+
+-- NIVEL 5 (TODOS)
+('Animate Objects', 'Animas hasta 10 objetos pequeños. Controlas.', 5, 'Transmutación', '1 acción', 36, 'Concentración, hasta 1 minuto'),
+('Antilife Shell', 'Barrera 3m. Impide paso criaturas vivas.', 5, 'Abjuración', '1 acción', 0, 'Concentración, hasta 1 hora'),
+('Awaken', 'Bestia/planta Int 3 se vuelve consciente. Encantada 30 días.', 5, 'Transmutación', '8 horas', 0, 'Instantánea'),
+('Banishing Smite', 'Tu arma hace +5d10 fuerza. Si objetivo 50PV o menos, destierra.', 5, 'Abjuración', '1 acción adicional', 0, 'Concentración, hasta 1 minuto'),
+('Bigby''s Hand', 'Mano gigante. Ataca, empuja, protege.', 5, 'Evocación', '1 acción', 36, 'Concentración, hasta 1 minuto'),
+('Circle of Power', 'Radio 9m. Ventaja contra hechizos. Mitad daño si éxito.', 5, 'Abjuración', '1 acción', 0, 'Concentración, hasta 10 minutos'),
+('Cloudkill', 'Nube veneno 6m. 5d8 veneno. Mueve cada turno. Por nivel: +1d8.', 5, 'Conjuración', '1 acción', 36, 'Concentración, hasta 10 minutos'),
+('Commune', 'Respondes 3 preguntas a deidad.', 5, 'Adivinación', '1 minuto', 0, '1 minuto (ritual)'),
+('Commune with Nature', 'Conoces 3 datos sobre terreno natural a 4.5km.', 5, 'Adivinación', '1 minuto', 0, 'Instantánea (ritual)'),
+('Cone of Cold', 'Cono 18m. 8d8 frío. Por nivel: +1d8.', 5, 'Evocación', '1 acción', 0, 'Instantánea'),
+('Conjure Elemental', 'Convocas elemental ND5. Control o se vuelve hostil.', 5, 'Conjuración', '1 minuto', 27, 'Concentración, hasta 1 hora'),
+('Conjure Volley', 'Ráfaga flechas. Cilindro 12m. 8d8 perforante. Por nivel: +1d8.', 5, 'Conjuración', '1 acción', 45, 'Instantánea'),
+('Contact Other Plane', 'Contactas entidad. Sabiduría CD15 o locura.', 5, 'Adivinación', '1 minuto', 0, '1 minuto (ritual)'),
+('Contagion', 'Enfermedad. 3 salvaciones o efectos. 3d5 veneno por turno.', 5, 'Nigromancia', '1 acción', 0, '7 días'),
+('Control Winds', 'Controlas viento en cubo 30m. Ráfagas, torbellino.', 5, 'Transmutación', '1 acción', 90, 'Concentración, hasta 1 hora'),
+('Creation', 'Creas objeto no vivo de materia. Dura según material.', 5, 'Ilusión', '1 minuto', 9, 'Especial'),
+('Danse Macabre', '5 esqueletos/zombis. +2 PV y daño. Por nivel: +2 criaturas.', 5, 'Nigromancia', '1 acción', 18, 'Concentración, hasta 1 hora'),
+('Dawn', 'Luz solar en cilindro 9m. 4d10 radiante. Por nivel: +1d10.', 5, 'Evocación', '1 acción', 18, 'Concentración, hasta 1 minuto'),
+('Destructive Wave', 'Onda 9m. 5d6 trueno y 5d6 radiante/necrótico. Derriba.', 5, 'Evocación', '1 acción', 0, 'Instantánea'),
+('Dispel Evil and Good', 'Termina efecto y protege contra ciertos tipos.', 5, 'Abjuración', '1 acción', 0, 'Concentración, hasta 1 minuto'),
+('Dominate Person', 'Controlas humanoide. Sabiduría cada turno. Por nivel: +1 objetivo.', 5, 'Encantamiento', '1 acción', 18, 'Concentración, hasta 1 minuto'),
+('Dream', 'Mensaje en sueños. Daño 3d6 psíquico si no duerme.', 5, 'Ilusión', '1 minuto', 0, '8 horas'),
+('Enervation', 'Rayo 1d8 necrótico y reduces. Por nivel: +1d8.', 5, 'Nigromancia', '1 acción', 18, 'Concentración, hasta 1 minuto'),
+('Far Step', 'Teletransportas 18m como acción adicional.', 5, 'Conjuración', '1 acción adicional', 0, 'Concentración, hasta 1 minuto'),
+('Geas', 'Orden mágica. 5d10 psíquico si desobedece. Por nivel: +1 día.', 5, 'Encantamiento', '1 minuto', 18, '30 días'),
+('Greater Restoration', 'Termina condiciones: hechizado, petrificado, maldición, reducción, etc.', 5, 'Abjuración', '1 acción', 0, 'Instantánea'),
+('Hallow', 'Lugar sagrado. Efecto contra ciertos tipos.', 5, 'Evocación', '24 horas', 0, 'Hasta disipar'),
+('Hold Monster', 'Paraliza monstruo. Sabiduría cada turno. Por nivel: +1 objetivo.', 5, 'Encantamiento', '1 acción', 27, 'Concentración, hasta 1 minuto'),
+('Holy Weapon', 'Arma +2d8 radiante. Explosión 4d8 a 9m.', 5, 'Evocación', '1 acción adicional', 0, 'Concentración, hasta 1 hora'),
+('Immolation', 'Llama en criatura. 8d6 fuego y 4d6 cada turno. Por nivel: +1d6.', 5, 'Evocación', '1 acción', 27, 'Concentración, hasta 1 minuto'),
+('Infernal Calling', 'Convocas demonio ND6. Control o se vuelve hostil.', 5, 'Conjuración', '1 minuto', 27, 'Concentración, hasta 1 hora'),
+('Insect Plague', 'Plaga insectos 6m. 4d10 perforante. Por nivel: +1d10.', 5, 'Conjuración', '1 acción', 90, 'Concentración, hasta 10 minutos'),
+('Legend Lore', 'Información sobre persona/lugar legendario.', 5, 'Adivinación', '10 minutos', 0, 'Instantánea'),
+('Maelstrom', 'Remolino 1.5m. 6d6 contundente y tira. Por nivel: +1d6.', 5, 'Evocación', '1 acción', 36, 'Concentración, hasta 1 minuto'),
+('Mass Cure Wounds', 'Hasta 6 criaturas recuperan 3d8+mod. Por nivel: +1d8.', 5, 'Evocación', '1 acción', 18, 'Instantánea'),
+('Mislead', 'Te vuelves invisible y creas doble.', 5, 'Ilusión', '1 acción', 0, 'Concentración, hasta 1 hora'),
+('Modify Memory', 'Cambias memoria de criatura. Por nivel: +1 minuto.', 5, 'Encantamiento', '1 acción', 9, 'Concentración, hasta 1 minuto'),
+('Negative Energy Flood', '5d12 necrótico. Si muere, zombi.', 5, 'Nigromancia', '1 acción', 18, 'Instantánea'),
+('Passwall', 'Apertura en madera/piedra 1.5m x 2.5m.', 5, 'Transmutación', '1 acción', 9, '1 hora'),
+('Planar Binding', 'Atrapas criatura para servir. Por nivel: +1 día.', 5, 'Abjuración', '1 hora', 18, '24 horas'),
+('Raise Dead', 'Revives criatura muerta 10 días. No partes vitales.', 5, 'Nigromancia', '1 hora', 0, 'Instantánea'),
+('Rary''s Telepathic Bond', 'Hasta 8 criaturas enlace telepático 1 hora.', 5, 'Adivinación', '1 acción', 9, '1 hora (ritual)'),
+('Scrying', 'Ves/oyes criatura lejana. Salvación Sabiduría.', 5, 'Adivinación', '10 minutos', 0, 'Concentración, hasta 10 minutos'),
+('Seeming', 'Cambias apariencia de criaturas. Por nivel: +8 criaturas.', 5, 'Ilusión', '1 acción', 9, '8 horas'),
+('Shutdown', 'Apagas dispositivo.', 5, 'Abjuración', '1 acción', 36, 'Concentración, hasta 1 minuto'),
+('Skill Empowerment', 'Una habilidad se vuelve competencia doble.', 5, 'Transmutación', '1 acción', 0, 'Concentración, hasta 1 hora'),
+('Steel Wind Strike', '5 ataques cuerpo a cuerpo. 6d10 fuerza.', 5, 'Conjuración', '1 acción', 9, 'Instantánea'),
+('Summon Celestial', 'Convocas celestial. Nivel 5: 50 PV, +9 ataque, 1d10+5 + 2d4 daño. Por nivel: +10 PV y +1d10+2d4.', 5, 'Conjuración', '1 acción', 27, 'Concentración, hasta 1 hora'),
+('Swift Quiver', 'Acción adicional: 2 ataques con arco.', 5, 'Transmutación', '1 acción adicional', 0, 'Concentración, hasta 1 minuto'),
+('Synaptic Static', 'Esfera 6m. 8d6 psíquico. Reduce ataques 1d6.', 5, 'Encantamiento', '1 acción', 36, 'Instantánea'),
+('Telekinesis', 'Controlas objeto/criatura con mente.', 5, 'Transmutación', '1 acción', 18, 'Concentración, hasta 10 minutos'),
+('Teleportation Circle', 'Círculo teletransporte permanente.', 5, 'Conjuración', '1 minuto', 3, '1 asalto'),
+('Transmute Rock', 'Lodo a roca o roca a lodo.', 5, 'Transmutación', '1 acción', 36, 'Instantánea'),
+('Tree Stride', 'Entras en árbol y sales de otro a 150m.', 5, 'Conjuración', '1 acción', 0, 'Concentración, hasta 1 minuto'),
+('Wall of Force', 'Muro invulnerable. Formas diversas.', 5, 'Evocación', '1 acción', 36, 'Concentración, hasta 10 minutos'),
+('Wall of Light', 'Muro luz. 4d8 radiante. Por nivel: +1d8.', 5, 'Evocación', '1 acción', 18, 'Concentración, hasta 10 minutos'),
+('Wall of Stone', 'Muro piedra. Permanente.', 5, 'Evocación', '1 acción', 36, 'Concentración, hasta 10 minutos'),
+('Warding Bond', 'Compartes daño con aliado. +1 CA y salvaciones. Resistencia a todo.', 5, 'Abjuración', '1 acción', 0, '1 hora'),
+('Wrath of Nature', 'Terreno 18m ataca. Varios efectos.', 5, 'Transmutación', '1 acción', 36, 'Concentración, hasta 1 minuto'),
+
+-- NIVEL 6 (TODOS)
+('Arcane Gate', 'Portal entre dos puntos hasta 150m.', 6, 'Conjuración', '1 acción', 150, 'Concentración, hasta 10 minutos'),
+('Blade Barrier', 'Muro cuchillas. 6d10 cortante. Destreza para mitad.', 6, 'Evocación', '1 acción', 27, 'Concentración, hasta 10 minutos'),
+('Chain Lightning', '4 rayos 10d6 rayo. Por nivel: +1 rayo.', 6, 'Evocación', '1 acción', 45, 'Instantánea'),
+('Circle of Death', 'Esfera 18m. 8d6 necrótico. Por nivel: +2d6.', 6, 'Nigromancia', '1 acción', 45, 'Instantánea'),
+('Conjure Fey', 'Convocas fata ND6. Control o hostil.', 6, 'Conjuración', '1 minuto', 27, 'Concentración, hasta 1 hora'),
+('Contingency', 'Hechizo preparado se activa con condición.', 6, 'Evocación', '10 minutos', 0, '10 días'),
+('Create Homunculus', 'Creas homúnculo.', 6, 'Transmutación', '1 hora', 36, 'Instantánea'),
+('Create Undead', 'Creas no-muertos. Hasta 3 ghouls. Por nivel: más o mejores.', 6, 'Nigromancia', '1 minuto', 3, 'Instantánea'),
+('Crown of Stars', '7 motas. Lanzas: 4d12 radiante.', 6, 'Evocación', '1 acción', 0, '1 hora'),
+('Disintegrate', 'Rayo fino. 10d6+40 fuerza. Si 0 PV, polvo. Por nivel: +3d6.', 6, 'Transmutación', '1 acción', 18, 'Instantánea'),
+('Drawmij''s Instant Summons', 'Objeto aparece en mano si destruyes gema.', 6, 'Conjuración', '1 minuto', 0, 'Hasta disipar (ritual)'),
+('Druid Grove', 'Protege bosque 27m. Varios efectos.', 6, 'Abjuración', '10 minutos', 0, '24 horas'),
+('Eyebite', 'Ojos: efecto en criatura: sueño, pánico, enfermo.', 6, 'Nigromancia', '1 acción', 0, 'Concentración, hasta 1 minuto'),
+('Find the Path', 'Encuentras camino a lugar.', 6, 'Adivinación', '1 minuto', 0, 'Concentración, hasta 1 día'),
+('Flesh to Stone', 'Petrificas. 3 salvaciones.', 6, 'Transmutación', '1 acción', 18, 'Concentración, hasta 1 minuto'),
+('Forbiddance', 'Protege área 120m. Daño radiante/necrótico a intrusos.', 6, 'Abjuración', '10 minutos', 0, '1 día (ritual)'),
+('Globe of Invulnerability', 'Burbuja 3m. Bloquea hechizos nivel 5 o menos. Por nivel: +nivel.', 6, 'Abjuración', '1 acción', 0, 'Concentración, hasta 1 minuto'),
+('Guards and Wards', 'Protege área 15m. Puertas selladas, escaleras trampa.', 6, 'Abjuración', '10 minutos', 0, '24 horas'),
+('Harm', 'Daño 14d6 necrótico. Reduce PV máximo.', 6, 'Nigromancia', '1 acción', 18, 'Instantánea'),
+('Heal', 'Cura 70 PV. Termina condiciones.', 6, 'Evocación', '1 acción', 18, 'Instantánea'),
+('Heroes'' Feast', 'Comida. +2d10 PV máx, ventaja Sabiduría, inmune miedo/enfermedad.', 6, 'Conjuración', '10 minutos', 9, 'Instantánea'),
+('Investiture of Flame', 'Inmunidad fuego. Daño 1d8 al tocar. Llamas 4d8.', 6, 'Transmutación', '1 acción', 0, 'Concentración, hasta 10 minutos'),
+('Investiture of Ice', 'Inmunidad frío. Daño 1d6 al tocar. Rayo 4d6.', 6, 'Transmutación', '1 acción', 0, 'Concentración, hasta 10 minutos'),
+('Investiture of Stone', 'Resistencia físico. Daño 1d6 al tocar. Terreno difícil.', 6, 'Transmutación', '1 acción', 0, 'Concentración, hasta 10 minutos'),
+('Investiture of Wind', 'Inmunidad eléctrico. Vuelo 18m. Desventaja ataques.', 6, 'Transmutación', '1 acción', 0, 'Concentración, hasta 10 minutos'),
+('Magic Jar', 'Alma a recipiente. Poseer cuerpo.', 6, 'Nigromancia', '1 minuto', 0, 'Hasta disipar'),
+('Mass Suggestion', 'Hasta 12 criaturas siguen sugerencia. Por nivel: +2 criaturas.', 6, 'Encantamiento', '1 acción', 18, '24 horas'),
+('Move Earth', 'Excavas colina 12m. Formas terreno.', 6, 'Transmutación', '1 acción', 36, 'Concentración, hasta 2 horas'),
+('Otiluke''s Freezing Sphere', 'Esfera 18m. 10d6 frío. Congela agua.', 6, 'Evocación', '1 acción', 90, 'Instantánea'),
+('Otto''s Irresistible Dance', 'Objetivo baila. Desventaja todo.', 6, 'Encantamiento', '1 acción', 9, 'Concentración, hasta 1 minuto'),
+('Planar Ally', 'Ayudante celestial/infernal. Negocias servicio.', 6, 'Conjuración', '10 minutos', 18, 'Instantánea'),
+('Programmed Illusion', 'Imagen con sonido se activa con condición.', 6, 'Ilusión', '1 acción', 36, 'Permanente'),
+('Sunbeam', 'Rayo 5d8 radiante y ciego. Por nivel: +1d8.', 6, 'Evocación', '1 acción', 0, 'Concentración, hasta 1 minuto'),
+('Transport via Plants', 'Viajas entre plantas 150m.', 6, 'Conjuración', '1 acción', 3, '1 asalto'),
+('True Seeing', 'Ves verdad: invisibilidad, transformación.', 6, 'Adivinación', '1 acción', 0, '1 hora'),
+('Wall of Ice', 'Muro hielo. Daño 5d6 frío al romper.', 6, 'Evocación', '1 acción', 36, 'Concentración, hasta 10 minutos'),
+('Wall of Thorns', 'Muro espinas 6m. Daño 7d8 cortante cada 1.5m.', 6, 'Conjuración', '1 acción', 36, 'Concentración, hasta 10 minutos'),
+('Wind Walk', 'Tú y 10 criaturas os volvéis nubes. Velocidad 90m.', 6, 'Transmutación', '1 minuto', 9, '8 horas'),
+('Word of Recall', 'Teletransportas a santuario con 5 aliados.', 6, 'Conjuración', '1 acción', 1.5, 'Instantánea'),
+
+-- NIVEL 7 (TODOS)
+('Conjure Celestial', 'Convocas celestial ND4. Por nivel: +ND.', 7, 'Conjuración', '1 minuto', 27, 'Concentración, hasta 1 hora'),
+('Delayed Blast Fireball', 'Globo fuego. 12d6. +1d6 por turno. Por nivel: +1d6.', 7, 'Evocación', '1 acción', 45, 'Concentración, hasta 1 minuto'),
+('Divine Word', 'Palabra divina. Mata, ensordece, etc según PV.', 7, 'Evocación', '1 acción', 9, 'Instantánea'),
+('Dream of the Blue Veil', 'Viajas a otro mundo onírico.', 7, 'Conjuración', '10 minutos', 6, '6 horas'),
+('Etherealness', 'Vas a Etéreo. Por nivel: +3 criaturas.', 7, 'Transmutación', '1 acción', 0, 'Hasta 8 horas'),
+('Finger of Death', '7d8+30 necrótico. Si mata, zombi.', 7, 'Nigromancia', '1 acción', 18, 'Instantánea'),
+('Fire Storm', '10 cubos 3m fuego. 7d10. Por nivel: +1d10.', 7, 'Evocación', '1 acción', 45, 'Instantánea'),
+('Forcecage', 'Prisión 6m. No escapar mágico.', 7, 'Evocación', '1 acción', 30, '1 hora'),
+('Mirage Arcane', 'Cambias terreno 1.6km. Real a la vista.', 7, 'Ilusión', '10 minutos', 0, '10 días'),
+('Mordenkainen''s Magnificent Mansion', 'Mansión extradimensional 24h.', 7, 'Conjuración', '1 minuto', 90, '24 horas'),
+('Mordenkainen''s Sword', 'Espada flotante. 3d10 fuerza.', 7, 'Evocación', '1 acción', 18, 'Concentración, hasta 1 minuto'),
+('Plane Shift', 'Viajas a otro plano. +8 criaturas.', 7, 'Conjuración', '1 acción', 0, 'Instantánea'),
+('Power Word Pain', 'Dolor insoportable. Constitución o 6d8 psíquico y desventaja.', 7, 'Encantamiento', '1 acción', 18, 'Instantánea'),
+('Prismatic Spray', '8 rayos aleatorios. Efectos variados.', 7, 'Evocación', '1 acción', 0, 'Instantánea'),
+('Project Image', 'Copia tuya. Lanzas hechizos a través.', 7, 'Ilusión', '1 acción', 750, 'Concentración, hasta 1 día'),
+('Regenerate', 'Recuperas 4d8+15 y 1 PV por turno. Recreas miembros.', 7, 'Transmutación', '1 minuto', 0, '1 hora'),
+('Resurrection', 'Revives criatura muerta 100 años.', 7, 'Nigromancia', '1 hora', 0, 'Instantánea'),
+('Reverse Gravity', 'Gravedad inversa en cilindro 15m.', 7, 'Transmutación', '1 acción', 30, 'Concentración, hasta 1 minuto'),
+('Sequester', 'Escondes criatura/objeto. Invisible y suspendido.', 7, 'Transmutación', '1 acción', 0, 'Hasta disipar'),
+('Simulacrum', 'Copia de criatura. 50% PV. No mejora.', 7, 'Ilusión', '12 horas', 0, 'Hasta disipar'),
+('Symbol', 'Símbolo mágico. Efecto al activar.', 7, 'Abjuración', '1 minuto', 0, 'Hasta disipar'),
+('Teleport', 'Teletransportas 8 criaturas. Precisión según familiaridad.', 7, 'Conjuración', '1 acción', 3, 'Instantánea'),
+('Temple of the Gods', 'Templo temporal.', 7, 'Conjuración', '1 hora', 36, '24 horas'),
+('Whirlwind', 'Torbellino 3m. 10d6 contundente. Por nivel: +1d6.', 7, 'Evocación', '1 acción', 90, 'Concentración, hasta 1 minuto'),
+
+-- NIVEL 8 (TODOS)
+('Abi-Dalzim''s Horrid Wilting', 'Absorbes humedad. Criaturas en cubo 9m: 12d8 necrótico. Constitución mitad.', 8, 'Nigromancia', '1 acción', 45, 'Instantánea'),
+('Antimagic Field', 'Esfera 3m. Sin magia.', 8, 'Abjuración', '1 acción', 0, 'Concentración, hasta 1 hora'),
+('Antipathy/Sympathy', 'Atrae o repele criaturas.', 8, 'Encantamiento', '1 hora', 18, '10 días'),
+('Clone', 'Clon inactivo. Alma va al morir.', 8, 'Nigromancia', '1 hora', 0, 'Instantánea'),
+('Control Weather', 'Controlas clima 8km. Cambios graduales.', 8, 'Transmutación', '10 minutos', 0, 'Concentración, hasta 8 horas'),
+('Demiplane', 'Puerta a habitación 9m.', 8, 'Conjuración', '1 acción', 18, '1 hora'),
+('Dominate Monster', 'Controlas monstruo. Sabiduría cada turno.', 8, 'Encantamiento', '1 acción', 18, 'Concentración, hasta 1 hora'),
+('Earthquake', 'Sismo radio 30m. Daño 5d6 contundente. Edificios caen.', 8, 'Evocación', '1 acción', 150, 'Concentración, hasta 1 minuto'),
+('Feeblemind', 'Int y Car 1. No lanza hechizos.', 8, 'Encantamiento', '1 acción', 45, 'Instantánea'),
+('Glibness', 'Tiradas Carisma 15. Mentiras indetectables.', 8, 'Transmutación', '1 acción', 0, '1 hora'),
+('Holy Aura', 'Radio 9m. Ventaja salvaciones. Enemigos desventaja.', 8, 'Abjuración', '1 acción', 0, 'Concentración, hasta 1 minuto'),
+('Illusory Dragon', 'Dragón ilusorio. Miedo y 7d6 daño.', 8, 'Ilusión', '1 acción', 36, 'Concentración, hasta 1 minuto'),
+('Incendiary Cloud', 'Nube fuego 6m. 10d8 fuego. Mueve cada turno.', 8, 'Conjuración', '1 acción', 45, 'Concentración, hasta 1 minuto'),
+('Maddening Darkness', 'Oscuridad 18m. 8d8 psíquico por turno.', 8, 'Evocación', '1 acción', 45, 'Concentración, hasta 10 minutos'),
+('Maze', 'Envías a laberinto. Inteligencia para salir.', 8, 'Conjuración', '1 acción', 18, 'Concentración, hasta 10 minutos'),
+('Mighty Fortress', 'Castillo de piedra. 120m.', 8, 'Conjuración', '1 minuto', 1.6, 'Instantánea'),
+('Mind Blank', 'Inmune a psíquico y adivinación.', 8, 'Abjuración', '1 acción', 0, '24 horas'),
+('Power Word Stun', 'Aturde si 150PV o menos.', 8, 'Encantamiento', '1 acción', 18, 'Instantánea'),
+('Sunburst', 'Luz 18m. 12d6 radiante y ciego.', 8, 'Evocación', '1 acción', 45, 'Instantánea'),
+('Telepathy', 'Enlace telepático con criatura.', 8, 'Evocación', '1 acción', 0, '24 horas'),
+('Tsunami', 'Muro agua 90x90x15m. 6d10 contundente.', 8, 'Conjuración', '1 minuto', 0, 'Concentración, hasta 6 asaltos'),
+
+-- NIVEL 9 (TODOS)
+('Astral Projection', 'Proyectas a Astral. Cuerpo físico en trance.', 9, 'Nigromancia', '1 hora', 3, 'Especial'),
+('Blade of Disaster', 'Espada de fuerza. Ataque: 4d12 fuerza. Golpe crítico 12d12.', 9, 'Conjuración', '1 acción adicional', 18, 'Concentración, hasta 1 minuto'),
+('Foresight', 'Criatura no puede ser sorprendida. Ventaja todo. Enemigos desventaja.', 9, 'Adivinación', '1 minuto', 0, '8 horas'),
+('Gate', 'Portal a otro plano. Puedes invocar.', 9, 'Conjuración', '1 acción', 18, 'Concentración, hasta 1 minuto'),
+('Imprisonment', 'Aprisionas criatura. Forma: enterrar, encadenar, etc.', 9, 'Abjuración', '1 minuto', 9, 'Hasta disipar'),
+('Invulnerability', 'Inmune a todo daño.', 9, 'Abjuración', '1 acción', 0, 'Concentración, hasta 10 minutos'),
+('Mass Heal', 'Cura 700 PV repartidos. Termina condiciones.', 9, 'Evocación', '1 acción', 18, 'Instantánea'),
+('Meteor Swarm', '4 meteoros. 20d6 fuego y 20d6 contundente cada uno.', 9, 'Evocación', '1 acción', 1.6, 'Instantánea'),
+('Power Word Heal', 'Cura todo. Termina condiciones.', 9, 'Evocación', '1 acción', 0, 'Instantánea'),
+('Power Word Kill', 'Mata si 100PV o menos.', 9, 'Encantamiento', '1 acción', 18, 'Instantánea'),
+('Prismatic Wall', 'Muro 7 capas. Efectos escalonados.', 9, 'Abjuración', '1 acción', 18, '10 minutos'),
+('Psychic Scream', 'Grito psíquico. 14d6 psíquico y confunde.', 9, 'Encantamiento', '1 acción', 27, 'Instantánea'),
+('Shapechange', 'Te transformas en criatura ND igual o menor.', 9, 'Transmutación', '1 acción', 0, 'Concentración, hasta 1 hora'),
+('Storm of Vengeance', 'Tormenta 1km. 6 asaltos: efectos progresivos.', 9, 'Conjuración', '1 acción', 0, 'Concentración, hasta 1 minuto'),
+('Time Ravage', 'Envejeces criatura. Pierde resistencia.', 9, 'Nigromancia', '1 acción', 27, 'Instantánea'),
+('Time Stop', 'Detienes tiempo. 1d4+1 turnos extra.', 9, 'Transmutación', '1 acción', 0, 'Instantánea'),
+('True Polymorph', 'Transformas criatura/objeto permanentemente.', 9, 'Transmutación', '1 acción', 9, 'Concentración, hasta 1 hora'),
+('True Resurrection', 'Revives criatura sin cuerpo.', 9, 'Nigromancia', '1 hora', 0, 'Instantánea'),
+('Weird', 'Miedos en cubo 9m. 4d10 psíquico y asustado.', 9, 'Ilusión', '1 acción', 36, 'Concentración, hasta 1 minuto'),
+('Wish', 'Deseo. Duplica hechizo nivel 8 o menos. Otros usos riesgosos.', 9, 'Conjuración', '1 acción', 0, 'Instantánea');
+
+______________________________________________________________________________________________________VISTAS
+
+CREATE VIEW proficiencias_de_clase AS 
+SELECT c.nombre AS clase, c.tiradas_de_salvacion AS tiradas_de_salvacion, c.talentos AS talentos
+FROM clase c
+
+CREATE VIEW clase_arma AS
+SELECT c.nombre AS clase, a.nombre AS arma, a.sintesis AS descripcion, a.tipo_de_arma AS tipo
+FROM clase c 
+JOIN proficiencia_de_arma pda 
+ON pda.id_clase = c.id_clase
+JOIN armas a
+ON a.id_arma = pda.id_arma;
+
+CREATE VIEW clase_armadura AS
+SELECT c.nombre AS clase, ar.nombre AS armadura, ar.sintesis AS descripcion, ar.tipo_de_armadura AS tipo
+FROM clase c
+JOIN proficiencia_de_armadura pdar
+ON pdar.id_clase = c.id_clase
+JOIN armaduras ar
+ON ar.id_armadura = pdar.id_armadura;
+
+_______________________________________________________________________________________________________PROCEDIMIENTO ALMACENADO
+
+DELIMITER //
+CREATE PROCEDURE buscador_de_proficiencias (IN arma char(45), IN armadura char(45))
+BEGIN
+    IF arma!= '' AND armadura != '' THEN
+    	SELECT c.nombre
+        FROM clase c
+        JOIN proficiencia_de_arma pda ON c.id_clase = pda.id_clase
+        JOIN armas a ON a.id_arma = pda.id_arma
+        JOIN proficiencia_de_armadura pdar ON c.id_clase = pdar.id_clase
+        JOIN armaduras ar ON ar.id_armadura = pdar.id_armadura
+        WHERE arma = a.nombre AND armadura = ar.nombre;
+    ELSE
+    		SELECT 'No se hallaron proficiencias';
+    	END IF;
+ 	END//
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE buscador_de_hechizos (IN hechizo(70))
+BEGIN
+    IF hechizo != '' THEN
+    	SELECT h.nombre
+        FROM hechizos h
+        WHERE MATCH (h.nombre) AGAINST (hechizo IN NATURAL LANGUAGE MODE); --Esta sentencia sirve para hacer una busqueda filtrada
+    ELSE
+    		SELECT 'No se hallaron hechizos';
+    	END IF;
+ 	END//
+DELIMITER ;
